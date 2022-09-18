@@ -3,13 +3,11 @@ package com.example.lab.view.activity
 import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.fragment.app.Fragment
 import com.example.lab.R
 import com.example.lab.databinding.ActivityMainBinding
-import com.example.lab.view.fragment.HomeFragment
-import com.example.lab.view.fragment.ProfileFragment
-import com.example.lab.view.fragment.ReservFragment
-import com.example.lab.view.fragment.TimeTableFragment
+import com.example.lab.view.fragment.*
 
 class MainActivity : AppCompatActivity() {
     private lateinit var bind:ActivityMainBinding
@@ -32,6 +30,17 @@ class MainActivity : AppCompatActivity() {
         setContentView(bind.root)
 
         initBottomNavibar()
+        eventAdder()
+    }
+
+    private fun eventAdder(){
+        bind.reservResultBtn.setOnClickListener(View.OnClickListener {
+            supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.frameLayout, ReservResultFragment())
+                .addToBackStack(null)
+                .commit()
+        })
     }
 
     private fun initBottomNavibar() {

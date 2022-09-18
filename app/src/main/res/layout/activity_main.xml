@@ -29,6 +29,7 @@
             />
 
         <Button
+            android:id="@+id/reservResultBtn"
             android:layout_width="23.5dp"
             android:layout_height="19.5dp"
             android:layout_gravity="right|center"
