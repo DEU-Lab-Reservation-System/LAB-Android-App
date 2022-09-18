@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/dongh/AndroidStudioProjects/LAB/app/src/main/res/drawable/ic__5a8f798666219_2.xml" value="0.292" />
+        <entry key="..\:/Users/dongh/AndroidStudioProjects/LAB/app/src/main/res/drawable/ic_check_reservation.xml" value="0.292" />
+        <entry key="..\:/Users/dongh/AndroidStudioProjects/LAB/app/src/main/res/drawable/ic_check_timetable.xml" value="0.292" />
+        <entry key="..\:/Users/dongh/AndroidStudioProjects/LAB/app/src/main/res/drawable/ic_lab_logo.xml" value="0.292" />
+        <entry key="..\:/Users/dongh/AndroidStudioProjects/LAB/app/src/main/res/drawable/ic_lab_start.xml" value="0.193" />
+        <entry key="..\:/Users/dongh/AndroidStudioProjects/LAB/app/src/main/res/drawable/logo_lab.xml" value="0.292" />
+        <entry key="..\:/Users/dongh/AndroidStudioProjects/LAB/app/src/main/res/drawable/shape_rounded_bar.xml" value="0.3055" />
+        <entry key="..\:/Users/dongh/AndroidStudioProjects/LAB/app/src/main/res/drawable/shape_seat.xml" value="0.299" />
+        <entry key="..\:/Users/dongh/AndroidStudioProjects/LAB/app/src/main/res/drawable/shape_seat_selected.xml" value="0.299" />
+        <entry key="..\:/Users/dongh/AndroidStudioProjects/LAB/app/src/main/res/font/font.xml" value="0.39114583333333336" />
+        <entry key="..\:/Users/dongh/AndroidStudioProjects/LAB/app/src/main/res/layout/activity_intro.xml" value="0.33" />
+        <entry key="..\:/Users/dongh/AndroidStudioProjects/LAB/app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="..\:/Users/dongh/AndroidStudioProjects/LAB/app/src/main/res/layout/activity_splash.xml" value="0.25" />
+        <entry key="..\:/Users/dongh/AndroidStudioProjects/LAB/app/src/main/res/layout/fragment_home.xml" value="0.29713552800342025" />
+        <entry key="..\:/Users/dongh/AndroidStudioProjects/LAB/app/src/main/res/layout/fragment_profile.xml" value="0.33" />
+        <entry key="..\:/Users/dongh/AndroidStudioProjects/LAB/app/src/main/res/layout/fragment_reserv.xml" value="0.33" />
+        <entry key="..\:/Users/dongh/AndroidStudioProjects/LAB/app/src/main/res/layout/sub_seat_gridview.xml" value="0.29628046173578454" />
+        <entry key="..\:/Users/dongh/AndroidStudioProjects/LAB/app/src/main/res/layout/sub_seat_layout.xml" value="4.0" />
+        <entry key="..\:/Users/dongh/AndroidStudioProjects/LAB/app/src/main/res/menu/navigation_menu.xml" value="0.29628046173578454" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
