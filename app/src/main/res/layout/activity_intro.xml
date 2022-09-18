@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".view.activity.IntroActivity">
+
+    <ViewFlipper
+        android:id="@+id/viewFlipper"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="70dp"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="실습실 예약"
+                android:textSize="24dp"
+                android:textColor="@color/colorAccent"
+                android:fontFamily="@font/noto_sans_kr_bold"
+                android:includeFontPadding="false"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="이젠 폰으로 하자"
+                android:textSize="24dp"
+                android:textColor="@color/natural_navy"
+                android:fontFamily="@font/noto_sans_kr_bold"
+                android:includeFontPadding="false"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="십슬실 예약부터 실시간 좌석 조회까지 !"
+                android:textSize="16dp"
+                android:textColor="@color/natural_navy"
+                android:fontFamily="@font/poppins_regular"
+                android:includeFontPadding="false"
+                />
+
+            <View
+                android:layout_width="308dp"
+                android:layout_height="271dp"
+                android:layout_marginTop="150dp"
+                android:layout_gravity="center"
+                android:background="@drawable/ic_mobile_reservation"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="70dp"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="실습실 예약 내역도"
+                android:textSize="24dp"
+                android:textColor="@color/colorAccent"
+                android:fontFamily="@font/noto_sans_kr_bold"
+                android:includeFontPadding="false"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="한 눈에"
+                android:textSize="24dp"
+                android:textColor="@color/natural_navy"
+                android:fontFamily="@font/noto_sans_kr_bold"
+                android:includeFontPadding="false"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="십슬실 예약 내역도 빠르게 확인할 수 있어요"
+                android:textSize="16dp"
+                android:textColor="@color/natural_navy"
+                android:fontFamily="@font/poppins_regular"
+                android:includeFontPadding="false"
+                />
+
+            <View
+                android:layout_width="375dp"
+                android:layout_height="294dp"
+                android:layout_marginTop="150dp"
+                android:layout_gravity="center"
+                android:background="@drawable/ic_check_reservation"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="70dp"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="실습실 시간표도"
+                android:textSize="24dp"
+                android:textColor="@color/colorAccent"
+                android:fontFamily="@font/noto_sans_kr_bold"
+                android:includeFontPadding="false"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="한 눈에"
+                android:textSize="24dp"
+                android:textColor="@color/natural_navy"
+                android:fontFamily="@font/noto_sans_kr_bold"
+                android:includeFontPadding="false"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="빈 강의실을 찾기 위해 돌아다닐 필요 없어요"
+                android:textSize="16dp"
+                android:textColor="@color/natural_navy"
+                android:fontFamily="@font/poppins_regular"
+                android:includeFontPadding="false"
+                />
+
+            <View
+                android:layout_width="277dp"
+                android:layout_height="218dp"
+                android:layout_marginTop="150dp"
+                android:layout_gravity="center"
+                android:background="@drawable/ic_check_timetable"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="70dp"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="실습실 관리도"
+                android:textSize="24dp"
+                android:textColor="@color/colorAccent"
+                android:fontFamily="@font/noto_sans_kr_bold"
+                android:includeFontPadding="false"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="가능해요"
+                android:textSize="24dp"
+                android:textColor="@color/natural_navy"
+                android:fontFamily="@font/noto_sans_kr_bold"
+                android:includeFontPadding="false"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="조교를 위한\n실습실 시간표, 예약 신청 관리 기능까지 !"
+                android:textSize="16dp"
+                android:textColor="@color/natural_navy"
+                android:fontFamily="@font/poppins_regular"
+                android:includeFontPadding="false"
+                />
+
+            <View
+                android:layout_width="285dp"
+                android:layout_height="193dp"
+                android:layout_marginTop="150dp"
+                android:layout_gravity="center"
+                android:background="@drawable/ic_confirm_reservation"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="70dp"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="실습실 예약"
+                android:textSize="24dp"
+                android:textColor="@color/colorAccent"
+                android:fontFamily="@font/noto_sans_kr_bold"
+                android:includeFontPadding="false"
+                />
+            <TextView
+                android:id="@+id/infoTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="지금 바로 시작하세요"
+                android:textSize="24dp"
+                android:textColor="@color/natural_navy"
+                android:fontFamily="@font/noto_sans_kr_bold"
+                android:includeFontPadding="false"
+                />
+
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <View
+                    android:id="@+id/ic_lab_start"
+                    android:layout_width="313dp"
+                    android:layout_height="375dp"
+                    android:layout_marginTop="70dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/ic_lab_start"
+
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"/>
+
+                <View
+                    android:layout_width="120dp"
+                    android:layout_height="87dp"
+                    android:background="@drawable/logo_lab"
+
+                    app:layout_constraintBottom_toBottomOf="@+id/ic_lab_start"
+                    app:layout_constraintHorizontal_bias="0.43"
+                    app:layout_constraintLeft_toLeftOf="@+id/ic_lab_start"
+                    app:layout_constraintRight_toRightOf="@+id/ic_lab_start"
+                    app:layout_constraintTop_toTopOf="@+id/ic_lab_start"
+                    app:layout_constraintVertical_bias="0.48" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/learnMoreBtn"
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="100dp"
+                android:scaleType="center"
+
+                app:lottie_rawRes="@raw/learn_more"
+                app:lottie_loop="true"
+                app:lottie_autoPlay="true"/>
+
+        </LinearLayout>
+    </ViewFlipper>
+
+<!--    <com.airbnb.lottie.LottieAnimationView-->
+<!--        android:id="@+id/nextBtn"-->
+<!--        android:layout_width="100dp"-->
+<!--        android:layout_height="25dp"-->
+<!--        android:layout_gravity="right"-->
+<!--        android:layout_marginBottom="40dp"-->
+<!--        android:layout_marginRight="20dp"-->
+<!--        android:scaleType="center"-->
+<!--        app:lottie_rawRes="@raw/next_arrow"-->
+<!--        app:lottie_loop="true"-->
+<!--        app:lottie_autoPlay="true"-->
+<!--        />-->
+
+    <TextView
+        android:id="@+id/master"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="COMPUTER SOFTWARE ENGINEERING"
+        android:textColor="@color/black_gray"
+        android:textSize="12dp"
+        android:fontFamily="@font/poppins_regular"
+        android:includeFontPadding="false"
+        />
+
+    <TextView
+        android:id="@+id/teamname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Team. Dong-geulami"
+        android:textColor="@color/black_gray"
+        android:textSize="12dp"
+        android:fontFamily="@font/poppins_regular"
+        android:layout_marginBottom="10dp"
+        android:includeFontPadding="false"
+        />
+</LinearLayout>
