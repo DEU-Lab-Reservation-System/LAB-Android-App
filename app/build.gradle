@@ -50,6 +50,9 @@ dependencies {
     // https://mvnrepository.com/artifact/com.airbnb.android/lottie
     implementation 'com.airbnb.android:lottie:5.2.0'
 
+    // https://mvnrepository.com/artifact/com.github.mmin18/realtimeblurview
+    implementation 'com.github.mmin18:RealtimeBlurView:master-SNAPSHOT'
+
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

@@ -1,13 +1,18 @@
 package com.example.lab.view.fragment
 
+import android.app.ActionBar
 import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import android.widget.AdapterView.OnItemClickListener
+import android.widget.FrameLayout
 import android.widget.GridView
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -15,6 +20,7 @@ import com.example.lab.R
 import com.example.lab.adapter.SeatAdapter
 import com.example.lab.databinding.FragmentHomeBinding
 import com.example.lab.databinding.SubSeatGridviewBinding
+import com.github.mmin18.widget.RealtimeBlurView
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -27,7 +33,7 @@ private const val ARG_PARAM2 = "param2"
  * Use the [HomeFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(){
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -37,6 +43,7 @@ class HomeFragment : Fragment() {
 
     // VARIABLE
     private lateinit var bind: FragmentHomeBinding
+    private lateinit var labSeatLayout:LinearLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,6 +63,7 @@ class HomeFragment : Fragment() {
         bind.lifecycleOwner = requireActivity()
 
         initGridView()
+
         return bind.root
     }
 

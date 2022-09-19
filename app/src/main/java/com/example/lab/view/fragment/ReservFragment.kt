@@ -1,11 +1,18 @@
 package com.example.lab.view.fragment
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.Toast
+import androidx.databinding.DataBindingUtil
 import com.example.lab.R
+import com.example.lab.adapter.SeatAdapter
+import com.example.lab.databinding.FragmentReservBinding
+import com.example.lab.databinding.SubSeatGridviewBinding
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -22,6 +29,9 @@ class ReservFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    private lateinit var prevSelectSeat:View
+    private lateinit var bind:FragmentReservBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -30,12 +40,84 @@ class ReservFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_reserv, container, false)
+        // 데이터 바인딩
+        bind = DataBindingUtil.inflate(inflater, R.layout.fragment_reserv, container, false)
+
+        /** 데이터를 관리하는 뷰 모델을 bind에 연결해줘야 적용 됨 */
+        bind.lifecycleOwner = requireActivity()
+
+        initGridView()
+
+        return bind.root
+    }
+
+    private fun initGridView(){
+        // 그리드뷰를 include로 불러왔으므로 include한 레이아웃을 먼저 가져옴
+        var seatGridView: SubSeatGridviewBinding = bind.seatGridView
+
+        var leftSeatList: MutableList<Int> = mutableListOf()
+        var rightSeatList: MutableList<Int> = mutableListOf()
+
+        // 좌석 번호 세팅
+        var flag = true
+        for (i in 1..32){
+            if(flag){
+                Log.i("LEFT", "$i")
+                leftSeatList.add(i)
+            }
+            else{
+                Log.i("RIGHT", "$i")
+                rightSeatList.add(i)
+            }
+
+            if(i % 4 == 0) flag = !flag
+        }
+
+        var leftSeatAdapter: SeatAdapter = SeatAdapter(context = requireContext(), leftSeatList)
+        var rightSeatAdapter: SeatAdapter = SeatAdapter(context = requireContext(), rightSeatList)
+
+        seatGridView.leftSeatGridView.adapter = leftSeatAdapter
+        seatGridView.rightSeatGridView.adapter = rightSeatAdapter
+
+        seatGridView.leftSeatGridView.onItemClickListener =
+            AdapterView.OnItemClickListener { adapterView, view, position, l ->
+                // 이전에 선택했던 자리는 다시 회색으로 돌림
+                if (::prevSelectSeat.isInitialized) {
+                    prevSelectSeat.background = resources.getDrawable(R.drawable.shape_seat)
+                }
+
+                var seat = view.findViewById(R.id.seat) as View
+                prevSelectSeat = seat
+
+                seat.background = resources.getDrawable(R.drawable.shape_seat_selected)
+
+                Toast.makeText(
+                    requireContext(),
+                    "${leftSeatList[position]} 번 좌석",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+
+        seatGridView.rightSeatGridView.onItemClickListener =
+            AdapterView.OnItemClickListener { adapterView, view, position, l ->
+                // 이전에 선택했던 자리는 다시 회색으로 돌림
+                if (::prevSelectSeat.isInitialized) {
+                    prevSelectSeat.background = resources.getDrawable(R.drawable.shape_seat)
+                }
+
+                var seat = view.findViewById(R.id.seat) as View
+                prevSelectSeat = seat
+
+                seat.background = resources.getDrawable(R.drawable.shape_seat_selected)
+
+                Toast.makeText(
+                    requireContext(),
+                    "${rightSeatList[position]} 번 좌석",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
     }
 
     companion object {

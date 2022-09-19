@@ -200,6 +200,7 @@
             </LinearLayout>
             <!-- LAYOUT END 실습실 좌석 현황 레이아웃 -->
 
+            <!-- LAYOUT 실습실 좌석 그리드 뷰 -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -207,69 +208,15 @@
                 android:layout_marginTop="20dp"
                 android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:fontFamily="@font/noto_sans_kr_bold"
-                    android:includeFontPadding="false"
-                    android:text="911호 좌석 현황"
-                    android:textColor="@color/natural_navy"
-                    android:textSize="16dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:fontFamily="@font/noto_sans_kr_regular"
-                    android:includeFontPadding="false"
-                    android:text="2022-09-15 16 : 20"
-                    android:textColor="@color/black"
-                    android:textSize="10dp" />
-
-                <View
-                    android:layout_width="95dp"
-                    android:layout_height="2dp"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/shape_rounded_bar" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="30dp"
-                    android:fontFamily="@font/noto_sans_kr_medium"
-                    android:includeFontPadding="false"
-                    android:text="FRONT"
-                    android:textColor="@color/natural_navy"
-                    android:textSize="12dp" />
-
-                <View
-                    android:layout_width="52dp"
-                    android:layout_height="3dp"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="5dp"
-                    android:background="@drawable/shape_rounded_bar" />
-
                 <include
                     android:id="@+id/seatGridView"
                     layout="@layout/sub_seat_gridview"
                     />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="15dp"
-                    android:fontFamily="@font/noto_sans_kr_regular"
-                    android:text="21 / 30"
-                    android:textColor="@color/black"
-                    android:textSize="14dp" />
             </LinearLayout>
-
+            <!-- LAYOUT END 실습실 좌석 그리드 뷰 -->
         </LinearLayout>
         <!-- LAYOUT END 콘텐츠 레이아웃 -->
+
     </LinearLayout>
     <!-- LAYOUT END 전체 레이아웃 -->
 </layout>
