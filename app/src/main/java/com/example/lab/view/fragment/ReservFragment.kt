@@ -105,7 +105,7 @@ class ReservFragment : Fragment() {
                 prevSelectSeat = seat
 
                 seat.background = resources.getDrawable(R.drawable.shape_seat_selected)
-
+                bind.selectSeatTV.text = "${leftSeatList[position]} 번"
                 Toast.makeText(
                     requireContext(),
                     "${leftSeatList[position]} 번 좌석",
@@ -124,7 +124,7 @@ class ReservFragment : Fragment() {
                 prevSelectSeat = seat
 
                 seat.background = resources.getDrawable(R.drawable.shape_seat_selected)
-
+                bind.selectSeatTV.text = "${rightSeatList[position]} 번"
                 Toast.makeText(
                     requireContext(),
                     "${rightSeatList[position]} 번 좌석",

@@ -80,38 +80,75 @@
 
                 <!-- LAYOUT 실습실 좌석 현황 텍스트 레이아웃 -->
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
+                    <!-- LAYOUT 실습실 좌석 현황 텍스트 레이아웃 -->
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:orientation="horizontal">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/poppins_regular"
-                            android:text="2022-09-15"
-                            android:textColor="@color/colorAccent"
-                            android:textSize="12dp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/noto_sans_kr_bold"
-                            android:includeFontPadding="false"
-                            android:text="실습실 예약"
-                            android:textColor="@color/natural_navy"
-                            android:textSize="20dp" />
-
-                        <View
+                        <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="0.5dp"
-                            android:layout_marginTop="15dp"
-                            android:background="@color/gray" />
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/todayTV"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins_regular"
+                                android:text="2022-09-15"
+                                android:textColor="@color/colorAccent"
+                                android:textSize="12dp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/noto_sans_kr_bold"
+                                    android:includeFontPadding="false"
+                                    android:text="실습실 좌석 현황"
+                                    android:textColor="@color/natural_navy"
+                                    android:textSize="20dp" />
+
+                                <View
+                                    android:layout_width="0dp"
+                                    android:layout_height="0dp"
+                                    android:layout_weight="1"/>
+
+                                <!-- 실습실 선택 스피너 -->
+                                <Spinner
+                                    android:id="@+id/labSelector"
+                                    android:layout_width="50dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_gravity="right|center"
+                                    android:background="@null"
+                                    android:dropDownWidth="75dp"
+                                    />
+                                <View
+                                    android:layout_width="12dp"
+                                    android:layout_height="6dp"
+                                    android:layout_gravity="center"
+                                    android:layout_marginRight="10dp"
+                                    android:background="@drawable/ic_arrow_down"/>
+                            </LinearLayout>
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="0.5dp"
+                                android:layout_marginTop="15dp"
+                                android:background="@color/gray" />
+                        </LinearLayout>
                     </LinearLayout>
+                    <!-- LAYOUT END 실습실 좌석 현황 텍스트 레이아웃 -->
+                </LinearLayout>
+                <!-- LAYOUT END 실습실 좌석 현황 레이아웃 -->
                 </LinearLayout>
                 <!-- LAYOUT END 실습실 좌석 현황 텍스트 레이아웃 -->
 
@@ -261,11 +298,15 @@
                     android:includeFontPadding="false"/>
 
                 <TextView
+                    android:id="@+id/selectSeatTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="11번"
-                    android:textSize="18dp"/>
+                    android:text="좌석을 선택해주세요."
+                    android:textSize="16dp"
+                    android:fontFamily="@font/noto_sans_kr_regular"
+                    android:includeFontPadding="false"
+                    />
             </LinearLayout>
             <!-- LAYOUT END 좌석 선택 정보 레이아웃 -->
 
