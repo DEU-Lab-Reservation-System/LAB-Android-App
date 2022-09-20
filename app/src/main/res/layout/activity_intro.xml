@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:weightSum="1"
     tools:context=".view.activity.IntroActivity">
 
     <ViewFlipper
@@ -13,17 +14,16 @@
         android:layout_height="match_parent"
         android:layout_weight="1">
 
-
-
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="70dp"
             android:paddingLeft="30dp"
             android:paddingRight="30dp"
-            android:orientation="vertical">
+            >
 
             <TextView
+                android:id="@+id/text1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="실습실 예약"
@@ -31,8 +31,12 @@
                 android:textColor="@color/colorAccent"
                 android:fontFamily="@font/noto_sans_kr_bold"
                 android:includeFontPadding="false"
+
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 />
             <TextView
+                android:id="@+id/text2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="이젠 폰으로 하자"
@@ -40,27 +44,39 @@
                 android:textColor="@color/natural_navy"
                 android:fontFamily="@font/noto_sans_kr_bold"
                 android:includeFontPadding="false"
+
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/text1"
                 />
 
             <TextView
+                android:id="@+id/text3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="십슬실 예약부터 실시간 좌석 조회까지 !"
-                android:textSize="16dp"
-                android:textColor="@color/natural_navy"
                 android:fontFamily="@font/poppins_regular"
                 android:includeFontPadding="false"
-                />
+
+                android:text="십슬실 예약부터 실시간 좌석 조회까지 !"
+                android:textColor="@color/natural_navy"
+                android:textSize="16dp"
+
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text2" />
 
             <View
+                android:id="@+id/reservImg"
                 android:layout_width="308dp"
                 android:layout_height="271dp"
-                android:layout_marginTop="150dp"
                 android:layout_gravity="center"
                 android:background="@drawable/ic_mobile_reservation"
-                />
-        </LinearLayout>
+
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/text3"
+                app:layout_constraintVertical_bias="0.4" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
