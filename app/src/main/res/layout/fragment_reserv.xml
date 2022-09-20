@@ -119,23 +119,155 @@
                     android:id="@+id/seatGridView"
                     layout="@layout/sub_seat_gridview"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="320dp"
                     android:layout_marginTop="20dp"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="이용 시간"
-                    android:textColor="@color/natural_navy"
-                    android:textSize="14dp"
-                    android:fontFamily="@font/noto_sans_kr_regular"
-                    android:includeFontPadding="false"
-                    />
-
             </LinearLayout>
             <!-- LAYOUT END 실습실 좌석 현황 레이아웃 -->
 
 
+            <!-- LAYOUT 예약 정보 입력 레이아웃 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:weightSum="3"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:orientation="horizontal">
+
+                <!-- LAYOUT 이용 시간 입력 레이아웃 -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="이용 시간"
+                        android:textColor="@color/natural_navy"
+                        android:textSize="16dp"
+                        android:fontFamily="@font/noto_sans_kr_bold"
+                        android:includeFontPadding="false"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="09:00"
+                            android:textSize="18dp"/>
+                        <View
+                            android:layout_width="12dp"
+                            android:layout_height="6dp"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="5dp"
+                            android:background="@drawable/ic_arrow_down"
+                            android:backgroundTint="@color/colorAccent"
+                            />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:text="~"
+                            android:textSize="18dp"
+                            />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="11:00"
+                            android:textSize="18dp"/>
+                        <View
+                            android:layout_width="12dp"
+                            android:layout_height="6dp"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="5dp"
+                            android:background="@drawable/ic_arrow_down"
+                            android:backgroundTint="@color/colorAccent"
+                            />
+                    </LinearLayout>
+                </LinearLayout>
+                <!-- LAYOUT END 이용 시간 입력 레이아웃 -->
+
+                <!-- LAYOUT 팀 인원 입력 레이아웃 -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="팀 인원"
+                        android:textColor="@color/natural_navy"
+                        android:textSize="16dp"
+                        android:fontFamily="@font/noto_sans_kr_bold"
+                        android:includeFontPadding="false"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
+
+                        <Spinner
+                            android:id="@+id/teamSelector"
+                            android:layout_width="50dp"
+                            android:layout_height="wrap_content"
+                            android:background="@null"
+                            android:spinnerMode="dialog"
+                            android:text="09:00"
+                            android:textSize="18dp"/>
+                        <View
+                            android:layout_width="12dp"
+                            android:layout_height="6dp"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="5dp"
+                            android:background="@drawable/ic_arrow_down"
+                            android:backgroundTint="@color/colorAccent"
+                            />
+                    </LinearLayout>
+                </LinearLayout>
+                <!-- LAYOUT END 팀 인원 입력 레이아웃 -->
+
+            </LinearLayout>
+            <!-- LAYOUT END 예약 정보 입력 레이아웃 -->
+
+            <!-- LAYOUT 좌석 선택 정보 레이아웃 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="선택 좌석"
+                    android:textColor="@color/natural_navy"
+                    android:textSize="16dp"
+                    android:fontFamily="@font/noto_sans_kr_bold"
+                    android:includeFontPadding="false"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="11번"
+                    android:textSize="18dp"/>
+            </LinearLayout>
+            <!-- LAYOUT END 좌석 선택 정보 레이아웃 -->
 
         </LinearLayout>
         <!-- LAYOUT END 콘텐츠 레이아웃 -->

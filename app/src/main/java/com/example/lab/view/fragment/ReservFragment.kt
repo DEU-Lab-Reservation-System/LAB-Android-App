@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.example.lab.R
@@ -49,8 +50,20 @@ class ReservFragment : Fragment() {
         bind.lifecycleOwner = requireActivity()
 
         initGridView()
+        initSpinner()
 
         return bind.root
+    }
+
+    private fun initSpinner(){
+        // ArrayAdapter.createFromResource가 ArrayAdapter를 반환하므로 also로 adapter를 초기화한 후 할당
+        bind.teamSelector.adapter = ArrayAdapter.createFromResource(
+            requireContext(),
+            R.array.team_list,
+            R.layout.spinner_item_team
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        }
     }
 
     private fun initGridView(){

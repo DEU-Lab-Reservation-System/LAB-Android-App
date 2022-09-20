@@ -163,16 +163,17 @@
 
                 <!-- LAYOUT 실습실 좌석 현황 텍스트 레이아웃 -->
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/todayTV"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/poppins_regular"
@@ -180,14 +181,40 @@
                             android:textColor="@color/colorAccent"
                             android:textSize="12dp" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/noto_sans_kr_bold"
-                            android:includeFontPadding="false"
-                            android:text="실습실 좌석 현황"
-                            android:textColor="@color/natural_navy"
-                            android:textSize="20dp" />
+                            android:orientation="horizontal">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/noto_sans_kr_bold"
+                                android:includeFontPadding="false"
+                                android:text="실습실 좌석 현황"
+                                android:textColor="@color/natural_navy"
+                                android:textSize="20dp" />
+
+                            <View
+                                android:layout_width="0dp"
+                                android:layout_height="0dp"
+                                android:layout_weight="1"/>
+
+                            <!-- 실습실 선택 스피너 -->
+                            <Spinner
+                                android:id="@+id/labSelector"
+                                android:layout_width="50dp"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="right|center"
+                                android:background="@null"
+                                android:dropDownWidth="75dp"
+                                />
+                            <View
+                                android:layout_width="12dp"
+                                android:layout_height="6dp"
+                                android:layout_gravity="center"
+                                android:layout_marginRight="10dp"
+                                android:background="@drawable/ic_arrow_down"/>
+                        </LinearLayout>
 
                         <View
                             android:layout_width="match_parent"

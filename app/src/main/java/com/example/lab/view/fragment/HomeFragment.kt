@@ -2,6 +2,7 @@ package com.example.lab.view.fragment
 
 import android.app.ActionBar
 import android.content.Context
+import android.opengl.Visibility
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -9,11 +10,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
+import android.widget.*
 import android.widget.AdapterView.OnItemClickListener
-import android.widget.FrameLayout
-import android.widget.GridView
-import android.widget.LinearLayout
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.example.lab.R
@@ -21,6 +19,8 @@ import com.example.lab.adapter.SeatAdapter
 import com.example.lab.databinding.FragmentHomeBinding
 import com.example.lab.databinding.SubSeatGridviewBinding
 import com.github.mmin18.widget.RealtimeBlurView
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -44,6 +44,9 @@ class HomeFragment : Fragment(){
     // VARIABLE
     private lateinit var bind: FragmentHomeBinding
     private lateinit var labSeatLayout:LinearLayout
+    private lateinit var lablist:Array<String>
+    private val dateFormat = SimpleDateFormat("yyyy-MM-dd")
+    private val dateTimeFormat = SimpleDateFormat("yyyy-MM-dd HH : mm")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,15 +64,44 @@ class HomeFragment : Fragment(){
 
         /** 데이터를 관리하는 뷰 모델을 bind에 연결해줘야 적용 됨 */
         bind.lifecycleOwner = requireActivity()
+        bind.seatGridView.blurFrameLayout.visibility = View.GONE
 
+        initView()
         initGridView()
+        initLabSpinner()
 
         return bind.root
+    }
+
+    private fun initView(){
+        bind.todayTV.text = dateFormat.format(Calendar.getInstance().timeInMillis)
+    }
+
+    /** 실습실 선택 스피너 초기화 */
+    private fun initLabSpinner(){
+        // 스피너는 고정된 리스트를 보여주는 것이기 때문에 xml로 따로 관리하는 것이 좋음
+        lablist = resources.getStringArray(R.array.lab_list)
+
+        val spinnerAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, lablist)
+
+        // 어댑터 등록
+        bind.labSelector.adapter = spinnerAdapter
+        bind.labSelector.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(adapterView: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                bind.seatGridView.labNumber.text = "${lablist[position]}호 좌석 현황"
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+
+            }
+        }
+
     }
 
     private fun initGridView(){
         // 그리드뷰를 include로 불러왔으므로 include한 레이아웃을 먼저 가져옴
         var seatGridView: SubSeatGridviewBinding = bind.seatGridView
+        seatGridView.todayTimeTV.text = dateTimeFormat.format(Calendar.getInstance().timeInMillis)
 
         var leftSeatList: MutableList<Int> = mutableListOf()
         var rightSeatList: MutableList<Int> = mutableListOf()
