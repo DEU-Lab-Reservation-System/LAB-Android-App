@@ -57,7 +57,7 @@
                             android:includeFontPadding="false"
                             android:text="오늘의 예약"
                             android:textColor="@color/natural_navy"
-                            android:textSize="16dp" />
+                            android:textSize="16sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -66,7 +66,7 @@
                             android:includeFontPadding="false"
                             android:text="정보공학관 911호"
                             android:textColor="@color/semi_black"
-                            android:textSize="12dp" />
+                            android:textSize="12sp" />
                     </LinearLayout>
 
                     <View
@@ -116,7 +116,9 @@
                             android:fontFamily="@font/poppins_regular"
                             android:includeFontPadding="false"
                             android:text="Sunday, 12 June"
-                            android:textColor="@color/natural_navy" />
+                            android:textColor="@color/natural_navy"
+                            android:textSize="12sp"
+                            />
 
                     </LinearLayout>
 
@@ -139,7 +141,9 @@
                             android:fontFamily="@font/poppins_regular"
                             android:includeFontPadding="false"
                             android:text="11:00 - 12:00 PM"
-                            android:textColor="@color/natural_navy" />
+                            android:textColor="@color/natural_navy"
+                            android:textSize="12sp"
+                            />
 
                     </LinearLayout>
                 </LinearLayout>
@@ -192,7 +196,7 @@
                                 android:includeFontPadding="false"
                                 android:text="실습실 좌석 현황"
                                 android:textColor="@color/natural_navy"
-                                android:textSize="20dp" />
+                                android:textSize="16dp" />
 
                             <View
                                 android:layout_width="0dp"

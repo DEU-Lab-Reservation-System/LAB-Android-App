@@ -1,15 +1,16 @@
 package com.example.lab.adapter
 
+import android.app.ActionBar
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import android.widget.GridView
 import com.example.lab.R
 
-class SeatAdapter(var context: Context,var seatList: List<Int>): BaseAdapter(){
+class SeatAdapter(var context: Context, var seatList: List<Int>): BaseAdapter(){
     lateinit var inflater: LayoutInflater
-
 
     override fun getCount(): Int {
         return seatList.size
@@ -24,16 +25,17 @@ class SeatAdapter(var context: Context,var seatList: List<Int>): BaseAdapter(){
     }
 
     override fun getView(position: Int, view: View?, viewGroup: ViewGroup?): View {
-        var view = view
+        var gridView:View? = view
+
         if(!::inflater.isInitialized){
             inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         }
 
-        if(view == null){
-            view = inflater.inflate(R.layout.sub_seat_layout, null)
+        if(gridView == null){
+            gridView = inflater.inflate(R.layout.sub_seat_layout, null) as View
         }
 
-        return view!!
+        return gridView!!
     }
 
 }

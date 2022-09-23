@@ -1,151 +1,169 @@
-<!--<?xml version="1.0" encoding="utf-8"?>-->
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
-<!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
-<!--    android:layout_width="match_parent"-->
-<!--    android:layout_height="wrap_content"-->
-<!--    android:layout_marginTop="20dp"-->
-<!--    android:orientation="horizontal"-->
-<!--    android:paddingLeft="50dp"-->
-<!--    android:paddingRight="50dp">-->
-
-<!--    <GridView-->
-<!--        android:id="@+id/leftSeatGridView"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginRight="10dp"-->
-<!--        android:layout_weight="1"-->
-<!--        android:horizontalSpacing="1dp"-->
-<!--        android:listSelector="#00000000"-->
-<!--        android:numColumns="4"-->
-<!--        android:verticalSpacing="15dp" />-->
-
-<!--    <GridView-->
-<!--        android:id="@+id/rightSeatGridView"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginLeft="10dp"-->
-<!--        android:layout_weight="1"-->
-<!--        android:horizontalSpacing="1dp"-->
-<!--        android:numColumns="4"-->
-<!--        android:verticalSpacing="15dp" />-->
-<!--</LinearLayout>-->
-
-
-    <FrameLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:bind="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <!-- LAYOUT 실습실 좌석 현황 레이아웃 -->
+    <LinearLayout
+        android:id="@+id/labSeatLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical">
 
-        <!-- LAYOUT 실습실 좌석 현황 레이아웃 -->
-        <LinearLayout
-            android:id="@+id/labSeatLayout"
-            android:layout_width="match_parent"
+
+        <TextView
+            android:id="@+id/lab_number"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:orientation="vertical">
+            android:fontFamily="@font/noto_sans_kr_bold"
+            android:includeFontPadding="false"
+            android:text="911호 좌석 현황"
+            android:textColor="@color/natural_navy"
+            android:textSize="14dp" />
+
+        <TextView
+            android:id="@+id/todayTimeTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/noto_sans_kr_regular"
+            android:includeFontPadding="false"
+            android:text="2022-09-15 16 : 20"
+            android:textColor="@color/black"
+            android:textSize="10dp" />
+
+        <!--            <View-->
+        <!--                android:layout_width="95dp"-->
+        <!--                android:layout_height="2dp"-->
+        <!--                android:layout_gravity="center"-->
+        <!--                android:layout_marginTop="10dp"-->
+        <!--                android:background="@drawable/shape_rounded_bar" />-->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:fontFamily="@font/noto_sans_kr_medium"
+            android:includeFontPadding="false"
+            android:text="FRONT"
+            android:textColor="@color/natural_navy"
+            android:textSize="12sp" />
+
+        <View
+            android:layout_width="52dp"
+            android:layout_height="3dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/shape_rounded_bar" />
 
 
-            <TextView
-                android:id="@+id/lab_number"
+        <!-- LAYOUT 실습실 좌석 그리드 레이아웃 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal"
+            android:paddingLeft="50dp"
+            android:paddingRight="50dp">
+
+            <GridView
+                android:id="@+id/leftSeatGridView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:fontFamily="@font/noto_sans_kr_bold"
-                android:includeFontPadding="false"
-                android:text="911호 좌석 현황"
-                android:textColor="@color/natural_navy"
-                android:textSize="16dp" />
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:horizontalSpacing="1dp"
+                android:listSelector="#00000000"
+                android:numColumns="4"
+                android:verticalSpacing="15dp" />
 
-            <TextView
-                android:id="@+id/todayTimeTV"
+            <GridView
+                android:id="@+id/rightSeatGridView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:fontFamily="@font/noto_sans_kr_regular"
-                android:includeFontPadding="false"
-                android:text="2022-09-15 16 : 20"
-                android:textColor="@color/black"
-                android:textSize="10dp" />
-
-            <View
-                android:layout_width="95dp"
-                android:layout_height="2dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/shape_rounded_bar" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="30dp"
-                android:fontFamily="@font/noto_sans_kr_medium"
-                android:includeFontPadding="false"
-                android:text="FRONT"
-                android:textColor="@color/natural_navy"
-                android:textSize="12dp" />
-
-            <View
-                android:layout_width="52dp"
-                android:layout_height="3dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/shape_rounded_bar" />
-
-
-            <!-- LAYOUT 실습실 좌석 그리드 레이아웃 -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:orientation="horizontal"
-                android:paddingLeft="50dp"
-                android:paddingRight="50dp">
-
-                <GridView
-                    android:id="@+id/leftSeatGridView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
-                    android:layout_weight="1"
-                    android:horizontalSpacing="1dp"
-                    android:listSelector="#00000000"
-                    android:numColumns="4"
-                    android:verticalSpacing="15dp" />
-
-                <GridView
-                    android:id="@+id/rightSeatGridView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_weight="1"
-                    android:horizontalSpacing="1dp"
-                    android:numColumns="4"
-                    android:verticalSpacing="15dp" />
-            </LinearLayout>
-            <!-- LAYOUT END 실습실 좌석 그리드 레이아웃 -->
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="15dp"
-                android:fontFamily="@font/noto_sans_kr_regular"
-                android:text="21 / 30"
-                android:textColor="@color/black"
-                android:textSize="14dp" />
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:horizontalSpacing="1dp"
+                android:numColumns="4"
+                android:verticalSpacing="15dp" />
         </LinearLayout>
-        <!-- LAYOUT END 실습실 좌석 현황 레이아웃 -->
+        <!-- LAYOUT END 실습실 좌석 그리드 레이아웃 -->
+
+        <!-- LAYOUT 실습실 추가 정보 레이아웃 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp"
+            android:paddingLeft="50dp"
+            android:paddingRight="50dp">
+
+
+            <ImageView
+                android:layout_width="17dp"
+                android:layout_height="17dp"
+                android:layout_gravity="center"
+                android:adjustViewBounds="true"
+                android:src="@drawable/ic_profile_pic"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="5dp"
+
+                android:text="김잼민(20181234)"
+                android:textSize="12dp"
+                android:textColor="@color/semi_gray"
+                android:fontFamily="@font/noto_sans_kr_regular"
+                android:includeFontPadding="false"/>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                app:cardCornerRadius="20dp"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="@color/semi_light_blue">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+
+                    android:text="21 / 30"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="10dp"
+                    android:fontFamily="@font/poppins_medium"
+                    android:includeFontPadding="false"/>
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+        <!-- LAYOUT END 실습실 추가 정보 레이아웃 -->
+
+    </LinearLayout>
+    <!-- LAYOUT END 실습실 좌석 현황 레이아웃 -->
 
     <FrameLayout
         android:id="@+id/blurFrameLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        >
+        android:visibility="gone">
 
         <com.github.mmin18.widget.RealtimeBlurView
             android:id="@+id/blurView"
@@ -160,28 +178,28 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:orientation="vertical">
+
             <View
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:background="@drawable/ic_rectangle_close"
                 android:layout_gravity="center"
                 android:layout_marginBottom="5dp"
-                />
+                android:background="@drawable/ic_rectangle_close" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:fontFamily="@font/noto_sans_kr_bold"
+                android:includeFontPadding="false"
                 android:text="현재 수업 중인 강의실입니다."
                 android:textColor="@color/natural_navy"
-                android:textSize="18dp"
-                android:fontFamily="@font/noto_sans_kr_bold"
-                android:includeFontPadding="false"/>
+                android:textSize="18dp" />
 
         </LinearLayout>
     </FrameLayout>
 
-    </FrameLayout>
+</FrameLayout>
 
 
 

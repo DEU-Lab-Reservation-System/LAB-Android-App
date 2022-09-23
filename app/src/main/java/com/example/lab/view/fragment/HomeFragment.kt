@@ -101,6 +101,7 @@ class HomeFragment : Fragment(){
     private fun initGridView(){
         // 그리드뷰를 include로 불러왔으므로 include한 레이아웃을 먼저 가져옴
         var seatGridView: SubSeatGridviewBinding = bind.seatGridView
+
         seatGridView.todayTimeTV.text = dateTimeFormat.format(Calendar.getInstance().timeInMillis)
 
         var leftSeatList: MutableList<Int> = mutableListOf()
@@ -109,24 +110,20 @@ class HomeFragment : Fragment(){
         // 좌석 번호 세팅
         var flag = true
         for (i in 1..32){
-            if(flag){
-                Log.i("LEFT", "$i")
-                leftSeatList.add(i)
-            }
-            else{
-                Log.i("RIGHT", "$i")
-                rightSeatList.add(i)
-            }
+            if(flag) leftSeatList.add(i)
+            else rightSeatList.add(i)
 
             if(i % 4 == 0) flag = !flag
         }
 
+        // 어댑터 생성
         var leftSeatAdapter:SeatAdapter = SeatAdapter(context = requireContext(), leftSeatList)
         var rightSeatAdapter:SeatAdapter = SeatAdapter(context = requireContext(), rightSeatList)
 
         seatGridView.leftSeatGridView.adapter = leftSeatAdapter
         seatGridView.rightSeatGridView.adapter = rightSeatAdapter
 
+        // 클릭 이벤트 : 클릭한 좌석 표시
         seatGridView.leftSeatGridView.onItemClickListener = OnItemClickListener { adapterView, view, position, l ->
             // 이전에 선택했던 자리는 다시 회색으로 돌림
             if(::prevSelectSeat.isInitialized){
@@ -145,6 +142,7 @@ class HomeFragment : Fragment(){
                 ).show()
             }
 
+        // 클릭 이벤트 : 클릭한 좌석 표시
         seatGridView.rightSeatGridView.onItemClickListener = OnItemClickListener { adapterView, view, position, l ->
             // 이전에 선택했던 자리는 다시 회색으로 돌림
             if(::prevSelectSeat.isInitialized){

@@ -5,20 +5,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".view.fragment.ReservFragment">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
         android:orientation="vertical">
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/noticeView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
 
             app:cardBackgroundColor="@color/white"
             app:cardCornerRadius="7dp"
-            app:cardElevation="1dp">
+            app:cardElevation="1dp"
+
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent">
 
             <!-- LAYOUT 공지사항 레이아웃 -->
             <LinearLayout
@@ -66,12 +71,22 @@
 
         <!-- LAYOUT 콘텐츠 레이아웃 -->
         <LinearLayout
+            android:id="@+id/contentLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
+
             android:background="@color/white"
             android:orientation="vertical"
-            android:paddingLeft="30dp"
-            android:paddingRight="30dp">
+
+            app:layout_constraintTop_toBottomOf="@+id/noticeView"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            >
+
             <!-- LAYOUT 실습실 좌석 현황 레이아웃 -->
             <LinearLayout
                 android:layout_width="match_parent"
@@ -115,7 +130,7 @@
                                     android:includeFontPadding="false"
                                     android:text="실습실 좌석 현황"
                                     android:textColor="@color/natural_navy"
-                                    android:textSize="20dp" />
+                                    android:textSize="16dp" />
 
                                 <View
                                     android:layout_width="0dp"
@@ -164,19 +179,19 @@
 
             <!-- LAYOUT 예약 정보 입력 레이아웃 -->
             <LinearLayout
+                android:id="@+id/reservInputView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:weightSum="3"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:orientation="horizontal">
+                android:paddingLeft="50dp"
+                android:paddingRight="50dp"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@+id/contentLayout">
 
                 <!-- LAYOUT 이용 시간 입력 레이아웃 -->
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_weight="2"
+                    android:layout_weight="1"
                     android:orientation="vertical">
 
                     <TextView
@@ -184,28 +199,28 @@
                         android:layout_height="wrap_content"
                         android:text="이용 시간"
                         android:textColor="@color/natural_navy"
-                        android:textSize="16dp"
+                        android:textSize="14dp"
                         android:fontFamily="@font/noto_sans_kr_bold"
                         android:includeFontPadding="false"/>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="5dp"
                         android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="09:00"
-                            android:textSize="18dp"/>
+                            android:textSize="14dp"/>
                         <View
                             android:layout_width="12dp"
                             android:layout_height="6dp"
                             android:layout_gravity="center"
                             android:layout_marginLeft="5dp"
                             android:background="@drawable/ic_arrow_down"
-                            android:backgroundTint="@color/colorAccent"
+                            android:backgroundTint="@color/natural_navy"
                             />
 
                         <TextView
@@ -221,14 +236,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="11:00"
-                            android:textSize="18dp"/>
+                            android:textSize="14dp"/>
                         <View
                             android:layout_width="12dp"
                             android:layout_height="6dp"
                             android:layout_gravity="center"
                             android:layout_marginLeft="5dp"
                             android:background="@drawable/ic_arrow_down"
-                            android:backgroundTint="@color/colorAccent"
+                            android:backgroundTint="@color/natural_navy"
                             />
                     </LinearLayout>
                 </LinearLayout>
@@ -238,7 +253,6 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
                     android:orientation="vertical">
 
                     <TextView
@@ -246,14 +260,14 @@
                         android:layout_height="wrap_content"
                         android:text="팀 인원"
                         android:textColor="@color/natural_navy"
-                        android:textSize="16dp"
+                        android:textSize="14dp"
                         android:fontFamily="@font/noto_sans_kr_bold"
                         android:includeFontPadding="false"/>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="5dp"
                         android:orientation="horizontal">
 
                         <Spinner
@@ -263,15 +277,16 @@
                             android:background="@null"
                             android:spinnerMode="dialog"
                             android:text="09:00"
-                            android:textSize="18dp"/>
+                            android:textSize="14dp"/>
+
                         <View
                             android:layout_width="12dp"
                             android:layout_height="6dp"
                             android:layout_gravity="center"
                             android:layout_marginLeft="5dp"
                             android:background="@drawable/ic_arrow_down"
-                            android:backgroundTint="@color/colorAccent"
-                            />
+                            android:backgroundTint="@color/natural_navy"/>
+
                     </LinearLayout>
                 </LinearLayout>
                 <!-- LAYOUT END 팀 인원 입력 레이아웃 -->
@@ -281,19 +296,22 @@
 
             <!-- LAYOUT 좌석 선택 정보 레이아웃 -->
             <LinearLayout
+                android:id="@+id/selectSeat"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:orientation="vertical">
+                android:paddingLeft="50dp"
+                android:paddingRight="50dp"
+                android:orientation="vertical"
+
+                app:layout_constraintTop_toBottomOf="@+id/reservInputView">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="선택 좌석"
                     android:textColor="@color/natural_navy"
-                    android:textSize="16dp"
+                    android:textSize="14dp"
                     android:fontFamily="@font/noto_sans_kr_bold"
                     android:includeFontPadding="false"/>
 
@@ -303,16 +321,43 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:text="좌석을 선택해주세요."
-                    android:textSize="16dp"
+                    android:textSize="14dp"
                     android:fontFamily="@font/noto_sans_kr_regular"
                     android:includeFontPadding="false"
                     />
             </LinearLayout>
             <!-- LAYOUT END 좌석 선택 정보 레이아웃 -->
 
-        </LinearLayout>
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+
+                app:cardCornerRadius="10dp"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="@color/semi_light_blue"
+
+                app:layout_constraintTop_toBottomOf="@+id/selectSeat"
+                app:layout_constraintBottom_toBottomOf="parent"
+                >
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="예약 신청"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="16dp"
+                    android:fontFamily="@font/noto_sans_kr_regular"
+                    android:includeFontPadding="false"
+                    style="?android:attr/borderlessButtonStyle"
+                    />
+
+            </androidx.cardview.widget.CardView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
         <!-- LAYOUT END 콘텐츠 레이아웃 -->
 
-    </LinearLayout>
 </layout>
 

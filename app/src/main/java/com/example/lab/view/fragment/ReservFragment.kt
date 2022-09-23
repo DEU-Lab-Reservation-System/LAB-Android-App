@@ -76,14 +76,8 @@ class ReservFragment : Fragment() {
         // 좌석 번호 세팅
         var flag = true
         for (i in 1..32){
-            if(flag){
-                Log.i("LEFT", "$i")
-                leftSeatList.add(i)
-            }
-            else{
-                Log.i("RIGHT", "$i")
-                rightSeatList.add(i)
-            }
+            if(flag) leftSeatList.add(i)
+            else rightSeatList.add(i)
 
             if(i % 4 == 0) flag = !flag
         }
