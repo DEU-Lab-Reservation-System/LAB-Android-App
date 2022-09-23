@@ -1,6 +1,7 @@
 package com.example.lab.view.activity
 
 import android.app.Activity
+import android.app.Notification
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -38,6 +39,14 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.frameLayout, ReservResultFragment())
+                .addToBackStack(null)
+                .commit()
+        })
+
+        bind.notifyBtn.setOnClickListener(View.OnClickListener {
+            supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.frameLayout, NotificationFragment())
                 .addToBackStack(null)
                 .commit()
         })

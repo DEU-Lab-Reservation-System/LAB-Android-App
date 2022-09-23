@@ -1,8 +1,6 @@
 package com.example.lab.view.fragment
 
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +8,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import com.example.lab.R
 import com.example.lab.adapter.SeatAdapter
 import com.example.lab.databinding.FragmentReservBinding
@@ -51,8 +50,20 @@ class ReservFragment : Fragment() {
 
         initGridView()
         initSpinner()
+        addEventreservationBtn()
 
         return bind.root
+    }
+
+    private fun addEventreservationBtn(){
+        bind.reservBtn.setOnClickListener(View.OnClickListener {
+            requireActivity().supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.frameLayout, NoticeFragment())
+                .addToBackStack(null)
+                .commit()
+
+        })
     }
 
     private fun initSpinner(){

@@ -1,14 +1,11 @@
 package com.example.lab.view.fragment
 
-import android.animation.Animator
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import androidx.databinding.DataBindingUtil
-import com.airbnb.lottie.LottieAnimationView
 import com.example.lab.R
 import com.example.lab.databinding.FragmentReservResultBinding
 
@@ -46,12 +43,12 @@ class ReservResultFragment : Fragment() {
         /** 데이터를 관리하는 뷰 모델을 bind에 연결해줘야 적용 됨 */
         bind.lifecycleOwner = requireActivity()
 
-        eventAdder()
+        addButtonEvent()
 
         return bind.root
     }
 
-    private fun eventAdder(){
+    private fun addButtonEvent(){
         bind.nextBtn.setOnClickListener{
             requireActivity().supportFragmentManager.beginTransaction().remove(this).commit();
             requireActivity().supportFragmentManager.popBackStack();

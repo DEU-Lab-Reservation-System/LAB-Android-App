@@ -1,14 +1,233 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<!-- 프로필 레이아웃에 예약 완료 화면 대신 구현(나중에 바꿀 예정) -->
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".NoticeFragment">
+    tools:context=".view.fragment.ReservFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="match_parent">
 
-</FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:padding="30dp">
+
+            <!-- LAYOUT 타이틀 레이아웃 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/todayTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_regular"
+                    android:includeFontPadding="false"
+                    android:text="공지사항"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="12dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/noto_sans_kr_bold"
+
+                    android:includeFontPadding="false"
+                    android:text="실습실 이용 시 유의사항"
+                    android:textColor="@color/natural_navy"
+                    android:textSize="20dp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/gray" />
+            </LinearLayout>
+            <!-- LAYOUT END 타이틀 레이아웃 -->
+
+            <!-- LAYOUT 실습실 예약 안내 레이아웃 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_regular"
+                    android:text="실습실 예약 안내"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@color/semi_gray" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=" 학교 규칙상 17시 이후엔 최소한의 실습실로 운영됩니다.\n\n
+실습실은 915 > 916 > 918 > 911 순으로 개방되며, 이전 실습실의 예약 인원이 25명 이상일 경우에만 다음 실습실이 개방 됩니다.\n\n
+
+ 이에 따라, 17시 이전에 실습실을 예약할 경우 이용 시간은 최대 17시로 제한됩니다.\n\n
+
+ 추가 이용을 희망하는 학생은 연장 신청을 해주셔야하며, 실습실 개방 규칙에 따라 실습실을 이동해야 할 수 있습니다."
+                    android:textSize="14sp"
+                    android:fontFamily="@font/poppins_regular"
+                    android:includeFontPadding="false"
+                    />
+            </LinearLayout>
+            <!-- LAYOUT END 실습실 예약 안내 레이아웃 -->
+
+            <!-- LAYOUT 실습실 관리 안내 레이아웃 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_regular"
+                    android:text="실습실 관리 안내"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@color/semi_gray" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=" 실습실 예약 인원 중 최장 시간 예약자에게 실습실 관리 권한이 부여됩니다.\n\n
+연장으로 인한 최장 시간 예약자가 변경될 시 실습실 관리 권한은 해당 학생에게 넘어갑니다.\n\n
+
+ 실습실 관리 권한을 받은 학생은 실습실 소등 및 문 단속을 철저히 해주셔야하며, 관리 미숙으로 인한 사고 발생 시 모든 책임은 학생에게 있습니다.
+"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/poppins_regular"
+                    android:includeFontPadding="false"
+                    />
+            </LinearLayout>
+            <!-- LAYOUT END 실습실 예약 안내 레이아웃 -->
+
+            <!-- LAYOUT 음식물 반입 안내 레이아웃 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_regular"
+                    android:text="음식물 반입 안내"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@color/semi_gray" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=" 실습실에는 음료를 제외한 다른 외부 음식은 반입 불가입니다. 실습실에서 음식물 섭취시 이용이 제한 될 수 있습니다.\n"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/poppins_regular"
+                    android:includeFontPadding="false"
+                    />
+            </LinearLayout>
+            <!-- LAYOUT END 음식물 반입 안내 레이아웃 -->
+
+            <!-- LAYOUT 컴퓨터 사용 규칙 레이아웃 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_regular"
+                    android:text="컴퓨터 사용 규칙"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@color/semi_gray" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=" 실습실 컴퓨터를 이용 후에는 전원을 반드시 꺼주셔야 하며 전원을 끄지 않고 퇴장할 시 실습실 이용이 제한 될 수 있습니다.\n\n
+컴퓨터 부품 파손 또는 절도 등의 행위 시 법적 처벌을 받을 수 있으며, 다른 사용자가 위의 행위를 하는 것을 목격하였다면 반드시 조교에게 신고를 해야합니다.\n
+
+"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/poppins_regular"
+                    android:includeFontPadding="false"
+                    />
+            </LinearLayout>
+            <!-- LAYOUT END 컴퓨터 사용 규칙 레이아웃 -->
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="위의 사항에 동의하지 않을 시 예약이 불가하며, 규칙을 어길 시 실습실 이용 제한이 될 수 있습니다.\n"
+                android:textSize="14sp"
+                android:fontFamily="@font/poppins_regular"
+                android:includeFontPadding="false"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="위의 사항에 동의하신다면 확인 버튼을 눌러주세요.\n"
+                android:textSize="14sp"
+                android:fontFamily="@font/poppins_regular"
+                android:includeFontPadding="false"
+                />
+
+            <Button
+                android:id="@+id/nextBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:text="확인"
+                android:textSize="14dp"
+                android:textColor="@color/colorAccent"
+                android:fontFamily="@font/poppins_regular"
+                android:backgroundTint="@color/white"
+                style="?android:attr/borderlessButtonStyle"/>
+        </LinearLayout>
+    </ScrollView>
+</layout>
+

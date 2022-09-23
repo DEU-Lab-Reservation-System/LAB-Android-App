@@ -1,10 +1,13 @@
-package com.example.lab
+package com.example.lab.view.fragment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import com.example.lab.R
+import com.example.lab.databinding.FragmentNoticeBinding
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -21,6 +24,8 @@ class NoticeFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    // VARIABLE
+    private lateinit var bind: FragmentNoticeBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -29,12 +34,26 @@ class NoticeFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_notice, container, false)
+        bind = DataBindingUtil.inflate(inflater, R.layout.fragment_notice, container, false)
+
+        addNextBtnEvent()
+
+        return bind.root
+    }
+
+    private fun addNextBtnEvent(){
+        bind.nextBtn.setOnClickListener(View.OnClickListener {
+            requireActivity().supportFragmentManager.beginTransaction().remove(this).commit();
+            requireActivity().supportFragmentManager.popBackStack();
+
+            requireActivity().supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.frameLayout, ReservResultFragment())
+                .addToBackStack(null)
+                .commit()
+        })
     }
 
     companion object {

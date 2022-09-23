@@ -50,8 +50,12 @@ dependencies {
     // https://mvnrepository.com/artifact/com.airbnb.android/lottie
     implementation 'com.airbnb.android:lottie:5.2.0'
 
+    /** BlurView */
     // https://mvnrepository.com/artifact/com.github.mmin18/realtimeblurview
     implementation 'com.github.mmin18:RealtimeBlurView:master-SNAPSHOT'
+
+    /** GridLayout */
+    implementation "androidx.gridlayout:gridlayout:1.0.0"
 
 
     testImplementation 'junit:junit:4.13.2'

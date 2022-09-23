@@ -29,6 +29,16 @@
             />
 
         <Button
+            android:id="@+id/notifyBtn"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_gravity="right|center"
+            android:layout_marginRight="15dp"
+            android:backgroundTint="@color/black"
+            android:background="@drawable/ic_bell"
+            />
+
+        <Button
             android:id="@+id/reservResultBtn"
             android:layout_width="23.5dp"
             android:layout_height="19.5dp"
