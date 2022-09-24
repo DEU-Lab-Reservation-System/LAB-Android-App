@@ -3,11 +3,15 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/dongh/AndroidStudioProjects/LAB/app/src/main/res/drawable/bg_rounded_dialog.xml" value="0.2655" />
         <entry key="..\:/Users/dongh/AndroidStudioProjects/LAB/app/src/main/res/drawable/ic__5a8f798666219_2.xml" value="0.292" />
         <entry key="..\:/Users/dongh/AndroidStudioProjects/LAB/app/src/main/res/drawable/ic_check_reservation.xml" value="0.292" />
         <entry key="..\:/Users/dongh/AndroidStudioProjects/LAB/app/src/main/res/drawable/ic_check_timetable.xml" value="0.292" />
+        <entry key="..\:/Users/dongh/AndroidStudioProjects/LAB/app/src/main/res/drawable/ic_close.xml" value="0.2655" />
+        <entry key="..\:/Users/dongh/AndroidStudioProjects/LAB/app/src/main/res/drawable/ic_home.xml" value="0.2655" />
         <entry key="..\:/Users/dongh/AndroidStudioProjects/LAB/app/src/main/res/drawable/ic_lab_logo.xml" value="0.292" />
         <entry key="..\:/Users/dongh/AndroidStudioProjects/LAB/app/src/main/res/drawable/ic_lab_start.xml" value="0.193" />
+        <entry key="..\:/Users/dongh/AndroidStudioProjects/LAB/app/src/main/res/drawable/ic_notice.xml" value="0.2655" />
         <entry key="..\:/Users/dongh/AndroidStudioProjects/LAB/app/src/main/res/drawable/logo_lab.xml" value="0.292" />
         <entry key="..\:/Users/dongh/AndroidStudioProjects/LAB/app/src/main/res/drawable/shape_rounded_bar.xml" value="0.3055" />
         <entry key="..\:/Users/dongh/AndroidStudioProjects/LAB/app/src/main/res/drawable/shape_seat.xml" value="0.299" />
@@ -16,15 +20,18 @@
         <entry key="..\:/Users/dongh/AndroidStudioProjects/LAB/app/src/main/res/layout/activity_intro.xml" value="0.33" />
         <entry key="..\:/Users/dongh/AndroidStudioProjects/LAB/app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="..\:/Users/dongh/AndroidStudioProjects/LAB/app/src/main/res/layout/activity_splash.xml" value="0.33" />
-        <entry key="..\:/Users/dongh/AndroidStudioProjects/LAB/app/src/main/res/layout/fragment_home.xml" value="0.33" />
+        <entry key="..\:/Users/dongh/AndroidStudioProjects/LAB/app/src/main/res/layout/bottomsheet_add_class.xml" value="0.33" />
+        <entry key="..\:/Users/dongh/AndroidStudioProjects/LAB/app/src/main/res/layout/fragment_bottomsheet_add_class.xml" value="0.3048245614035088" />
+        <entry key="..\:/Users/dongh/AndroidStudioProjects/LAB/app/src/main/res/layout/fragment_home.xml" value="0.5" />
         <entry key="..\:/Users/dongh/AndroidStudioProjects/LAB/app/src/main/res/layout/fragment_notice.xml" value="0.33" />
         <entry key="..\:/Users/dongh/AndroidStudioProjects/LAB/app/src/main/res/layout/fragment_notification.xml" value="0.33" />
         <entry key="..\:/Users/dongh/AndroidStudioProjects/LAB/app/src/main/res/layout/fragment_profile.xml" value="0.33" />
         <entry key="..\:/Users/dongh/AndroidStudioProjects/LAB/app/src/main/res/layout/fragment_reserv.xml" value="0.33" />
         <entry key="..\:/Users/dongh/AndroidStudioProjects/LAB/app/src/main/res/layout/fragment_reserv_result.xml" value="0.33" />
         <entry key="..\:/Users/dongh/AndroidStudioProjects/LAB/app/src/main/res/layout/fragment_reserve_result_fargment.xml" value="0.3048245614035088" />
-        <entry key="..\:/Users/dongh/AndroidStudioProjects/LAB/app/src/main/res/layout/fragment_time_table.xml" value="0.3048245614035088" />
+        <entry key="..\:/Users/dongh/AndroidStudioProjects/LAB/app/src/main/res/layout/fragment_time_table.xml" value="0.33" />
         <entry key="..\:/Users/dongh/AndroidStudioProjects/LAB/app/src/main/res/layout/spinner_item_team.xml" value="0.33" />
+        <entry key="..\:/Users/dongh/AndroidStudioProjects/LAB/app/src/main/res/layout/sub_add_classinfo.xml" value="0.5" />
         <entry key="..\:/Users/dongh/AndroidStudioProjects/LAB/app/src/main/res/layout/sub_request_reserv.xml" value="0.33" />
         <entry key="..\:/Users/dongh/AndroidStudioProjects/LAB/app/src/main/res/layout/sub_seat_gridview.xml" value="0.33" />
         <entry key="..\:/Users/dongh/AndroidStudioProjects/LAB/app/src/main/res/layout/sub_seat_layout.xml" value="4.0" />
