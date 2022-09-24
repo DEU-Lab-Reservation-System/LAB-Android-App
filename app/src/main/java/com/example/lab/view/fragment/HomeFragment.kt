@@ -14,6 +14,7 @@ import com.example.lab.R
 import com.example.lab.adapter.SeatAdapter
 import com.example.lab.databinding.FragmentHomeBinding
 import com.example.lab.databinding.SubSeatGridviewBinding
+import com.example.lab.utils.DensityManager
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -124,7 +125,7 @@ class HomeFragment : Fragment() {
                 val params = seatGridView.blurView.layoutParams
 
                 seatGridView.blurView.layoutParams = params.apply {
-                    height = seatGridView.labSeatLayout.height + (30 * (requireContext().resources.displayMetrics.density).toInt())
+                    height = seatGridView.labSeatLayout.height + DensityManager.convertDPtoPX(30)
                 }
 
                 seatGridView.labSeatLayout.viewTreeObserver.removeOnGlobalLayoutListener(this)

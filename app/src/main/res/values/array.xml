@@ -7,6 +7,14 @@
         <item>918</item>
     </string-array>
 
+
+    <string-array name="lab_fullname_list">
+        <item>정보공학관 911</item>
+        <item>정보공학관 915</item>
+        <item>정보공학관 916</item>
+        <item>정보공학관 918</item>
+    </string-array>
+
     <string-array name="team_list">
         <item>1</item>
         <item>2</item>
@@ -17,4 +25,24 @@
         <item>7</item>
         <item>8</item>
     </string-array>
+
+    <string-array name="time_table_list">
+        <item></item>
+        <item>월</item>
+        <item>화</item>
+        <item>수</item>
+        <item>목</item>
+        <item>금</item>
+    </string-array>
+
+    <string-array name="day_list">
+        <item>월요일</item>
+        <item>화요일</item>
+        <item>수요일</item>
+        <item>목요일</item>
+        <item>금요일</item>
+        <item>토요일</item>
+        <item>일요일</item>
+    </string-array>
+
 </resources>

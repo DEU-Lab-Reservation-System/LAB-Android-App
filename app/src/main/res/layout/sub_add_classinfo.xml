@@ -1,6 +1,141 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent">
+<?xml version="1.0" encoding="utf-8"?><!-- LAYOUT 시간 및 장소 추가 레이아웃 -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <!-- LAYOUT 요일 & 장소 선택 레이아웃 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="30dp"
+        android:orientation="horizontal">
+
+        <!-- LAYOUT 요일 선택 레이아웃 -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
+
+                <!-- 요일 선택 스피너 -->
+                <Spinner
+                    android:id="@+id/daySelector"
+                    android:layout_width="70dp"
+                    android:layout_height="match_parent"
+                    android:background="@null"
+                    android:dropDownWidth="75dp" />
+
+                <View
+                    android:layout_width="12dp"
+                    android:layout_height="6dp"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/ic_arrow_down" />
+
+                <!-- 시작 시간 선택 스피너 -->
+                <EditText
+                    android:id="@+id/startTimeEditText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+
+                    android:hint="HH:mm"
+                    android:background="@android:color/transparent"
+
+                    android:inputType="time"
+                    android:focusable="false"
+                    android:clickable="true"
+
+                    android:text="09:00"
+                    android:textSize="16sp"
+                    android:textColor="@color/natural_navy"
+                    />
+
+                <View
+                    android:layout_width="12dp"
+                    android:layout_height="6dp"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/ic_arrow_down" />
+
+                <!-- 종료 시간 선택 스피너 -->
+                <EditText
+                    android:id="@+id/endTimeEditText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+
+                    android:layout_marginLeft="10dp"
+
+                    android:hint="HH:mm"
+                    android:background="@android:color/transparent"
+
+                    android:inputType="time"
+                    android:focusable="false"
+                    android:clickable="true"
+
+                    android:text="10:00"
+                    android:textSize="16sp"
+                    android:textColor="@color/natural_navy"
+                    />
+
+                <View
+                    android:layout_width="12dp"
+                    android:layout_height="6dp"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/ic_arrow_down" />
+            </LinearLayout>
+        </LinearLayout>
+        <!-- LAYOUT END 요일 선택 레이아웃 -->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="18dp"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <View
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_gravity="center|right"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/ic_close" />
+    </LinearLayout>
+    <!-- LAYOUT END 요일 & 장소 선택 레이아웃 -->
+
+
+    <!-- 장소 선택 스피너 -->
+    <Spinner
+        android:id="@+id/placeSelector"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/natural_navy"
+        android:textSize="14sp" />
+
+
+    <!-- LAYOUT END 요일 & 장소 선택 레이아웃 -->
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="15dp"
+        android:background="@color/black_gray" />
+</LinearLayout><!-- LAYOUT END 시간 및 장소 추가 레이아웃 -->

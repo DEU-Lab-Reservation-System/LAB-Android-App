@@ -71,7 +71,7 @@ class ReservFragment : Fragment() {
         bind.teamSelector.adapter = ArrayAdapter.createFromResource(
             requireContext(),
             R.array.team_list,
-            R.layout.spinner_item_team
+            R.layout.spinner_custom_item
         ).also { adapter ->
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         }
