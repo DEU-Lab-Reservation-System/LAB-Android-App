@@ -11,6 +11,25 @@
         android:background="@color/white"
         android:orientation="vertical">
 
+        <androidx.gridlayout.widget.GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:columnCount="5"
+            app:rowCount="10"
+            app:alignmentMode="alignMargins">
+
+            <Button android:text="1" />
+
+            <Button android:text="2" />
+
+            <Button android:text="3" />
+
+            <Button android:text="4" />
+
+            <Button android:text="5" />
+
+
+        </androidx.gridlayout.widget.GridLayout>
     </LinearLayout>
 </layout>
 

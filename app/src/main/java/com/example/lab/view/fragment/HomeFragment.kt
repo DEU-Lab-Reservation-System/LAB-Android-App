@@ -1,9 +1,5 @@
 package com.example.lab.view.fragment
 
-import android.app.ActionBar
-import android.content.Context
-import android.opengl.Visibility
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -18,7 +14,6 @@ import com.example.lab.R
 import com.example.lab.adapter.SeatAdapter
 import com.example.lab.databinding.FragmentHomeBinding
 import com.example.lab.databinding.SubSeatGridviewBinding
-import com.github.mmin18.widget.RealtimeBlurView
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -33,7 +28,7 @@ private const val ARG_PARAM2 = "param2"
  * Use the [HomeFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class HomeFragment : Fragment(){
+class HomeFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -64,7 +59,7 @@ class HomeFragment : Fragment(){
 
         /** 데이터를 관리하는 뷰 모델을 bind에 연결해줘야 적용 됨 */
         bind.lifecycleOwner = requireActivity()
-        bind.seatGridView.blurFrameLayout.visibility = View.GONE
+//        bind.seatGridView.blurFrameLayout.visibility = View.VISIBLE
 
         initView()
         initGridView()
@@ -91,11 +86,8 @@ class HomeFragment : Fragment(){
                 bind.seatGridView.labNumber.text = "${lablist[position]}호 좌석 현황"
             }
 
-            override fun onNothingSelected(p0: AdapterView<*>?) {
-
-            }
+            override fun onNothingSelected(p0: AdapterView<*>?) {}
         }
-
     }
 
     private fun initGridView(){
@@ -123,42 +115,38 @@ class HomeFragment : Fragment(){
         seatGridView.leftSeatGridView.adapter = leftSeatAdapter
         seatGridView.rightSeatGridView.adapter = rightSeatAdapter
 
+        addSeatGridViewOnClickListener(seatGridView.leftSeatGridView, leftSeatList)
+        addSeatGridViewOnClickListener(seatGridView.rightSeatGridView, rightSeatList)
+
+        /** BlurView 높이 동적으로 변경 */
+        seatGridView.labSeatLayout.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener{
+            override fun onGlobalLayout() {
+                val params = seatGridView.blurView.layoutParams
+
+                seatGridView.blurView.layoutParams = params.apply {
+                    height = seatGridView.labSeatLayout.height + (30 * (requireContext().resources.displayMetrics.density).toInt())
+                }
+
+                seatGridView.labSeatLayout.viewTreeObserver.removeOnGlobalLayoutListener(this)
+            }
+        })
+    }
+
+    private fun addSeatGridViewOnClickListener(gridView: GridView, seatList:MutableList<Int>){
         // 클릭 이벤트 : 클릭한 좌석 표시
-        seatGridView.leftSeatGridView.onItemClickListener = OnItemClickListener { adapterView, view, position, l ->
+        gridView.onItemClickListener = OnItemClickListener { adapterView, view, position, l ->
             // 이전에 선택했던 자리는 다시 회색으로 돌림
             if(::prevSelectSeat.isInitialized){
                 prevSelectSeat.background = resources.getDrawable(R.drawable.shape_seat)
             }
-            
+            // view는 현재 클릭 된 뷰
             var seat = view.findViewById(R.id.seat) as View
             prevSelectSeat = seat
 
+            // 선택 된 좌석은 색깔로 표시
             seat.background = resources.getDrawable(R.drawable.shape_seat_selected)
 
-                Toast.makeText(
-                    requireContext(),
-                    "${leftSeatList[position]} 번 좌석",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-
-        // 클릭 이벤트 : 클릭한 좌석 표시
-        seatGridView.rightSeatGridView.onItemClickListener = OnItemClickListener { adapterView, view, position, l ->
-            // 이전에 선택했던 자리는 다시 회색으로 돌림
-            if(::prevSelectSeat.isInitialized){
-                prevSelectSeat.background = resources.getDrawable(R.drawable.shape_seat)
-            }
-
-            var seat = view.findViewById(R.id.seat) as View
-            prevSelectSeat = seat
-
-            seat.background = resources.getDrawable(R.drawable.shape_seat_selected)
-
-            Toast.makeText(
-                requireContext(),
-                "${rightSeatList[position]} 번 좌석",
-                Toast.LENGTH_SHORT
-            ).show()
+            Toast.makeText(requireContext(), "${seatList[position]} 번 좌석", Toast.LENGTH_SHORT).show()
         }
     }
 
