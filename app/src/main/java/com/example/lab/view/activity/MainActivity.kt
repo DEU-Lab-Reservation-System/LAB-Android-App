@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
     private var fragmentMap: HashMap<Int, Fragment?>? = hashMapOf(
         R.id.menu_home to homeFragment,
         R.id.menu_timetable to timeTableFragment,
-        R.id.menu_reserv to reservFragment,
+        R.id.menu_lab to reservFragment,
         R.id.menu_profile to profileFragment
     )
 
@@ -58,7 +58,7 @@ class MainActivity : AppCompatActivity() {
                 var fragment = when (it.itemId) {
                     R.id.menu_home -> changetFragment(R.id.menu_home)
                     R.id.menu_timetable -> changetFragment(R.id.menu_timetable)
-                    R.id.menu_reserv -> changetFragment(R.id.menu_reserv)
+                    R.id.menu_lab -> changetFragment(R.id.menu_lab)
                     R.id.menu_profile -> changetFragment(R.id.menu_profile)
                     else -> changetFragment(R.id.menu_home)
                 }
@@ -87,7 +87,7 @@ class MainActivity : AppCompatActivity() {
         return when (fragmentId) {
             R.id.menu_home -> HomeFragment()
             R.id.menu_timetable -> TimeTableFragment()
-            R.id.menu_reserv -> ReservFragment()
+            R.id.menu_lab -> ReservFragment()
             R.id.menu_profile -> ProfileFragment()
             else -> HomeFragment()
         }

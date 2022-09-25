@@ -16,10 +16,10 @@
         />
 
     <item
-        android:id="@+id/menu_reserv"
+        android:id="@+id/menu_lab"
         android:enabled = "true"
-        android:icon="@drawable/ic_reservation"
-        android:title="예약"
+        android:icon="@drawable/ic_monitor"
+        android:title="실습실"
         />
 
     <item
