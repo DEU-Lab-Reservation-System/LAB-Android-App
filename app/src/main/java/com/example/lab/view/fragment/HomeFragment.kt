@@ -116,9 +116,6 @@ class HomeFragment : Fragment() {
         seatGridView.leftSeatGridView.adapter = leftSeatAdapter
         seatGridView.rightSeatGridView.adapter = rightSeatAdapter
 
-        addSeatGridViewOnClickListener(seatGridView.leftSeatGridView, leftSeatList)
-        addSeatGridViewOnClickListener(seatGridView.rightSeatGridView, rightSeatList)
-
         /** BlurView 높이 동적으로 변경 */
         seatGridView.labSeatLayout.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener{
             override fun onGlobalLayout() {
@@ -131,25 +128,28 @@ class HomeFragment : Fragment() {
                 seatGridView.labSeatLayout.viewTreeObserver.removeOnGlobalLayoutListener(this)
             }
         })
+
+        //        addSeatGridViewOnClickListener(seatGridView.leftSeatGridView, leftSeatList)
+//        addSeatGridViewOnClickListener(seatGridView.rightSeatGridView, rightSeatList)
     }
 
-    private fun addSeatGridViewOnClickListener(gridView: GridView, seatList:MutableList<Int>){
-        // 클릭 이벤트 : 클릭한 좌석 표시
-        gridView.onItemClickListener = OnItemClickListener { adapterView, view, position, l ->
-            // 이전에 선택했던 자리는 다시 회색으로 돌림
-            if(::prevSelectSeat.isInitialized){
-                prevSelectSeat.background = resources.getDrawable(R.drawable.shape_seat)
-            }
-            // view는 현재 클릭 된 뷰
-            var seat = view.findViewById(R.id.seat) as View
-            prevSelectSeat = seat
-
-            // 선택 된 좌석은 색깔로 표시
-            seat.background = resources.getDrawable(R.drawable.shape_seat_selected)
-
-            Toast.makeText(requireContext(), "${seatList[position]} 번 좌석", Toast.LENGTH_SHORT).show()
-        }
-    }
+//    private fun addSeatGridViewOnClickListener(gridView: GridView, seatList:MutableList<Int>){
+//        // 클릭 이벤트 : 클릭한 좌석 표시
+//        gridView.onItemClickListener = OnItemClickListener { adapterView, view, position, l ->
+//            // 이전에 선택했던 자리는 다시 회색으로 돌림
+//            if(::prevSelectSeat.isInitialized){
+//                prevSelectSeat.background = resources.getDrawable(R.drawable.shape_seat)
+//            }
+//            // view는 현재 클릭 된 뷰
+//            var seat = view.findViewById(R.id.seat) as View
+//            prevSelectSeat = seat
+//
+//            // 선택 된 좌석은 색깔로 표시
+//            seat.background = resources.getDrawable(R.drawable.shape_seat_selected)
+//
+//            Toast.makeText(requireContext(), "${seatList[position]} 번 좌석", Toast.LENGTH_SHORT).show()
+//        }
+//    }
 
     companion object {
         /**

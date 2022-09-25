@@ -1,165 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:bind="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    android:orientation="vertical">
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:bind="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-        app:cardBackgroundColor="@color/white"
-        app:cardCornerRadius="12dp"
-        app:cardUseCompatPadding="true"
-        app:cardElevation="0.5dp">
-
-        <!-- LAYOUT 오늘의 예약 레이아웃 -->
-        <LinearLayout
+        <CheckBox
+            android:id="@+id/checkbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:buttonTint="@color/gray"
+            />
 
-            android:paddingTop="20dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:paddingBottom="10dp"
-            >
-            <!-- LAYOUT 예약 타이틀 레이아웃 -->
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+        <ImageView
+            android:id="@+id/profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_toRightOf="@+id/checkbox"
+            android:adjustViewBounds="true"
+            android:src="@drawable/ic_profile_pic" />
 
-                <View
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_marginRight="20dp"
-                    android:background="@drawable/ic_profile_pic" />
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:orientation="vertical">
+        <TextView
+            android:id="@+id/studentTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_toRightOf="@+id/profile"
+            android:fontFamily="@font/noto_sans_kr_regular"
+            android:includeFontPadding="false"
+            android:text="김잼민 (20181234)"
+            android:textColor="@color/semi_black"
+            android:textSize="14sp" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="5dp"
-                        android:fontFamily="@font/noto_sans_kr_bold"
-                        android:includeFontPadding="false"
-                        android:text="정보공학관 911호"
-                        android:textColor="@color/natural_navy"
-                        android:textSize="16sp" />
+        <TextView
+            android:id="@+id/majorTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/studentTextView"
+            android:layout_toRightOf="@+id/profile"
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/noto_sans_kr_medium"
-                        android:includeFontPadding="false"
-                        android:text="김잼민(20181234)"
-                        android:textColor="@color/semi_black"
-                        android:textSize="12sp" />
-                </LinearLayout>
+            android:fontFamily="@font/noto_sans_kr_regular"
+            android:includeFontPadding="false"
+            android:text="컴퓨터소프트웨어공학과"
+            android:textColor="@color/semi_black"
+            android:textSize="14sp" />
 
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1" />
+        <TextView
+            android:id="@+id/reservTimeTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="5dp"
 
-                <View
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_gravity="center|right"
-                    android:background="@drawable/ic_arrow_right" />
-            </LinearLayout>
-            <!-- LAYOUT END 에약 타이틀 레이아웃 -->
+            android:fontFamily="@font/poppins_regular"
+            android:includeFontPadding="false"
+            android:text="11:00 - 12:00"
+            android:textColor="@color/natural_navy"
+            android:textSize="14sp" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:background="@color/gray" />
+        <TextView
+            android:id="@+id/seatNumberTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/reservTimeTextView"
+            android:layout_alignParentRight="true"
+            android:fontFamily="@font/poppins_regular"
+            android:includeFontPadding="false"
+            android:text="11번 좌석"
+            android:textColor="@color/natural_navy"
+            android:textSize="14sp" />
+    </RelativeLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal">
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <View
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:layout_marginRight="10dp"
-                        android:background="@drawable/ic_clock" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-
-                        android:text="11:00 - 12:00 PM"
-                        android:textColor="@color/natural_navy"
-                        android:textSize="14sp"
-                        android:fontFamily="@font/poppins_regular"
-                        android:includeFontPadding="false"
-                        />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <View
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:layout_marginRight="5dp"
-                        android:background="@drawable/ic_confirm" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/poppins_regular"
-                        android:includeFontPadding="false"
-                        android:text="승인"
-                        android:textColor="@color/colorAccent"
-                        android:textSize="14sp"
-                        />
-
-                    <View
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="5dp"
-                        android:background="@drawable/ic_refusal" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-
-                        android:fontFamily="@font/poppins_regular"
-                        android:includeFontPadding="false"
-                        android:text="거절"
-                        android:textColor="@color/red"
-                        android:textSize="14sp"
-                        />
-                </LinearLayout>
-            </LinearLayout>
-        </LinearLayout>
-        <!-- LAYOUT END 오늘의 예약 레이아웃 -->
-    </androidx.cardview.widget.CardView>
+    <View
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/gray"
+        />
 </LinearLayout>

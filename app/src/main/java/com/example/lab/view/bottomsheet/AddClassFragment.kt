@@ -101,7 +101,6 @@ class AddClassFragment : BottomSheetDialogFragment() {
     private fun addTimePicker(classInfoView:View){
         val cal = Calendar.getInstance()
         val hour = cal.get(Calendar.HOUR)
-        val minute = cal.get(Calendar.MINUTE)
 
         val startTimeEditText = classInfoView.findViewById<EditText>(R.id.startTimeEditText)
         val endTimeEditText = classInfoView.findViewById<EditText>(R.id.endTimeEditText)

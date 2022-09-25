@@ -1,5 +1,8 @@
 package com.example.lab.view.fragment
 
+import android.app.TimePickerDialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +16,7 @@ import com.example.lab.R
 import com.example.lab.adapter.SeatAdapter
 import com.example.lab.databinding.FragmentReservBinding
 import com.example.lab.databinding.SubSeatGridviewBinding
+import java.util.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -31,6 +35,7 @@ class ReservFragment : Fragment() {
 
     private lateinit var prevSelectSeat:View
     private lateinit var bind:FragmentReservBinding
+    private lateinit var lablist:Array<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,6 +55,7 @@ class ReservFragment : Fragment() {
 
         initGridView()
         initSpinner()
+        addTimePicker()
         addEventreservationBtn()
 
         return bind.root
@@ -74,6 +80,50 @@ class ReservFragment : Fragment() {
             R.layout.spinner_custom_item
         ).also { adapter ->
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        }
+
+        lablist = resources.getStringArray(R.array.lab_list)
+        val spinnerAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, lablist)
+
+        // 어댑터 등록
+        bind.labSelector.adapter = spinnerAdapter
+        bind.labSelector.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(adapterView: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                bind.seatGridView.labNumber.text = "${lablist[position]}호 좌석 현황"
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {}
+        }
+    }
+
+    /** 실습실 선택 스피너 초기화 */
+    private fun initLabSpinner(){
+        // 스피너는 고정된 리스트를 보여주는 것이기 때문에 xml로 따로 관리하는 것이 좋음
+        lablist = resources.getStringArray(R.array.lab_list)
+
+
+    }
+
+    private fun addTimePicker(){
+        val cal = Calendar.getInstance()
+        val hour = cal.get(Calendar.HOUR)
+
+        bind.startTimeEditText.setOnClickListener{
+            val timePicker = TimePickerDialog(requireContext(), android.R.style.Theme_Holo_Light_Dialog_NoActionBar, { timePicker, selectHour, selectMinute ->
+                bind.startTimeEditText.setText(String.format("%02d:%02d", selectHour, selectMinute))
+            }, hour, 0, true)
+
+            timePicker.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            timePicker.show()
+        }
+
+        bind.endTimeEditText.setOnClickListener{
+            val timePicker = TimePickerDialog(requireContext(), android.R.style.Theme_Holo_Light_Dialog_NoActionBar, { timePicker, selectHour, selectMinute ->
+                bind.endTimeEditText.setText(String.format("%02d:%02d", selectHour, selectMinute))
+            }, hour, 0, true)
+
+            timePicker.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            timePicker.show()
         }
     }
 

@@ -94,7 +94,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:column_count="6"
-                app:row_count="9"
+                app:row_count="12"
                 app:header_title="@array/time_table_list"
 
                 app:layout_constraintTop_toBottomOf="@+id/titleLayout"

@@ -280,6 +280,7 @@ class CustomTimeTableView : LinearLayout {
         }
     }
 
+    /** 시간표 테이블 생성 메소드 */
     private fun createTable() {
         createTableHeader()
         for (i in 0 until rowCount) {
