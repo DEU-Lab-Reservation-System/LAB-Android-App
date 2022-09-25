@@ -21,25 +21,49 @@
             android:padding="30dp"
             tools:context=".view.bottomsheet.AddClassFragment">
 
-            <TextView
-                android:id="@+id/todayTV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/poppins_regular"
-                android:includeFontPadding="false"
-                android:text="2022년도 2학기"
-                android:textColor="@color/colorAccent"
-                android:textSize="12dp" />
+            <!-- LAYOUT 타이틀 레이아웃 -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/noto_sans_kr_bold"
+                <TextView
+                    android:id="@+id/semesterTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:fontFamily="@font/poppins_regular"
+                    android:includeFontPadding="false"
+                    android:text="2022년도 2학기"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="12dp" />
 
-                android:includeFontPadding="false"
-                android:text="시간표 추가"
-                android:textColor="@color/natural_navy"
-                android:textSize="18dp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/semesterTextView"
+
+                    android:fontFamily="@font/noto_sans_kr_bold"
+                    android:includeFontPadding="false"
+                    android:text="시간표 추가"
+                    android:textColor="@color/natural_navy"
+                    android:textSize="18dp" />
+
+                <Button
+                    android:id="@+id/nextBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:text="확인"
+                    android:textSize="14dp"
+                    android:textColor="@color/colorAccent"
+                    android:fontFamily="@font/poppins_regular"
+                    android:backgroundTint="@color/white"
+                    style="?android:attr/borderlessButtonStyle"
+
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentRight="true"/>
+            </RelativeLayout>
+            <!-- LAYOUT END 타이틀 레이아웃 -->
 
             <View
                 android:layout_width="match_parent"

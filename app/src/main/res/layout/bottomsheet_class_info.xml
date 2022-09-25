@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+    >
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/parentLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp"
+        android:paddingBottom="30dp"
+
+        tools:context=".view.bottomsheet.ClassInfoFragment">
+
+        <View
+            android:id="@+id/close_bar"
+            android:layout_width="60dp"
+            android:layout_height="4dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:background="@color/gray"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            />
+
+
+        <!-- LAYOUT 타이틀 레이아웃 -->
+        <TextView
+            android:id="@+id/semesterTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="2022년도 2학기"
+            android:textColor="@color/colorAccent"
+            android:textSize="12dp"
+            android:fontFamily="@font/poppins_regular"
+            android:includeFontPadding="false"
+
+            app:layout_constraintTop_toBottomOf="@+id/close_bar"
+            app:layout_constraintLeft_toLeftOf="parent"
+            />
+
+        <TextView
+            android:id="@+id/classTitleTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="객체지향 모델링"
+            android:textColor="@color/natural_navy"
+            android:textSize="18dp"
+
+            android:fontFamily="@font/noto_sans_kr_bold"
+            android:includeFontPadding="false"
+
+            app:layout_constraintTop_toBottomOf="@+id/semesterTextView"
+            app:layout_constraintLeft_toLeftOf="parent"
+            />
+        <!-- LAYOUT END 타이틀 레이아웃 -->
+
+        <View
+            android:id="@+id/line"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginTop="15dp"
+            android:background="@color/gray"
+
+
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/classTitleTextView"
+            />
+
+
+        <!-- LAYOUT 담당 교수 필드 레이아웃 -->
+        <LinearLayout
+            android:id="@+id/professorLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:orientation="horizontal"
+
+            app:layout_constraintTop_toBottomOf="@+id/line">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_regular"
+                android:includeFontPadding="false"
+                android:text="담당 교수"
+                android:textColor="@color/black"
+                android:textSize="14dp" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/professorTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|center"
+                android:fontFamily="@font/poppins_regular"
+                android:includeFontPadding="false"
+                android:text="장희숙"
+                android:textColor="@color/black_gray"
+                android:textSize="12dp" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/professorLine"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="15dp"
+
+            android:background="#EFEFEF"
+            app:layout_constraintTop_toBottomOf="@+id/professorLayout"
+            app:layout_constraintBottom_toTopOf="@id/classTimeLayout"
+            />
+        <!-- LAYOUT END 담당 교수 필드 레이아웃 -->
+
+        <!-- LAYOUT 수업 일시 필드 레이아웃 -->
+        <LinearLayout
+            android:id="@+id/classTimeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal"
+
+            app:layout_constraintTop_toBottomOf="@+id/professorLine">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_regular"
+                android:includeFontPadding="false"
+                android:text="수업 일시"
+                android:textColor="@color/black"
+                android:textSize="14dp" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/classTimeTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|center"
+                android:fontFamily="@font/poppins_regular"
+                android:includeFontPadding="false"
+                android:text="월 09:00~11:00, 수 11:00~13:00"
+                android:textColor="@color/black_gray"
+                android:textSize="12dp" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/classTimeLine"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="20dp"
+            android:background="#EFEFEF"
+            app:layout_constraintTop_toBottomOf="@+id/classTimeLayout"
+            />
+        <!-- LAYOUT END 수업 일시 필드 레이아웃 -->
+
+        <!-- LAYOUT 수업 장소 필드 레이아웃 -->
+        <LinearLayout
+            android:id="@+id/classPlaceLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/classTimeLine">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_regular"
+                android:includeFontPadding="false"
+                android:text="장소"
+                android:textColor="@color/black"
+                android:textSize="14dp" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/classPlaceTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|center"
+                android:fontFamily="@font/poppins_regular"
+                android:includeFontPadding="false"
+                android:text="정보공학관 912, 정보공학관 915"
+                android:textColor="@color/black_gray"
+                android:textSize="12dp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="20dp"
+            android:background="#EFEFEF"
+            app:layout_constraintTop_toBottomOf="@+id/classPlaceLayout"
+            />
+        <!-- LAYOUT END 수업 장소 필드 레이아웃 -->
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

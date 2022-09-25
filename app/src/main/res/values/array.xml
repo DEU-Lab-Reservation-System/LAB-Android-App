@@ -45,4 +45,16 @@
         <item>일요일</item>
     </string-array>
 
+    <string-array name="pastel_sticker_color">
+        <item>#FFE3E3</item>
+        <item>#FAECC5</item>
+        <item>#E0FFDC</item>
+        <item>#D4F4FA</item>
+        <item>#DAD9FF</item>
+        <item>#FFD9FA</item>
+        <item>#DAD9FF</item>
+        <item>#B2CCFF</item>
+        <item>#E7E7E7</item>
+    </string-array>
+
 </resources>

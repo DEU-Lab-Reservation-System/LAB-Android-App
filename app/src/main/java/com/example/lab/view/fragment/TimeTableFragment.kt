@@ -1,19 +1,28 @@
 package com.example.lab.view.fragment
 
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.annotation.RequiresApi
+import androidx.core.view.get
 import androidx.databinding.DataBindingUtil
 import com.example.lab.R
 import com.example.lab.databinding.FragmentTimeTableBinding
+import com.example.lab.utils.CustomTimeTableView
 import com.example.lab.view.bottomsheet.AddClassFragment
+import com.example.lab.view.bottomsheet.ClassInfoFragment
 import com.github.tlaabs.timetableview.Schedule
+import com.github.tlaabs.timetableview.Sticker
 import com.github.tlaabs.timetableview.Time
 import com.github.tlaabs.timetableview.TimetableView
+import java.util.*
+import kotlin.collections.ArrayList
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -46,8 +55,9 @@ class TimeTableFragment : Fragment() {
 
         bind = DataBindingUtil.inflate(inflater, R.layout.fragment_time_table, container, false)
 
-        initTimeTable()
+        initTimeTableSchedule()
         initLabSpinner()
+        addEventToTimeTable()
 
         bind.addClassBtn.setOnClickListener{
             val bottomSheet = AddClassFragment()
@@ -70,21 +80,93 @@ class TimeTableFragment : Fragment() {
         }
     }
 
-    private fun initTimeTable(){
+    private fun addEventToTimeTable(){
+        bind.timetable.setOnStickerSelectEventListener(object : CustomTimeTableView.OnStickerSelectedListener{
+            @RequiresApi(Build.VERSION_CODES.N)
+            override fun OnStickerSelected(idx: Int, schedules: java.util.ArrayList<Schedule>?) {
+                var schedule:ArrayList<Schedule> = bind.timetable.stickers[idx]!!.schedules
+
+
+                val classPlaceInfo = StringJoiner(", ")
+
+                val classTimeInfo = StringBuilder()
+
+                schedule.forEach {
+                    classTimeInfo.append(String.format(" %d %02d:%02d~%02d:%02d", it.day, it.startTime.hour, it.startTime.minute, it.endTime.hour, it.endTime.minute))
+                    classPlaceInfo.add("${it.classPlace}")
+
+                    Log.i("수업 이름", it.classTitle)
+                    Log.i("수업 장소", it.classPlace)
+                    Log.i("담당 교수", it.professorName)
+                    Log.i("요일", "${it.day}")
+                    Log.i("시작 시간", "${it.startTime.hour}")
+                    Log.i("종료 시간", "${it.endTime.hour}")
+                }
+
+                val bottomSheet = ClassInfoFragment()
+                var args = Bundle()
+
+                args.apply {
+                    putInt("index", idx)
+                    putString("classTitle", schedule[0].classTitle)
+                    putString("professor", schedule[0].professorName)
+                    putString("classTime", classTimeInfo.toString())
+                    putString("classPlace", classPlaceInfo.toString())
+                }
+
+                bottomSheet.arguments = args
+                bottomSheet.show(parentFragmentManager, bottomSheet.tag)
+
+
+                /** 시간표 수정 코드
+                 *  edit : bind.timetable.stickers[idx]의 schedules를 다시 그려줌
+                 *  즉, 수정하려면 기존의 수업(schedule)을 다 불러와서 변경할 부분만 바꾼 후 다시 다 넣어주면 됨
+                 *
+                schedules!!.add(bind.timetable.stickers[idx]!!.schedules[0].apply {
+                    classTitle = "수정 됨"
+                })
+
+                bind.timetable.edit(idx, schedules)
+                */
+                
+//                Log.i("수업 장소", schedules[idx].classPlace)
+//                Log.i("담당 교수", schedules[idx].professorName)
+//                Log.i("수업 요일", "${schedules[idx].day}")
+//                Log.i("수업 시작 시간", schedules[idx].startTime.toString())
+//                Log.i("수업 종료 시간", schedules[idx].endTime.toString())
+            }
+        })
+    }
+
+    private fun initTimeTableSchedule(){
         var schedules:ArrayList<Schedule> = arrayListOf()
 
-        schedules.add(createSchedule("객체지향모델링", "912", "장희숙", 0, Time(9, 0), Time(11, 0)))
-        schedules.add(createSchedule("객체지향모델링", "915", "장희숙", 2, Time(11, 0), Time(13, 0)))
+        schedules.add(createSchedule("객체지향모델링", "정보공학관 912", "장희숙", 0, Time(9, 0), Time(11, 0)))
+        schedules.add(createSchedule("객체지향모델링", "정보공학관 915", "장희숙", 2, Time(11, 0), Time(13, 0)))
         bind.timetable.add(schedules)
         schedules.clear()
 
-        schedules.add(createSchedule("데이터베이스 응용", "914", "이중화", 1, Time(13, 0), Time(15, 0)))
-        schedules.add(createSchedule("데이터베이스 응용", "915", "이중화", 2, Time(9, 0), Time(11, 0)))
+        schedules.add(createSchedule("데이터베이스 응용", "정보공학관 914", "이중화", 1, Time(13, 0), Time(15, 0)))
+        schedules.add(createSchedule("데이터베이스 응용", "정보공학관 915", "이중화", 2, Time(9, 0), Time(11, 0)))
         bind.timetable.add(schedules)
         schedules.clear()
 
-        schedules.add(createSchedule("컴퓨터알고리즘", "914", "권오준", 0, Time(12, 0), Time(13, 0)))
-        schedules.add(createSchedule("컴퓨터알고리즘", "915", "권오준", 3, Time(9, 0), Time(11, 0)))
+        schedules.add(createSchedule("컴퓨터알고리즘", "정보공학관 914", "권오준", 0, Time(12, 0), Time(13, 0)))
+        schedules.add(createSchedule("컴퓨터알고리즘", "정보공학관 915", "권오준", 3, Time(9, 0), Time(11, 0)))
+        bind.timetable.add(schedules)
+        schedules.clear()
+
+        schedules.add(createSchedule("컴퓨터알고리즘", "정보공학관 914", "권오준", 0, Time(13, 0), Time(15, 0)))
+        schedules.add(createSchedule("컴퓨터알고리즘", "정보공학관 915", "권오준", 1, Time(9, 0), Time(11, 0)))
+        bind.timetable.add(schedules)
+        schedules.clear()
+
+        schedules.add(createSchedule("컴퓨터알고리즘", "정보공학관 914", "권오준", 4, Time(9, 0), Time(13, 0)))
+        schedules.add(createSchedule("컴퓨터알고리즘", "정보공학관 915", "권오준", 3, Time(12, 0), Time(14, 0)))
+        bind.timetable.add(schedules)
+        schedules.clear()
+
+        schedules.add(createSchedule("동아리캡스톤", "정보공학관 914", "박유현", 4, Time(15, 0), Time(17, 0)))
         bind.timetable.add(schedules)
         schedules.clear()
     }
