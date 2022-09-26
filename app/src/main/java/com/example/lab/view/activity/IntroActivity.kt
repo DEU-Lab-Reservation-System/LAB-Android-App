@@ -26,7 +26,7 @@ class IntroActivity : AppCompatActivity(), View.OnTouchListener{
 
         vFlipper.setOnTouchListener(this)
         learnMoreBtn.setOnClickListener {
-            val intent = Intent(applicationContext, MainActivity::class.java)
+            val intent = Intent(applicationContext, LoginActivity::class.java)
 
             startActivity(intent) //intent 에 명시된 액티비티로 이동
             finish() //현재 액티비티 종료
