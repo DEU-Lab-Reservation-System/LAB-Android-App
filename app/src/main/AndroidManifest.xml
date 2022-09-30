@@ -15,6 +15,9 @@
         android:theme="@style/Theme.LAB"
         tools:targetApi="31">
         <activity
+            android:name=".view.activity.TokenActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.activity.LoginActivity"
             android:exported="false" />
         <activity

@@ -17,7 +17,7 @@ class LoginActivity : AppCompatActivity() {
         setContentView(bind.root)
 
         bind.signInBtn.setOnClickListener {
-            val intent = Intent(applicationContext, MainActivity::class.java)
+            val intent = Intent(applicationContext, TokenActivity::class.java)
 
             startActivity(intent) //intent 에 명시된 액티비티로 이동
             finish() //현재 액티비티 종료
