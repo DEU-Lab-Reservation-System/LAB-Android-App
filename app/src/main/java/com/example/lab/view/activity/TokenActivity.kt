@@ -25,7 +25,7 @@ class TokenActivity : AppCompatActivity() {
     // VARIABLE
     private lateinit var bind: ActivityTokenBinding
     private val tokenList: ArrayList<TextInputEditText> = arrayListOf()
-    private var token: StringBuilder = StringBuilder()
+    private var token: CharArray = CharArray(6) {' '}
     private var focusIdx:Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,48 +43,56 @@ class TokenActivity : AppCompatActivity() {
         addEditTextEvent()
     }
 
+    private val textWatcher = object : TextWatcher{
+        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+        }
+
+        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            if(p0!!.isEmpty()) return
+
+            token[focusIdx] = p0!![0]
+
+            if(focusIdx == tokenList.size-1){
+                Toast.makeText(applicationContext, "${token[0]}${token[1]}${token[2]}${token[3]}${token[4]}${token[5]}", Toast.LENGTH_SHORT).show()
+                return
+            }
+
+            focusToNext()
+        }
+
+        override fun afterTextChanged(p0: Editable?) {
+
+        }
+
+    }
+
+    /** 키 다운 이벤트 */
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         if(keyCode == KeyEvent.KEYCODE_DEL) focusToPrevious()
 
         return true
     }
 
-    private val textWatcher = object : TextWatcher{
-        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-        }
-
-        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            if(p0!!.isEmpty()) focusToPrevious()
-            else {
-                focusToNext()
-                return
-            }
-        }
-
-        override fun afterTextChanged(p0: Editable?) {
-        }
-
-    }
-
+    /** EditText 이벤트 등록 */
     private fun addEditTextEvent() {
         for (i in 0 until tokenList.size){
-            Log.i("이벤트 등록", tokenList[i].toString())
-
             tokenList[i].addTextChangedListener(textWatcher)
         }
     }
 
+    /** 이전 Edittext로 포커스 이동 */
     private fun focusToPrevious(){
         if(focusIdx == 0) return
 
-        tokenList[--focusIdx].requestFocus()
+        focusIdx--
+
+        tokenList[focusIdx].requestFocus()
+        tokenList[focusIdx].text = null
     }
 
+    /** 다음 Edittext로 포커스 이동 */
     private fun focusToNext(){
-        if(focusIdx == tokenList.size-1) {
-            Toast.makeText(applicationContext, "토큰 입력 완료", Toast.LENGTH_SHORT).show()
-            return
-        }
+        if(focusIdx == tokenList.size-1) return
 
         tokenList[++focusIdx].requestFocus()
     }
