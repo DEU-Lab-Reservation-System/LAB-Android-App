@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.lab.R
+import com.example.lab.application.MyApplication
 import com.example.lab.databinding.ActivityLoginBinding
 import com.example.lab.databinding.ActivityMainBinding
 import com.example.lab.viewmodel.LoginViewModel
@@ -50,11 +51,18 @@ class LoginActivity : AppCompatActivity() {
         }
 
         /** 로그인 성공 시 */
-        loginViewModel.loginUser.observe(this, Observer{
-            val intent = Intent(applicationContext, TokenActivity::class.java)
+        loginViewModel.loginFlag.observe(this, Observer{
+            // 인증이 되지 않은 사용자면 토큰 입력 화면으로 이동
+            MyApplication.member?.let {
+                val intent = if(MyApplication.member?.isAuth == false){
+                    Intent(applicationContext, TokenActivity::class.java)
+                } else {
+                    Intent(applicationContext, MainActivity::class.java)
+                }
 
-            startActivity(intent) //intent 에 명시된 액티비티로 이동
-            finish() //현재 액티비티 종료
+                startActivity(intent) //intent 에 명시된 액티비티로 이동
+                finish() //현재 액티비티 종료
+            }
         })
 
         /** 로그인 실패 시 */
