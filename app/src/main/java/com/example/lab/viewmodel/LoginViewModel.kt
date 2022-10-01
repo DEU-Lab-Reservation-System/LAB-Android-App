@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.example.lab.application.MyApplication
 import com.example.lab.repository.MemberRepository
 import com.example.lab.utils.Event
+import org.json.JSONObject
 import java.util.concurrent.Executors
 
 class LoginViewModel: ViewModel() {
@@ -26,10 +27,12 @@ class LoginViewModel: ViewModel() {
                 Log.i("로그인 성공", response.body().toString())
             }
             else {
-                error.postValue(Event("입력 값을 확인해주세요."))
+                val errorMessage = JSONObject(response.errorBody()?.string()!!)
+
+                error.postValue(Event(errorMessage.getString("message")))
 
                 Log.e("로그인 실패 Code", "${response.code()}")
-                Log.e("로그인 실패 Message", response.message())
+                Log.e("로그인 실패 Message", errorMessage.getString("message"))
             }
         }
 
