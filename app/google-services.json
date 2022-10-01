@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "980114145203",
+    "project_id": "lab-reservation-system-3e5ba",
+    "storage_bucket": "lab-reservation-system-3e5ba.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:980114145203:android:fff2d95f234c90ea5e15c6",
+        "android_client_info": {
+          "package_name": "com.example.lab"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "980114145203-b7t3nf672rs5tgg7sb2qm9fj6lpm3mu0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQ8K3guoJ0VZ7b2EkgYmJ6XHTiVozS1Wk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "980114145203-b7t3nf672rs5tgg7sb2qm9fj6lpm3mu0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
