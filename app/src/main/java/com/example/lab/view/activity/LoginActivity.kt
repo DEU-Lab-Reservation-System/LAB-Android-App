@@ -3,6 +3,7 @@ package com.example.lab.view.activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.lab.R
@@ -10,6 +11,8 @@ import com.example.lab.application.MyApplication
 import com.example.lab.databinding.ActivityLoginBinding
 import com.example.lab.databinding.ActivityMainBinding
 import com.example.lab.viewmodel.LoginViewModel
+import com.google.firebase.iid.internal.FirebaseInstanceIdInternal
+import com.google.firebase.messaging.FirebaseMessaging
 
 class LoginActivity : AppCompatActivity() {
 
@@ -29,6 +32,8 @@ class LoginActivity : AppCompatActivity() {
 
         login()
     }
+
+
 
     private fun login(){
         /** 로그인 버튼 이벤트 등록 */

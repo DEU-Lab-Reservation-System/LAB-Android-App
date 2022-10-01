@@ -12,8 +12,9 @@ import java.io.IOException
 object MemberRepository {
     private val memberService: MemberService = RetrofitClient.retrofit.create(MemberService::class.java)
 
-    fun login(id: String, password: String): Response<Member>?{
-        val memberCall: Call<Member>? = memberService.login(MemberLoginDto(id, password))
+    /** 로그인 요청 메소드 */
+    fun login(id: String, password: String, deviceToken:String): Response<Member>?{
+        val memberCall: Call<Member>? = memberService.login(MemberLoginDto(id, password, deviceToken))
 
         return try {
             memberCall?.execute()

@@ -4,14 +4,8 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.lab.application.MyApplication
-import com.example.lab.data.entity.Member
-import com.example.lab.data.remote.RetrofitClient
-import com.example.lab.data.remote.service.MemberService
 import com.example.lab.repository.MemberRepository
 import com.example.lab.utils.Event
-import retrofit2.Call
-import retrofit2.Response
-import java.io.IOException
 import java.util.concurrent.Executors
 
 class LoginViewModel: ViewModel() {
@@ -19,10 +13,8 @@ class LoginViewModel: ViewModel() {
     val error = MutableLiveData<Event<String>>()
 
     fun login(id: String, password: String){
-
-
         Executors.newSingleThreadExecutor().execute{
-            val response = MemberRepository.login(id, password)
+            val response = MemberRepository.login(id, password, MyApplication.deviceToken!!)
 
             if(response!!.isSuccessful){
                 val member = response.body()
