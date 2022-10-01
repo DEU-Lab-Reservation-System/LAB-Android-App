@@ -13,6 +13,7 @@ import com.example.lab.databinding.ActivityMainBinding
 import com.example.lab.viewmodel.LoginViewModel
 import com.google.firebase.iid.internal.FirebaseInstanceIdInternal
 import com.google.firebase.messaging.FirebaseMessaging
+import kotlin.math.sign
 
 class LoginActivity : AppCompatActivity() {
 
@@ -31,8 +32,17 @@ class LoginActivity : AppCompatActivity() {
         loginViewModel = ViewModelProvider(this)[LoginViewModel::class.java]
 
         login()
+        signup()
     }
 
+    private fun signup(){
+        bind.signUpBtn.setOnClickListener{
+            val intent = Intent(applicationContext, SignUpActivity::class.java)
+
+            startActivity(intent)
+            finish()
+        }
+    }
 
 
     private fun login(){

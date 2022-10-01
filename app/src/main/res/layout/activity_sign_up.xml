@@ -1,0 +1,613 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:weightSum="1"
+            tools:context=".view.activity.IntroActivity">
+
+            <ViewFlipper
+                android:id="@+id/viewFlipper"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <!-- LAYOUT 회원가입 1 -->
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="70dp"
+                    android:paddingLeft="30dp"
+                    android:paddingRight="30dp">
+
+                    <TextView
+                        android:id="@+id/signup1_text1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/noto_sans_kr_bold"
+                        android:includeFontPadding="false"
+                        android:text="아이디를"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="24dp"
+
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/signup1_text2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/noto_sans_kr_bold"
+                        android:includeFontPadding="false"
+                        android:text="생성해주세요"
+                        android:textColor="@color/natural_navy"
+                        android:textSize="24dp"
+
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/signup1_text1" />
+
+                    <TextView
+                        android:id="@+id/signup1_text3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/noto_sans_kr_bold"
+                        android:includeFontPadding="false"
+                        android:text="아이디"
+                        android:textColor="@color/natural_navy"
+                        android:textSize="14dp"
+
+                        app:layout_constraintBottom_toTopOf="@+id/idEditText"
+                        app:layout_constraintLeft_toLeftOf="parent" />
+
+                    <!-- 아이디 입력 필드 -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/idEditText"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="50dp"
+
+                        app:boxStrokeColor="@color/colorAccent"
+                        app:hintTextColor="@color/colorAccent"
+
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/signup1_text2">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="45dp"
+
+                            android:fontFamily="@font/poppins_regular"
+                            android:includeFontPadding="false"
+                            android:maxLines="1"
+
+                            android:padding="0dp"
+                            android:singleLine="true"
+                            android:textColor="@color/colorAccent"
+                            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:background="#00FFFFFF"
+                        android:fontFamily="@font/noto_sans_kr_medium"
+                        android:minWidth="0dp"
+
+                        android:minHeight="0dp"
+                        android:text="중복 확인"
+
+                        android:textColor="@color/colorAccent"
+                        android:textSize="14dp"
+
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/idEditText" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+                <!-- LAYOUT END 회원가입 1 -->
+
+                <!-- LAYOUT 회원가입 2 -->
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="70dp"
+                    android:paddingLeft="30dp"
+                    android:paddingRight="30dp">
+
+                    <TextView
+                        android:id="@+id/signup2_text1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/noto_sans_kr_bold"
+                        android:includeFontPadding="false"
+                        android:text="비밀번호를"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="24dp"
+
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/signup2_text2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/noto_sans_kr_bold"
+                        android:includeFontPadding="false"
+                        android:text="생성해주세요"
+                        android:textColor="@color/natural_navy"
+                        android:textSize="24dp"
+
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/signup2_text1" />
+
+                    <TextView
+                        android:id="@+id/signup2_text3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:fontFamily="@font/poppins_regular"
+                        android:includeFontPadding="false"
+
+                        android:text="영문과 숫자를 포함한 6자 이상이어야 합니다."
+                        android:textColor="@color/natural_navy"
+                        android:textSize="16dp"
+
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/signup2_text2" />
+
+                    <TextView
+                        android:id="@+id/signup2_text4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/noto_sans_kr_bold"
+                        android:includeFontPadding="false"
+                        android:text="비밀번호"
+                        android:textColor="@color/natural_navy"
+                        android:textSize="14dp"
+
+                        app:layout_constraintBottom_toTopOf="@+id/pwEditText"
+                        app:layout_constraintLeft_toLeftOf="parent" />
+
+                    <!-- 비밀번호 입력 필드 -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/pwEditText"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="50dp"
+
+                        app:boxStrokeColor="@color/colorAccent"
+                        app:hintTextColor="@color/colorAccent"
+
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/signup2_text3">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="45dp"
+
+                            android:fontFamily="@font/poppins_regular"
+                            android:includeFontPadding="false"
+                            android:maxLines="1"
+
+                            android:padding="0dp"
+                            android:singleLine="true"
+                            android:textColor="@color/colorAccent"
+                            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                    <TextView
+                        android:id="@+id/signup2_text5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/noto_sans_kr_bold"
+                        android:includeFontPadding="false"
+                        android:text="비밀번호 확인"
+                        android:textColor="@color/natural_navy"
+                        android:textSize="14dp"
+
+                        app:layout_constraintBottom_toTopOf="@+id/pwConfirmEditText"
+                        app:layout_constraintLeft_toLeftOf="parent" />
+
+                    <!-- 비밀번호 입력 필드 -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/pwConfirmEditText"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="50dp"
+
+                        app:boxStrokeColor="@color/colorAccent"
+                        app:hintTextColor="@color/colorAccent"
+
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/pwEditText">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="45dp"
+
+                            android:fontFamily="@font/poppins_regular"
+                            android:includeFontPadding="false"
+                            android:maxLines="1"
+
+                            android:padding="0dp"
+                            android:singleLine="true"
+                            android:textColor="@color/colorAccent"
+                            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+                <!-- LAYOUT END 회원가입 2 -->
+
+                <!-- LAYOUT 회원가입 3 -->
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="70dp"
+                    android:paddingLeft="30dp"
+                    android:paddingRight="30dp">
+
+                    <TextView
+                        android:id="@+id/signup3_text1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/noto_sans_kr_bold"
+                        android:includeFontPadding="false"
+                        android:text="회원 정보를"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="24dp"
+
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/signup3_text2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/noto_sans_kr_bold"
+                        android:includeFontPadding="false"
+                        android:text="입력해주세요"
+                        android:textColor="@color/natural_navy"
+                        android:textSize="24dp"
+
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/signup3_text1" />
+
+                    <TextView
+                        android:id="@+id/signup3_text3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/noto_sans_kr_bold"
+                        android:includeFontPadding="false"
+                        android:text="이름"
+                        android:textColor="@color/natural_navy"
+                        android:textSize="14dp"
+
+                        app:layout_constraintBottom_toTopOf="@+id/nameEditText"
+                        app:layout_constraintLeft_toLeftOf="parent" />
+
+                    <!-- LAYOUT 이름 입력 필드 -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/nameEditText"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="50dp"
+
+                        app:boxStrokeColor="@color/colorAccent"
+                        app:hintTextColor="@color/colorAccent"
+
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/signup3_text2">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="45dp"
+
+                            android:fontFamily="@font/poppins_regular"
+                            android:includeFontPadding="false"
+                            android:maxLines="1"
+
+                            android:padding="0dp"
+                            android:singleLine="true"
+                            android:textColor="@color/colorAccent"
+                            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <!-- LAYOUT END 이름 입력 필드 -->
+
+                    <TextView
+                        android:id="@+id/signup3_text4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/noto_sans_kr_bold"
+                        android:includeFontPadding="false"
+                        android:text="학번"
+                        android:textColor="@color/natural_navy"
+                        android:textSize="14dp"
+
+                        app:layout_constraintBottom_toTopOf="@+id/numberEditText"
+                        app:layout_constraintLeft_toLeftOf="parent" />
+
+                    <!-- LAYOUT 학번 입력 필드 -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/numberEditText"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="40dp"
+
+                        app:boxStrokeColor="@color/colorAccent"
+                        app:hintTextColor="@color/colorAccent"
+
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/nameEditText">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="45dp"
+
+                            android:fontFamily="@font/poppins_regular"
+                            android:includeFontPadding="false"
+                            android:maxLines="1"
+
+                            android:padding="0dp"
+                            android:singleLine="true"
+                            android:textColor="@color/colorAccent"
+                            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <!-- LAYOUT END 학번 입력 필드 -->
+
+                    <TextView
+                        android:id="@+id/signup3_text5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/noto_sans_kr_bold"
+                        android:includeFontPadding="false"
+                        android:text="학과"
+                        android:textColor="@color/natural_navy"
+                        android:textSize="14dp"
+
+                        app:layout_constraintBottom_toTopOf="@+id/majorEditText"
+                        app:layout_constraintLeft_toLeftOf="parent" />
+
+                    <!-- LAYOUT 학과 입력 필드 -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/majorEditText"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="40dp"
+
+                        app:boxStrokeColor="@color/colorAccent"
+                        app:hintTextColor="@color/colorAccent"
+
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/numberEditText">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="45dp"
+
+                            android:fontFamily="@font/poppins_regular"
+                            android:includeFontPadding="false"
+                            android:maxLines="1"
+
+                            android:padding="0dp"
+                            android:singleLine="true"
+                            android:textColor="@color/colorAccent"
+                            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <!-- LAYOUT END 학과 입력 필드 -->
+
+                    <TextView
+                        android:id="@+id/signup3_text6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/noto_sans_kr_bold"
+                        android:includeFontPadding="false"
+                        android:text="이메일"
+                        android:textColor="@color/natural_navy"
+                        android:textSize="14dp"
+
+                        app:layout_constraintBottom_toTopOf="@+id/emailEditText"
+                        app:layout_constraintLeft_toLeftOf="parent" />
+
+                    <!-- LAYOUT 이메일 입력 필드 -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/emailEditText"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="40dp"
+
+                        app:boxStrokeColor="@color/colorAccent"
+                        app:hintTextColor="@color/colorAccent"
+
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/majorEditText">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="45dp"
+
+                            android:fontFamily="@font/poppins_regular"
+                            android:hint="example@deu.ac.kr"
+                            android:includeFontPadding="false"
+                            android:maxLines="1"
+
+                            android:padding="0dp"
+                            android:singleLine="true"
+                            android:textColor="@color/colorAccent"
+                            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <!-- LAYOUT END 이메일 입력 필드 -->
+
+                    <TextView
+                        android:id="@+id/signup3_text7"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30dp"
+                        android:fontFamily="@font/noto_sans_kr_bold"
+                        android:includeFontPadding="false"
+                        android:text="회원 유형"
+                        android:textColor="@color/natural_navy"
+                        android:textSize="14dp"
+
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/emailEditText" />
+
+                    <TextView
+                        android:id="@+id/signup3_text8"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/noto_sans_kr_regular"
+                        android:includeFontPadding="false"
+                        android:text="휴학생과 졸업생의 경우 일부 기능이 제한될 수 있습니다."
+                        android:textColor="@color/semi_gray"
+                        android:textSize="10dp"
+
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/signup3_text7" />
+
+
+                    <RadioGroup
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:orientation="horizontal"
+                        android:weightSum="4"
+                        app:layout_constraintTop_toBottomOf="@id/signup3_text8">
+
+                        <RadioButton
+                            android:id="@+id/student"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="10dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/selector_radio_button"
+
+                            android:button="@null"
+                            android:checked="true"
+                            android:fontFamily="@font/noto_sans_kr_regular"
+                            android:includeFontPadding="false"
+                            android:paddingLeft="10dp"
+                            android:paddingTop="7dp"
+
+
+                            android:paddingRight="10dp"
+                            android:paddingBottom="7dp"
+                            android:text="재학생"
+                            android:textAlignment="center"
+
+                            android:textColor="@drawable/selector_radio_text"
+                            android:textSize="12dp" />
+
+                        <RadioButton
+                            android:id="@+id/leave"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="10dp"
+                            android:layout_weight="1"
+
+                            android:background="@drawable/selector_radio_button"
+                            android:button="@null"
+                            android:fontFamily="@font/noto_sans_kr_regular"
+                            android:includeFontPadding="false"
+                            android:paddingLeft="10dp"
+                            android:paddingTop="7dp"
+
+
+                            android:paddingRight="10dp"
+                            android:paddingBottom="7dp"
+                            android:text="휴학생"
+                            android:textAlignment="center"
+
+                            android:textColor="@drawable/selector_radio_text"
+                            android:textSize="12dp" />
+
+                        <RadioButton
+                            android:id="@+id/graduate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="10dp"
+                            android:layout_weight="1"
+
+                            android:background="@drawable/selector_radio_button"
+                            android:button="@null"
+                            android:fontFamily="@font/noto_sans_kr_regular"
+                            android:includeFontPadding="false"
+                            android:paddingLeft="10dp"
+                            android:paddingTop="7dp"
+
+
+                            android:paddingRight="10dp"
+                            android:paddingBottom="7dp"
+                            android:text="졸업생"
+                            android:textAlignment="center"
+
+                            android:textColor="@drawable/selector_radio_text"
+                            android:textSize="12dp" />
+
+                        <RadioButton
+                            android:id="@+id/admin"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+
+                            android:background="@drawable/selector_radio_button"
+                            android:button="@null"
+                            android:fontFamily="@font/noto_sans_kr_regular"
+                            android:includeFontPadding="false"
+                            android:paddingLeft="10dp"
+                            android:paddingTop="7dp"
+
+
+                            android:paddingRight="10dp"
+                            android:paddingBottom="7dp"
+                            android:text="관리자"
+                            android:textAlignment="center"
+
+                            android:textColor="@drawable/selector_radio_text"
+                            android:textSize="12dp" />
+                    </RadioGroup>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+                <!-- LAYOUT END 회원가입 3 -->
+
+            </ViewFlipper>
+
+            <Button
+                android:id="@id/nextBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:background="@color/colorAccent"
+                android:fontFamily="@font/noto_sans_kr_bold"
+                android:text="다음"
+
+                android:textColor="@color/white"
+                android:textSize="18dp" />
+
+        </LinearLayout>
+    </ScrollView>
+</layout>
