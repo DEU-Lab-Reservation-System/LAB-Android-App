@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.lab.data.responseDto.TokenResponseDto
 import com.example.lab.repository.TokenRepository
+import com.example.lab.utils.Event
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -14,6 +15,7 @@ import java.util.concurrent.Executors
 
 class TokenViewModel : ViewModel() {
     val tokenFlag = MutableLiveData<Boolean>(false)
+    val error = MutableLiveData<Event<String>>()
 
     fun checkToken(userId: String, inputToken:String){
         // 코루틴 생성
@@ -25,7 +27,8 @@ class TokenViewModel : ViewModel() {
                 
                 Log.i("토큰 검증 성공", "${response.body()}")
             }else{
-                tokenFlag.postValue(false)
+                error.postValue(Event("토큰이 유효하지 않습니다."))
+
                 val errorMessage = JSONObject(response.errorBody()?.string())
 
                 Log.i("토큰 검증 실패 Code", "${response.code()}")

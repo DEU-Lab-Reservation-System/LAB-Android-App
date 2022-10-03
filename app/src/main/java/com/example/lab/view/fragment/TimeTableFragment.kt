@@ -13,6 +13,8 @@ import androidx.annotation.RequiresApi
 import androidx.core.view.get
 import androidx.databinding.DataBindingUtil
 import com.example.lab.R
+import com.example.lab.data.entity.Lecture
+import com.example.lab.databinding.BottomsheetAddClassBinding
 import com.example.lab.databinding.FragmentTimeTableBinding
 import com.example.lab.utils.CustomTimeTableView
 import com.example.lab.utils.DayManager
@@ -42,6 +44,7 @@ class TimeTableFragment : Fragment() {
 
     // VARIABLE
     private lateinit var bind:FragmentTimeTableBinding
+    private lateinit var addClassBind:BottomsheetAddClassBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,15 +58,13 @@ class TimeTableFragment : Fragment() {
         // Inflate the layout for this fragment
 
         bind = DataBindingUtil.inflate(inflater, R.layout.fragment_time_table, container, false)
+        addClassBind = DataBindingUtil.inflate(inflater, R.layout.bottomsheet_add_class, container, false)
 
         initTimeTableSchedule()
         initLabSpinner()
-        addEventToTimeTable()
+        addClickEventToSticker()
+        addClassBtnEventListener()
 
-        bind.addClassBtn.setOnClickListener{
-            val bottomSheet = AddClassFragment()
-            bottomSheet.show(parentFragmentManager, bottomSheet.tag)
-        }
 
         return bind.root
     }
@@ -81,15 +82,33 @@ class TimeTableFragment : Fragment() {
         }
     }
 
-    private fun addEventToTimeTable(){
+    /** 수업 추가 버튼 이벤트
+     * AddClassFragment (바텀 시트)의 인터페이스를 해당 프래그먼트에서 구현함으로써 데이터를 전달 받음 
+     */
+    private fun addClassBtnEventListener(){
+        bind.addClassBtn.setOnClickListener{
+            val bottomSheet = AddClassFragment()
+            bottomSheet.show(parentFragmentManager, bottomSheet.tag)
+
+            bottomSheet.dataReciever = object : AddClassFragment.BottomSheedDataReciever{
+                override fun setClassDatas(lectureList: ArrayList<Lecture>) {
+                    lectureList.forEach{
+                        Log.i("수업 정보", it.toString())
+                    }
+                }
+            }
+        }
+    }
+
+    /** 시간표 스티커(수업) 클릭 이벤트 등록 메소드 */
+    private fun addClickEventToSticker(){
+        /** 시간표 스티커 클릭 이벤트 (수업 정보 출력) */
         bind.timetable.setOnStickerSelectEventListener(object : CustomTimeTableView.OnStickerSelectedListener{
             @RequiresApi(Build.VERSION_CODES.N)
             override fun OnStickerSelected(idx: Int, schedules: java.util.ArrayList<Schedule>?) {
                 var schedule:ArrayList<Schedule> = bind.timetable.stickers[idx]!!.schedules
 
-
                 val classPlaceInfo = StringJoiner(", ")
-
                 val classTimeInfo = StringBuilder()
 
                 schedule.forEach {
@@ -129,16 +148,11 @@ class TimeTableFragment : Fragment() {
 
                 bind.timetable.edit(idx, schedules)
                 */
-                
-//                Log.i("수업 장소", schedules[idx].classPlace)
-//                Log.i("담당 교수", schedules[idx].professorName)
-//                Log.i("수업 요일", "${schedules[idx].day}")
-//                Log.i("수업 시작 시간", schedules[idx].startTime.toString())
-//                Log.i("수업 종료 시간", schedules[idx].endTime.toString())
             }
         })
     }
 
+    /** 시간표 초기화 메소드 */
     private fun initTimeTableSchedule(){
         var schedules:ArrayList<Schedule> = arrayListOf()
 

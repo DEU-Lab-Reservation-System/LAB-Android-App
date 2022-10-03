@@ -1,4 +1,6 @@
 package com.example.lab.viewmodel
 
-class LectureViewModel {
+import androidx.lifecycle.ViewModel
+
+class LectureViewModel : ViewModel() {
 }

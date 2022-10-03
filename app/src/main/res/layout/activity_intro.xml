@@ -55,7 +55,7 @@
                 />
 
             <TextView
-                android:id="@+id/intro1_text3"
+                android:id="@+id/explainText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
@@ -83,7 +83,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/intro1_text3"
+                app:layout_constraintTop_toBottomOf="@id/explainText"
                 app:layout_constraintVertical_bias="0.4" />
         </androidx.constraintlayout.widget.ConstraintLayout>
         <!-- LAYOUT END 인트로 1 -->

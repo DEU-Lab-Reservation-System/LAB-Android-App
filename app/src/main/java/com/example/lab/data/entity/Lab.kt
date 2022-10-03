@@ -14,13 +14,6 @@ class Lab {
     private val id: Long? = null
 
     /**
-     * 실습실에 열리는 강의 목록
-     */
-    @Expose
-    @SerializedName("lectures")
-    private val lectures: List<Lecture>? = null
-
-    /**
      * 실습실 호수 (방번호)
      */
     @Expose
@@ -33,4 +26,11 @@ class Lab {
     @Expose
     @SerializedName("capacity")
     private val capacity: Int? = null
+
+    /**
+     * 실습실에 열리는 강의 목록
+     */
+    @Expose
+    @SerializedName("lectures")
+    private val lectures: List<Lecture>? = null
 }

@@ -47,7 +47,7 @@
                 app:layout_constraintTop_toBottomOf="@id/intro1_text1" />
 
             <TextView
-                android:id="@+id/intro1_text3"
+                android:id="@+id/explainText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
@@ -67,7 +67,7 @@
                 android:layout_marginTop="20dp"
                 android:orientation="horizontal"
                 android:weightSum="6"
-                app:layout_constraintTop_toBottomOf="@id/intro1_text3">
+                app:layout_constraintTop_toBottomOf="@id/explainText">
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/textInputLayout"

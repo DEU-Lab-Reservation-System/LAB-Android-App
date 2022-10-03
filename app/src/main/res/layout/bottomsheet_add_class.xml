@@ -49,19 +49,19 @@
                     android:textSize="18dp" />
 
                 <Button
-                    android:id="@+id/nextBtn"
+                    android:id="@+id/addClassBtn"
+                    style="?android:attr/borderlessButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:text="확인"
-                    android:textSize="14dp"
-                    android:textColor="@color/colorAccent"
-                    android:fontFamily="@font/poppins_regular"
-                    android:backgroundTint="@color/white"
-                    style="?android:attr/borderlessButtonStyle"
-
                     android:layout_alignParentTop="true"
-                    android:layout_alignParentRight="true"/>
+                    android:layout_alignParentRight="true"
+                    android:layout_gravity="right"
+                    android:backgroundTint="@color/white"
+                    android:fontFamily="@font/poppins_regular"
+                    android:text="확인"
+
+                    android:textColor="@color/colorAccent"
+                    android:textSize="14dp" />
             </RelativeLayout>
             <!-- LAYOUT END 타이틀 레이아웃 -->
 
@@ -89,6 +89,7 @@
                     />
 
                 <EditText
+                    android:id="@+id/titleEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:maxLines="1"
@@ -118,6 +119,7 @@
                     />
 
                 <EditText
+                    android:id="@+id/professorEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:maxLines="1"

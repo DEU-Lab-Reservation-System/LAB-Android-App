@@ -89,6 +89,10 @@ class TokenActivity : AppCompatActivity() {
                 finish()
             }
         }
+
+        tokenVM.error.observe(this){
+            bind.explainText.error = it.contentIfNotHandled()
+        }
     }
 
     /** 키 다운 이벤트 */

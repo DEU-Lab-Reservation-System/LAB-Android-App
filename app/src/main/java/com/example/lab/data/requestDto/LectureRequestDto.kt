@@ -2,7 +2,7 @@ package com.example.lab.data.requestDto
 
 import com.google.gson.annotations.SerializedName
 
-class LectrueRequestDto {
+class LectureRequestDto {
 
     data class Lecture(
         @SerializedName("code")         var code:String,

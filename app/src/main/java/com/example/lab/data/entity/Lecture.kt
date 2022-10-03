@@ -6,71 +6,74 @@ import java.time.LocalDate
 import java.time.LocalTime
 
 
-class Lecture {
+data class Lecture(
     /**
      * primary key로 활용되는 id
      */
     @Expose
     @SerializedName("id")
-    private val id: Long? = null
-
-    @Expose
-    @SerializedName("lab")
-    private val lab: Lab? = null
-
-    /**
-     * 강의의 이름
-     */
-    @Expose
-    @SerializedName("title")
-    private val title: String? = null
-
-    /**
-     * 강의 담당 교수
-     */
-    @Expose
-    @SerializedName("professor")
-    private val professor: String? = null
+    val id: Long? = null,
 
     /**
      * 강의 고유 코드
      */
     @Expose
     @SerializedName("code")
-    private val code: String? = null
+    var code: String? = null,
 
+    /**
+     * 강의의 이름
+     */
+    @Expose
+    @SerializedName("title")
+    var title: String? = null,
+
+    /**
+     * 강의 담당 교수
+     */
+    @Expose
+    @SerializedName("professor")
+    var professor: String? = null,
+
+    /**
+     * 강의실 호수
+     */
+    @Expose
+    @SerializedName("roomNumber")
+    var place: String? = null,
+    
     /**
      * 정규 수업의 경우 개강 날짜
      */
     @Expose
     @SerializedName("startDate")
-    private val startDate: LocalDate? = null
+    var startDate: String? = null,
 
     /**
      * 정규 수업의 경우 종강 날짜
      */
     @Expose
     @SerializedName("endDate")
-    private val endDate: LocalDate? = null
+    var endDate: String? = null,
 
     /**
      * 강의 시작 시간
      */
     @Expose
     @SerializedName("startTime")
-    private val startTime: LocalTime? = null
+    var startTime: String? = null,
 
     /**
      * 강의 종료 시간
      */
     @Expose
     @SerializedName("endTime")
-    private val endTime: LocalTime? = null
+    var endTime: String? = null,
 
     /**
      * 강의 시작 요일
      */
     @Expose
     @SerializedName("day")
-    private val day: String? = null
-}
+    var day: String? = null,
+)
