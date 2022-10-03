@@ -9,5 +9,5 @@ import retrofit2.http.POST
 interface LectureService {
 
     @POST("api/lecture")
-    fun addLecture(@Body lecture:LectureRequestDto.Lecture): Call<Lecture>
+    fun addLecture(@Body lecture:List<LectureRequestDto.Create>): Call<List<Lecture>>
 }

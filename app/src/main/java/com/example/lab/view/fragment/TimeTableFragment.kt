@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter
 import androidx.annotation.RequiresApi
 import androidx.core.view.get
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProvider
 import com.example.lab.R
 import com.example.lab.data.entity.Lecture
 import com.example.lab.databinding.BottomsheetAddClassBinding
@@ -20,6 +21,7 @@ import com.example.lab.utils.CustomTimeTableView
 import com.example.lab.utils.DayManager
 import com.example.lab.view.bottomsheet.AddClassFragment
 import com.example.lab.view.bottomsheet.ClassInfoFragment
+import com.example.lab.viewmodel.LectureViewModel
 import com.github.tlaabs.timetableview.Schedule
 import com.github.tlaabs.timetableview.Sticker
 import com.github.tlaabs.timetableview.Time
@@ -44,7 +46,7 @@ class TimeTableFragment : Fragment() {
 
     // VARIABLE
     private lateinit var bind:FragmentTimeTableBinding
-    private lateinit var addClassBind:BottomsheetAddClassBinding
+    private lateinit var lectureVM:LectureViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,7 +60,8 @@ class TimeTableFragment : Fragment() {
         // Inflate the layout for this fragment
 
         bind = DataBindingUtil.inflate(inflater, R.layout.fragment_time_table, container, false)
-        addClassBind = DataBindingUtil.inflate(inflater, R.layout.bottomsheet_add_class, container, false)
+
+        lectureVM = ViewModelProvider(requireActivity())[LectureViewModel::class.java]
 
         initTimeTableSchedule()
         initLabSpinner()
@@ -83,7 +86,7 @@ class TimeTableFragment : Fragment() {
     }
 
     /** 수업 추가 버튼 이벤트
-     * AddClassFragment (바텀 시트)의 인터페이스를 해당 프래그먼트에서 구현함으로써 데이터를 전달 받음 
+     * AddClassFragment (바텀 시트)의 인터페이스를 해당 프래그먼트에서 구현함으로써 데이터를 전달 받음
      */
     private fun addClassBtnEventListener(){
         bind.addClassBtn.setOnClickListener{
@@ -91,10 +94,13 @@ class TimeTableFragment : Fragment() {
             bottomSheet.show(parentFragmentManager, bottomSheet.tag)
 
             bottomSheet.dataReciever = object : AddClassFragment.BottomSheedDataReciever{
+                @RequiresApi(Build.VERSION_CODES.N)
                 override fun setClassDatas(lectureList: ArrayList<Lecture>) {
                     lectureList.forEach{
                         Log.i("수업 정보", it.toString())
                     }
+
+                    lectureVM.addLecture(lectureList)
                 }
             }
         }

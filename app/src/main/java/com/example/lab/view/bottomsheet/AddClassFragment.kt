@@ -18,6 +18,7 @@ import com.example.lab.R
 import com.example.lab.data.entity.Lecture
 import com.example.lab.databinding.BottomsheetAddClassBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -63,6 +64,7 @@ class AddClassFragment : BottomSheetDialogFragment() {
         layout.layoutParams.height = metrics.heightPixels
     }
 
+    /** 수업 추가 버튼 이벤트 */
     private fun addCreateBtnEvent(){
         bind.addClassBtn.setOnClickListener {
             /**
@@ -94,10 +96,7 @@ class AddClassFragment : BottomSheetDialogFragment() {
             iter.forEach { view ->
                 // 추가 정보 필드 값만 바꿔서 list에 추가
                 lectureList.add(
-                    /**
-                     * copy() 메소드
-                     * lecture 클래스에서 파라미터로 받은 부분만 변경하고 나머지는 그대로 복사해줌 
-                     */
+                    /** copy() 메소드 : lecture 클래스에서 파라미터로 받은 부분만 변경하고 나머지는 그대로 복사해줌 */
                     lecture.copy(
                         day = view.findViewById<Spinner>(R.id.daySelector).selectedItem.toString(),
                         startTime = view.findViewById<EditText>(R.id.startTimeEditText).text.toString(),
@@ -107,7 +106,9 @@ class AddClassFragment : BottomSheetDialogFragment() {
                 )
             }
 
+            // 인터페이스로 데이터 전달
             dataReciever.setClassDatas(lectureList)
+
             dismiss()
         }
     }
@@ -190,7 +191,7 @@ class AddClassFragment : BottomSheetDialogFragment() {
         bind.startDateEditText.setOnClickListener{
 
             val datePickerDialog = DatePickerDialog(requireContext(), { _, year, month, day ->
-                bind.startDateEditText.setText("$year-${month+1}-${day}")
+                bind.startDateEditText.setText(String.format("%d-%02d-%02d",year, month+1, day))
             }, year, month, day)
 
             datePickerDialog.show()
@@ -198,7 +199,7 @@ class AddClassFragment : BottomSheetDialogFragment() {
 
         bind.endDateEditText.setOnClickListener{
             val datePickerDialog = DatePickerDialog(requireContext(), { _, year, month, day ->
-                bind.endDateEditText.setText("$year-${month+1}-${day}")
+                bind.endDateEditText.setText(String.format("%d-%02d-%02d",year, month+1, day))
             }, year, month, day)
 
             datePickerDialog.show()
