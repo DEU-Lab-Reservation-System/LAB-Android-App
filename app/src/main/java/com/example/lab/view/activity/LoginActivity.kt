@@ -1,25 +1,22 @@
 package com.example.lab.view.activity
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import android.view.KeyEvent
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.lab.R
 import com.example.lab.application.MyApplication
 import com.example.lab.databinding.ActivityLoginBinding
-import com.example.lab.databinding.ActivityMainBinding
+import com.example.lab.view.fragment.SignUpFragment
 import com.example.lab.viewmodel.LoginViewModel
-import com.google.firebase.iid.internal.FirebaseInstanceIdInternal
-import com.google.firebase.messaging.FirebaseMessaging
-import kotlin.math.sign
 
 class LoginActivity : AppCompatActivity() {
 
     // VARIABLE
     private lateinit var bind: ActivityLoginBinding
-
     private lateinit var loginViewModel: LoginViewModel
 
 
@@ -31,22 +28,23 @@ class LoginActivity : AppCompatActivity() {
 
         loginViewModel = ViewModelProvider(this)[LoginViewModel::class.java]
 
-        login()
-        signup()
+        addLoginBtnEvent()
+        addSignUpBtnEvent()
     }
 
-    private fun signup(){
+    /** 회원가입 버튼 이벤트 등록 */
+    private fun addSignUpBtnEvent(){
         bind.signUpBtn.setOnClickListener{
-            val intent = Intent(applicationContext, SignUpActivity::class.java)
-
-            startActivity(intent)
-            finish()
+            supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.parentLayout, SignUpFragment())
+                .addToBackStack(null)
+                .commit()
         }
     }
 
-
-    private fun login(){
-        /** 로그인 버튼 이벤트 등록 */
+    /** 로그인 버튼 이벤트 등록 */
+    private fun addLoginBtnEvent(){
         bind.signInBtn.setOnClickListener {
             val id = bind.idEditText.editText?.text.toString()
             val pw = bind.pwEditText.editText?.text.toString()
@@ -69,7 +67,7 @@ class LoginActivity : AppCompatActivity() {
         loginViewModel.loginFlag.observe(this, Observer{
             // 인증이 되지 않은 사용자면 토큰 입력 화면으로 이동
             MyApplication.member?.let {
-                val intent = if(MyApplication.member?.isAuth == false){
+                val intent = if(!it.isAuth){
                     Intent(applicationContext, TokenActivity::class.java)
                 } else {
                     Intent(applicationContext, MainActivity::class.java)
@@ -82,8 +80,29 @@ class LoginActivity : AppCompatActivity() {
 
         /** 로그인 실패 시 */
         loginViewModel.error.observe(this) {
-            val errorMessage = it.contentIfNotHandled()
-            bind.pwEditText.error = errorMessage
+            bind.pwEditText.error = it.contentIfNotHandled()
         }
+    }
+
+
+    /** 뒤로가기 버튼 클릭 이벤트 */
+    private val limitTime = 1000        // 뒤로가기 버튼 누르는 제한시간
+    private var pressTime:Long = 0L     // 누른 시점
+
+    override fun onBackPressed() {
+        val now = System.currentTimeMillis()
+        val interval = now - pressTime
+
+        if(interval in 0..limitTime) {
+            finish()
+        }
+        else{
+            pressTime = now
+            Toast.makeText(applicationContext, "한 번 더 누르면 앱이 종료됩니다.", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        return super.onKeyDown(keyCode, event)
     }
 }

@@ -3,6 +3,7 @@ package com.example.lab.application
 import android.app.Application
 import android.content.Context
 import android.util.Log
+import android.widget.Toast
 import com.example.lab.data.entity.Member
 import com.google.firebase.FirebaseApp
 import com.google.firebase.messaging.FirebaseMessaging
