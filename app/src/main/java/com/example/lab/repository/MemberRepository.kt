@@ -1,7 +1,6 @@
 package com.example.lab.repository
 
-import android.util.Log
-import com.example.lab.data.dto.MemberLoginDto
+import com.example.lab.data.requestDto.MemberRequestDto
 import com.example.lab.data.entity.Member
 import com.example.lab.data.remote.RetrofitClient
 import com.example.lab.data.remote.service.MemberService
@@ -14,7 +13,7 @@ object MemberRepository {
 
     /** 로그인 요청 메소드 */
     fun login(id: String, password: String, deviceToken:String): Response<Member>?{
-        val memberCall: Call<Member>? = memberService.login(MemberLoginDto(id, password, deviceToken))
+        val memberCall: Call<Member>? = memberService.login(MemberRequestDto.Login(id, password, deviceToken))
 
         return try {
             memberCall?.execute()
