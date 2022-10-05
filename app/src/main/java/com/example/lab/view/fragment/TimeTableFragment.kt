@@ -63,9 +63,18 @@ class TimeTableFragment : Fragment() {
         initLabSpinner()
         addClickEventToSticker()
         addClassBtnEventListener()
-
+        getLectures()
 
         return bind.root
+    }
+
+    private fun getLectures(){
+        lectureVM.getLectures()
+        lectureVM.lectureList.observe(requireActivity()) {
+            it?.forEach { lecture ->
+                Log.i("시간표 정보", lecture.toString())
+            }
+        }
     }
 
     private fun initLabSpinner(){
@@ -96,6 +105,7 @@ class TimeTableFragment : Fragment() {
                         Log.i("수업 정보", it.toString())
                     }
 
+                    // 수업 등록
                     lectureVM.addLecture(lectureList)
                 }
             }
@@ -103,6 +113,7 @@ class TimeTableFragment : Fragment() {
     }
 
     /** 시간표 스티커(수업) 클릭 이벤트 등록 메소드 */
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun addClickEventToSticker(){
         /** 시간표 스티커 클릭 이벤트 (수업 정보 출력) */
         bind.timetable.setOnStickerSelectEventListener(object : CustomTimeTableView.OnStickerSelectedListener{

@@ -25,4 +25,18 @@ object LectureRepository {
         }
     }
 
+    /**
+     * 전체 시간표 조회 메소드
+     */
+    fun getLectures():Response<ArrayList<Lecture>>?{
+        val lectureCall:Call<ArrayList<Lecture>> = lectureService.getLectures()
+
+        return try{
+            lectureCall.execute()
+        } catch (e : IOException){
+            e.printStackTrace()
+            null
+        }
+    }
+
 }
