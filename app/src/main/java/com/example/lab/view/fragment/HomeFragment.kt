@@ -1,5 +1,6 @@
 package com.example.lab.view.fragment
 
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -8,14 +9,20 @@ import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.widget.*
 import android.widget.AdapterView.OnItemClickListener
+import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.example.lab.R
 import com.example.lab.adapter.SeatAdapter
+import com.example.lab.application.MyApplication
+import com.example.lab.data.entity.Reservation
 import com.example.lab.databinding.FragmentHomeBinding
 import com.example.lab.databinding.SubSeatGridviewBinding
+import com.example.lab.utils.DateManager
 import com.example.lab.utils.DensityManager
 import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 
@@ -29,13 +36,13 @@ private const val ARG_PARAM2 = "param2"
  * Use the [HomeFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
+@RequiresApi(Build.VERSION_CODES.O)
 class HomeFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
 
     private lateinit var prevSelectSeat:View
-
 
     // VARIABLE
     private lateinit var bind: FragmentHomeBinding
@@ -65,8 +72,29 @@ class HomeFragment : Fragment() {
         initView()
         initGridView()
         initLabSpinner()
+        setTodayReservation()
 
         return bind.root
+    }
+
+
+    /** 당일 예약 내역 배너 데이터 세팅 */
+    private fun setTodayReservation(){
+        val reserv:Reservation? = MyApplication.member?.reservation
+
+        if(reserv == null){
+            bind.todayReservPlaceTv.text = "예약 내역이 존재하지 않습니다."
+            bind.todayReservTimeTv.text = "00:00 - 00:00"
+            bind.todayReservSeatTv.text = "-번 좌석"
+            return
+        }
+
+        val startTime = reserv.startTime?.let { DateManager.dateParse(it) }
+        val endTime = reserv.endTime?.let { DateManager.dateParse(it) }
+
+        bind.todayReservPlaceTv.text = "정보공학관 ${reserv.roomNumber}호"
+        bind.todayReservTimeTv.text = "$startTime - $endTime"
+        bind.todayReservSeatTv.text = "${reserv.seatNum}번 좌석"
     }
 
     private fun initView(){

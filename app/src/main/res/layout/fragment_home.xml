@@ -60,6 +60,7 @@
                             android:textSize="16sp" />
 
                         <TextView
+                            android:id="@+id/todayReservPlaceTv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/noto_sans_kr_medium"
@@ -93,39 +94,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:gravity="center"
                     android:layout_marginTop="20dp"
                     android:orientation="horizontal"
                     android:weightSum="2">
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="horizontal">
-
-                        <View
-                            android:layout_width="16dp"
-                            android:layout_height="16dp"
-                            android:layout_marginRight="10dp"
-                            android:background="@drawable/ic_calendar" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/poppins_regular"
-                            android:includeFontPadding="false"
-                            android:text="Sunday, 12 June"
-                            android:textColor="@color/natural_navy"
-                            android:textSize="12sp"
-                            />
-
-                    </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+
                         android:gravity="center"
                         android:orientation="horizontal">
 
@@ -136,6 +114,7 @@
                             android:background="@drawable/ic_clock" />
 
                         <TextView
+                            android:id="@+id/todayReservTimeTv"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/poppins_regular"
@@ -146,6 +125,37 @@
                             />
 
                     </LinearLayout>
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <View
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:layout_marginRight="10dp"
+                            android:background="@drawable/ic_grid" />
+
+                        <TextView
+                            android:id="@+id/todayReservSeatTv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/poppins_regular"
+                            android:includeFontPadding="false"
+                            android:text="11번 좌석"
+                            android:textColor="@color/natural_navy"
+                            android:textSize="12sp"
+                            />
+
+                    </LinearLayout>
+
                 </LinearLayout>
             </LinearLayout>
             <!-- LAYOUT END 오늘의 예약 레이아웃 -->

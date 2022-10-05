@@ -10,22 +10,18 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.annotation.RequiresApi
-import androidx.core.view.get
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.example.lab.R
 import com.example.lab.data.entity.Lecture
-import com.example.lab.databinding.BottomsheetAddClassBinding
 import com.example.lab.databinding.FragmentTimeTableBinding
 import com.example.lab.utils.CustomTimeTableView
-import com.example.lab.utils.DayManager
+import com.example.lab.utils.DateManager
 import com.example.lab.view.bottomsheet.AddClassFragment
 import com.example.lab.view.bottomsheet.ClassInfoFragment
 import com.example.lab.viewmodel.LectureViewModel
 import com.github.tlaabs.timetableview.Schedule
-import com.github.tlaabs.timetableview.Sticker
 import com.github.tlaabs.timetableview.Time
-import com.github.tlaabs.timetableview.TimetableView
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -118,7 +114,7 @@ class TimeTableFragment : Fragment() {
                 val classTimeInfo = StringBuilder()
 
                 schedule.forEach {
-                    classTimeInfo.append(String.format(" %s %02d:%02d~%02d:%02d", DayManager.day(it.day), it.startTime.hour, it.startTime.minute, it.endTime.hour, it.endTime.minute))
+                    classTimeInfo.append(String.format(" %s %02d:%02d~%02d:%02d", DateManager.day(it.day), it.startTime.hour, it.startTime.minute, it.endTime.hour, it.endTime.minute))
                     classPlaceInfo.add("${it.classPlace}")
 
                     Log.i("수업 이름", it.classTitle)
