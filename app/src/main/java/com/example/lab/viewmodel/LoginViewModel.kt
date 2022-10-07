@@ -29,10 +29,10 @@ class LoginViewModel: ViewModel() {
             else {
                 val errorMessage = JSONObject(response.errorBody()?.string()!!)
 
-                error.postValue(Event(errorMessage.getString("message")))
+                error.postValue(Event(errorMessage.getString("message")?:""))
 
                 Log.e("로그인 실패 Code", "${response.code()}")
-                Log.e("로그인 실패 Message", errorMessage.getString("message"))
+                Log.e("로그인 실패 Message", errorMessage.getString("message")?:"")
             }
         }
     }

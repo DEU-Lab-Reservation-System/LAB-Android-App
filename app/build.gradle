@@ -79,7 +79,7 @@ dependencies {
     /** GridLayout */
     implementation "androidx.gridlayout:gridlayout:1.0.0"
 
-    /** TimaTableView */
+    /** TimeTableView */
     implementation 'com.github.tlaabs:TimetableView:1.0.3-fx1'
 
     testImplementation 'junit:junit:4.13.2'

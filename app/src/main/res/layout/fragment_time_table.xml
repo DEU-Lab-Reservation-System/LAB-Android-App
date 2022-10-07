@@ -89,7 +89,7 @@
             </LinearLayout>
             <!-- LAYOUT END 실습실 좌석 현황 텍스트 레이아웃 -->
 
-            <com.example.lab.utils.CustomTimeTableView
+            <com.example.lab.custom.timetableview.CustomTimeTableView
                 android:id="@+id/timetable"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

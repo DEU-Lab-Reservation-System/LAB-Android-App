@@ -15,12 +15,12 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.lab.R
 import com.example.lab.data.entity.Lecture
 import com.example.lab.databinding.FragmentTimeTableBinding
-import com.example.lab.utils.CustomTimeTableView
+import com.example.lab.custom.timetableview.CustomTimeTableView
+import com.example.lab.custom.timetableview.Schedule
 import com.example.lab.utils.DateManager
 import com.example.lab.view.bottomsheet.AddClassFragment
 import com.example.lab.view.bottomsheet.ClassInfoFragment
 import com.example.lab.viewmodel.LectureViewModel
-import com.github.tlaabs.timetableview.Schedule
 import com.github.tlaabs.timetableview.Time
 import java.util.*
 import kotlin.collections.ArrayList
@@ -35,6 +35,7 @@ private const val ARG_PARAM2 = "param2"
  * Use the [TimeTableFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
+@RequiresApi(Build.VERSION_CODES.O)
 class TimeTableFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
@@ -43,6 +44,7 @@ class TimeTableFragment : Fragment() {
     // VARIABLE
     private lateinit var bind:FragmentTimeTableBinding
     private lateinit var lectureVM:LectureViewModel
+    private lateinit var lablist:Array<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,6 +54,7 @@ class TimeTableFragment : Fragment() {
         }
     }
 
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle? ): View? {
         // Inflate the layout for this fragment
 
@@ -59,38 +62,34 @@ class TimeTableFragment : Fragment() {
 
         lectureVM = ViewModelProvider(requireActivity())[LectureViewModel::class.java]
 
-        initTimeTableSchedule()
+        initTimeTable()
         initLabSpinner()
         addClickEventToSticker()
         addClassBtnEventListener()
-        getLectures()
 
         return bind.root
     }
 
-    private fun getLectures(){
-        lectureVM.getLectures()
-        lectureVM.lectureList.observe(requireActivity()) {
-            it?.forEach { lecture ->
-                Log.i("시간표 정보", lecture.toString())
-            }
-        }
-    }
-
+    /**
+     * 실습실 선택 스피너 초기화 메소드
+     */
     private fun initLabSpinner(){
-        // 어댑터 등록
-        val lablist = resources.getStringArray(R.array.lab_list)
+        lablist = resources.getStringArray(R.array.lab_list)
 
+        // 어댑터 등록
         val spinnerAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, lablist)
 
         bind.labSelector.adapter = spinnerAdapter
         bind.labSelector.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-            override fun onItemSelected(adapterView: AdapterView<*>?, view: View?, position: Int, id: Long) {}
+            override fun onItemSelected(adapterView: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                setLabTimeTable(lablist[position])
+            }
             override fun onNothingSelected(p0: AdapterView<*>?) {}
         }
     }
 
-    /** 수업 추가 버튼 이벤트
+    /**
+     * 수업 추가 버튼 이벤트
      * AddClassFragment (바텀 시트)의 인터페이스를 해당 프래그먼트에서 구현함으로써 데이터를 전달 받음
      */
     private fun addClassBtnEventListener(){
@@ -113,13 +112,12 @@ class TimeTableFragment : Fragment() {
     }
 
     /** 시간표 스티커(수업) 클릭 이벤트 등록 메소드 */
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun addClickEventToSticker(){
         /** 시간표 스티커 클릭 이벤트 (수업 정보 출력) */
         bind.timetable.setOnStickerSelectEventListener(object : CustomTimeTableView.OnStickerSelectedListener{
             @RequiresApi(Build.VERSION_CODES.N)
             override fun OnStickerSelected(idx: Int, schedules: java.util.ArrayList<Schedule>?) {
-                var schedule:ArrayList<Schedule> = bind.timetable.stickers[idx]!!.schedules
+                var schedule:ArrayList<Schedule> = bind.timetable.stickers[idx]!!.getSchedules()
 
                 val classPlaceInfo = StringJoiner(", ")
                 val classTimeInfo = StringBuilder()
@@ -128,12 +126,7 @@ class TimeTableFragment : Fragment() {
                     classTimeInfo.append(String.format(" %s %02d:%02d~%02d:%02d", DateManager.day(it.day), it.startTime.hour, it.startTime.minute, it.endTime.hour, it.endTime.minute))
                     classPlaceInfo.add("${it.classPlace}")
 
-                    Log.i("수업 이름", it.classTitle)
-                    Log.i("수업 장소", it.classPlace)
-                    Log.i("담당 교수", it.professorName)
-                    Log.i("요일", "${it.day}")
-                    Log.i("시작 시간", "${it.startTime.hour}")
-                    Log.i("종료 시간", "${it.endTime.hour}")
+                    Log.i("", it.toString())
                 }
 
                 val bottomSheet = ClassInfoFragment()
@@ -145,6 +138,8 @@ class TimeTableFragment : Fragment() {
                     putString("professor", schedule[0].professorName)
                     putString("classTime", classTimeInfo.toString())
                     putString("classPlace", classPlaceInfo.toString())
+
+                    /** 같은 수업 정보를 전부 표시해줘야하므로 putStringArrayList()로 전달하기 */
                 }
 
                 bottomSheet.arguments = args
@@ -165,48 +160,33 @@ class TimeTableFragment : Fragment() {
         })
     }
 
-    /** 시간표 초기화 메소드 */
-    private fun initTimeTableSchedule(){
+    /**
+     * 특정 실습실의 시간표를 가져오는 메소드
+     */
+    private fun setLabTimeTable(labId:String){
+        bind.timetable.removeAll()
+
+        val lectureList:Map<String?, List<Lecture>> = lectureVM.getLabsLectures(labId)
         var schedules:ArrayList<Schedule> = arrayListOf()
 
-        schedules.add(createSchedule("객체지향모델링", "정보공학관 912", "장희숙", 0, Time(9, 0), Time(11, 0)))
-        schedules.add(createSchedule("객체지향모델링", "정보공학관 915", "장희숙", 2, Time(11, 0), Time(13, 0)))
-        bind.timetable.add(schedules)
-        schedules.clear()
-
-        schedules.add(createSchedule("데이터베이스 응용", "정보공학관 914", "이중화", 1, Time(13, 0), Time(15, 0)))
-        schedules.add(createSchedule("데이터베이스 응용", "정보공학관 915", "이중화", 2, Time(9, 0), Time(11, 0)))
-        bind.timetable.add(schedules)
-        schedules.clear()
-
-        schedules.add(createSchedule("컴퓨터알고리즘", "정보공학관 914", "권오준", 0, Time(12, 0), Time(13, 0)))
-        schedules.add(createSchedule("컴퓨터알고리즘", "정보공학관 915", "권오준", 3, Time(9, 0), Time(11, 0)))
-        bind.timetable.add(schedules)
-        schedules.clear()
-
-        schedules.add(createSchedule("컴퓨터알고리즘", "정보공학관 914", "권오준", 0, Time(13, 0), Time(15, 0)))
-        schedules.add(createSchedule("컴퓨터알고리즘", "정보공학관 915", "권오준", 1, Time(9, 0), Time(11, 0)))
-        bind.timetable.add(schedules)
-        schedules.clear()
-
-        schedules.add(createSchedule("컴퓨터알고리즘", "정보공학관 914", "권오준", 4, Time(9, 0), Time(13, 0)))
-        schedules.add(createSchedule("컴퓨터알고리즘", "정보공학관 915", "권오준", 3, Time(12, 0), Time(14, 0)))
-        bind.timetable.add(schedules)
-        schedules.clear()
-
-        schedules.add(createSchedule("동아리캡스톤", "정보공학관 914", "박유현", 4, Time(15, 0), Time(17, 0)))
-        bind.timetable.add(schedules)
-        schedules.clear()
+        lectureList.forEach {
+            it.value.forEach { lecture ->
+                schedules.add(Schedule.createSchedule(lecture))
+                Log.i("수업 추가", Schedule.createSchedule(lecture).toString())
+            }
+            bind.timetable.add(schedules)
+            schedules.clear()
+        }
     }
 
-    private fun createSchedule(title:String, place:String, professor:String, day:Int, startTime:Time, endTime:Time):Schedule{
-        return Schedule().apply {
-            this.classTitle = title
-            this.classPlace = place
-            this.professorName = professor
-            this.day = day
-            this.startTime = startTime
-            this.endTime = endTime
+    /**
+     * 시간표 초기화 메소드
+     */
+    private fun initTimeTable(){
+        lectureVM.getAllLectures()
+
+        lectureVM.lectureHash.observe(requireActivity()){
+            setLabTimeTable("911")
         }
     }
 

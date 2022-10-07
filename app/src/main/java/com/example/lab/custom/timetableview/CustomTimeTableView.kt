@@ -1,4 +1,4 @@
-package com.example.lab.utils
+package com.example.lab.custom.timetableview
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -8,7 +8,6 @@ import android.graphics.Color
 import android.graphics.Point
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
-import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.style.AbsoluteSizeSpan
@@ -18,10 +17,10 @@ import android.util.TypedValue
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.*
 import com.github.tlaabs.timetableview.*
 import java.util.*
+import kotlin.collections.ArrayList
 
 class CustomTimeTableView : LinearLayout {
     private var rowCount = 0
@@ -57,13 +56,19 @@ class CustomTimeTableView : LinearLayout {
     private fun getAttrs(attrs: AttributeSet?) {
         val a = context.obtainStyledAttributes(attrs, R.styleable.TimetableView)
 
-        rowCount = a.getInt(R.styleable.TimetableView_row_count,DEFAULT_ROW_COUNT) - 1
+        rowCount = a.getInt(R.styleable.TimetableView_row_count, DEFAULT_ROW_COUNT) - 1
 
-        columnCount = a.getInt(R.styleable.TimetableView_column_count,DEFAULT_COLUMN_COUNT)
+        columnCount = a.getInt(R.styleable.TimetableView_column_count, DEFAULT_COLUMN_COUNT)
 
-        cellHeight = a.getDimensionPixelSize(R.styleable.TimetableView_cell_height, dp2Px(DEFAULT_CELL_HEIGHT_DP))
+        cellHeight = a.getDimensionPixelSize(R.styleable.TimetableView_cell_height, dp2Px(
+            DEFAULT_CELL_HEIGHT_DP
+        )
+        )
 
-        sideCellWidth = a.getDimensionPixelSize(R.styleable.TimetableView_side_cell_width, dp2Px(DEFAULT_SIDE_CELL_WIDTH_DP))
+        sideCellWidth = a.getDimensionPixelSize(R.styleable.TimetableView_side_cell_width, dp2Px(
+            DEFAULT_SIDE_CELL_WIDTH_DP
+        )
+        )
 
         val titlesId = a.getResourceId(R.styleable.TimetableView_header_title, R.array.default_header_title)
 
@@ -73,7 +78,7 @@ class CustomTimeTableView : LinearLayout {
 
         stickerColors = a.resources.getStringArray(colorsId)
 
-        startTime = a.getInt(R.styleable.TimetableView_start_time,DEFAULT_START_TIME)
+        startTime = a.getInt(R.styleable.TimetableView_start_time, DEFAULT_START_TIME)
 
         headerHighlightColor = a.getColor(R.styleable.TimetableView_header_highlight_color,resources.getColor(R.color.default_header_highlight_color))
 
@@ -93,7 +98,7 @@ class CustomTimeTableView : LinearLayout {
 
     private fun init() {
         val layoutInflater =
-            getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+            context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val view: View = layoutInflater.inflate(R.layout.view_timetable, this, false)
         addView(view)
         stickerBox = view.findViewById(R.id.sticker_box)
@@ -114,7 +119,7 @@ class CustomTimeTableView : LinearLayout {
         get() {
             val allSchedules = ArrayList<Schedule>()
             for (key in stickers.keys) {
-                for (schedule in stickers[key]!!.schedules) {
+                for (schedule in stickers[key]!!.getSchedules()) {
                     allSchedules.add(schedule)
                 }
             }
@@ -129,10 +134,11 @@ class CustomTimeTableView : LinearLayout {
         val allSchedules = ArrayList<Schedule>()
         for (key in stickers.keys) {
             if (idx == key) continue
-            for (schedule in stickers[key]!!.schedules) {
+            for (schedule in stickers[key]!!.getSchedules()) {
                 allSchedules.add(schedule)
             }
         }
+
         return allSchedules
     }
 
@@ -199,8 +205,8 @@ class CustomTimeTableView : LinearLayout {
         stickers = SaveManager.loadSticker(data)
         var maxKey = 0
         for (key in stickers.keys) {
-            val schedules = stickers[key]!!.schedules
-            add(schedules, key)
+            val schedules = stickers[key]!!.getSchedules()
+            add(schedules!!, key)
             if (maxKey < key) maxKey = key
         }
         stickerCount = maxKey + 1
@@ -210,7 +216,7 @@ class CustomTimeTableView : LinearLayout {
     fun removeAll() {
         for (key in stickers.keys) {
             val sticker = stickers[key]
-            for (tv in sticker!!.view) {
+            for (tv in sticker!!.getView()) {
                 stickerBox!!.removeView(tv)
             }
         }
@@ -224,7 +230,7 @@ class CustomTimeTableView : LinearLayout {
 
     fun remove(idx: Int) {
         val sticker = stickers[idx]
-        for (tv in sticker!!.view) {
+        for (tv in sticker!!.getView()) {
             stickerBox!!.removeView(tv)
         }
         stickers.remove(idx)
@@ -273,7 +279,7 @@ class CustomTimeTableView : LinearLayout {
         val colorSize = stickerColors.size
         i = 0
         while (i < size) {
-            for (v in stickers[orders[i]]!!.view) {
+            for (v in stickers[orders[i]]!!.getView()) {
                 v.setBackgroundColor(Color.parseColor(stickerColors[i % colorSize]))
             }
             i++
