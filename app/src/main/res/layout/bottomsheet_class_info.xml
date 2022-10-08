@@ -36,7 +36,7 @@
             />
 
 
-        <!-- LAYOUT 타이틀 레이아웃 -->
+        <!-- 학기 텍스트 뷰 -->
         <TextView
             android:id="@+id/semesterTextView"
             android:layout_width="wrap_content"
@@ -51,23 +51,96 @@
             app:layout_constraintTop_toBottomOf="@+id/close_bar"
             app:layout_constraintLeft_toLeftOf="parent"
             />
+        <!-- 학기 텍스트 뷰 -->
 
-        <TextView
-            android:id="@+id/classTitleTextView"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/classTitleLayout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
-            android:text="객체지향 모델링"
-            android:textColor="@color/natural_navy"
-            android:textSize="18dp"
-
-            android:fontFamily="@font/noto_sans_kr_bold"
-            android:includeFontPadding="false"
-
+            android:orientation="horizontal"
             app:layout_constraintTop_toBottomOf="@+id/semesterTextView"
-            app:layout_constraintLeft_toLeftOf="parent"
-            />
-        <!-- LAYOUT END 타이틀 레이아웃 -->
+            app:layout_constraintBottom_toTopOf="@+id/line"
+            >
+
+            <!-- 수업 제목 텍스트 뷰 -->
+            <TextView
+                android:id="@+id/classTitleTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:fontFamily="@font/noto_sans_kr_bold"
+                android:includeFontPadding="false"
+                android:text="객체지향 모델링"
+
+                android:textColor="@color/natural_navy"
+                android:textSize="18dp"
+                />
+
+            <!-- 수업 제목 텍스트 뷰 -->
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+
+            <!-- LAYOUT 수정 버튼 레이아웃 -->
+            <LinearLayout
+                android:id="@+id/editBtnLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:layout_gravity="bottom"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/ic_edit"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="수정"
+                    android:textSize="12dp"
+                    android:textColor="@color/colorAccent"
+                    android:fontFamily="@font/poppins_regular"
+                    android:includeFontPadding="false"
+                    />
+            </LinearLayout>
+            <!-- LAYOUT END 수정 버튼 레이아웃 -->
+
+            <!-- LAYOUT 삭제 버튼 레이아웃 -->
+            <LinearLayout
+                android:id="@+id/deleteBtnLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/ic_delete"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="삭제"
+                    android:textSize="12dp"
+                    android:textColor="@color/colorAccent"
+                    android:fontFamily="@font/poppins_regular"
+                    android:includeFontPadding="false"
+                    />
+            </LinearLayout>
+            <!-- LAYOUT END 삭제 버튼 레이아웃 -->
+
+        </LinearLayout>
+
+
 
         <View
             android:id="@+id/line"
@@ -78,7 +151,8 @@
 
 
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/classTitleTextView"
+            app:layout_constraintTop_toBottomOf="@+id/classTitleLayout"
+
             />
 
 

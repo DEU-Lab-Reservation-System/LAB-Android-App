@@ -2,14 +2,18 @@ package com.example.lab.view.activity
 
 import android.app.Activity
 import android.app.Notification
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import com.example.lab.R
 import com.example.lab.databinding.ActivityMainBinding
 import com.example.lab.view.fragment.*
 
+@RequiresApi(Build.VERSION_CODES.O)
 class MainActivity : AppCompatActivity() {
     private lateinit var bind:ActivityMainBinding
 
@@ -24,6 +28,7 @@ class MainActivity : AppCompatActivity() {
         R.id.menu_lab to reservFragment,
         R.id.menu_profile to profileFragment
     )
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -119,6 +124,23 @@ class MainActivity : AppCompatActivity() {
                 .beginTransaction()
                 .hide(it)
                 .commit()
+        }
+    }
+
+    /** 뒤로가기 버튼 클릭 이벤트 */
+    private val limitTime = 1000        // 뒤로가기 버튼 누르는 제한시간
+    private var pressTime:Long = 0L     // 누른 시점
+
+    override fun onBackPressed() {
+        val now = System.currentTimeMillis()
+        val interval = now - pressTime
+
+        if(interval in 0..limitTime) {
+            finish()
+        }
+        else{
+            pressTime = now
+            Toast.makeText(applicationContext, "한 번 더 누르면 앱이 종료됩니다.", Toast.LENGTH_SHORT).show()
         }
     }
 }

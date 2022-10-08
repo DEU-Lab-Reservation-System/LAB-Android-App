@@ -4,21 +4,25 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.Nullable
+import androidx.annotation.RequiresApi
 import androidx.core.view.children
 import androidx.databinding.DataBindingUtil
 import com.example.lab.R
+import com.example.lab.custom.timetableview.Schedule
 import com.example.lab.data.entity.Lecture
 import com.example.lab.databinding.BottomsheetAddClassBinding
+import com.example.lab.utils.DateManager
+import com.github.tlaabs.timetableview.Time
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import java.text.SimpleDateFormat
+import org.json.JSONObject
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -44,13 +48,36 @@ class AddClassFragment : BottomSheetDialogFragment() {
 
     lateinit var dataReciever:BottomSheedDataReciever
 
+    @RequiresApi(Build.VERSION_CODES.O)
     @Nullable
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         bind = DataBindingUtil.inflate(inflater, R.layout.bottomsheet_add_class, container, false)
 
         addDatePicker()
         addEventClassInfoBtn(container)
-        addCreateBtnEvent()
+
+        // 전달 받은 데이터가 없으면 시간표 추가 모드
+        if(arguments?.isEmpty == true){
+            addCreateBtnEvent()
+        } else { // 전달 받은 데이터가 있으면 시간표 수정 모드
+            arguments?.getString("classInfoJson")?.let { it ->
+                val schedules = Schedule.toScheduleList(JSONObject(it))
+
+                schedules[0].let {
+                    setEditLayout(it.classTitle, it.professorName, "it.startTime", "it.endTime")
+                }
+                // 전달 받은 수업 정보를 레이아웃에 추가
+                schedules.forEach { schedule ->
+                    addClassInfoLayout(
+                        container,
+                        DateManager.day(schedule.day),
+                        "정보공학관 ${schedule.classPlace}",
+                        schedule.startTime,
+                        schedule.endTime
+                    )
+                }
+            }
+        }
 
         return bind.root
     }
@@ -62,6 +89,22 @@ class AddClassFragment : BottomSheetDialogFragment() {
         // 바텀 시트의 최상위 Layout의 Height를 기기의 Height로 설정해줘야 위로 드래그 했을 때 FullScreen 가능
         val layout = view.findViewById<View>(R.id.parentLayout)
         layout.layoutParams.height = metrics.heightPixels
+    }
+
+    /**
+     * 수정 모드로 레이아웃을 설정
+     * 기존 수업 정보를 세팅
+     */
+    private fun setEditLayout(
+        title: String,
+        professor: String,
+        startDate: String,
+        endDate: String
+    ){
+        bind.titleEditText.setText(title)
+        bind.professorEditText.setText(professor)
+        bind.startDateEditText.setText(startDate)
+        bind.endDateEditText.setText(endDate)
     }
 
     /** 수업 추가 버튼 이벤트 */
@@ -116,20 +159,36 @@ class AddClassFragment : BottomSheetDialogFragment() {
     /** 시간 및 장소 추가 버튼 이벤트 메소드 */
     private fun addEventClassInfoBtn(container: ViewGroup?){
         bind.addClassInfoBtn.setOnClickListener{
-            addClassInfo(container)
+            addClassInfoLayout(container)
         }
     }
 
-    /** 시간 및 장소 추가 레이아웃 생성 메소드 */
-    private fun addClassInfo(container: ViewGroup?){
+    /**
+     * @param container: ViewGroup?
+     * @param day: String
+     * @param place: String
+     * @param startTime: Time (default : 현재 시간)
+     * @param endTime: Time (default : 현재 시간)
+     * 
+     * 시간 및 장소 추가 레이아웃 생성 메소드
+     * 수정 모드 일 경우 기존 수업 데이터가 채워진 채로 생성 됨
+     */
+    private fun addClassInfoLayout(
+        container: ViewGroup?,
+        day:String = "",
+        place:String = "",
+        startTime: Time = Time(Calendar.getInstance().get(Calendar.HOUR), 0),
+        endTime: Time = Time(Calendar.getInstance().get(Calendar.HOUR), 0),
+    ){
         val classInfoLayout = bind.classInfoLayout
 
         // 뷰 생성
         var inflater = requireActivity().layoutInflater
         var classInfoView = inflater.inflate(R.layout.sub_add_classinfo, container, false)
 
+        // 스피너 생성
         val daySelector = classInfoView.findViewById<Spinner>(R.id.daySelector)
-        val placeTimeSelector = classInfoView.findViewById<Spinner>(R.id.placeSelector)
+        val placeSelector = classInfoView.findViewById<Spinner>(R.id.placeSelector)
 
         // 스피너 어댑터 등록
         daySelector.adapter = ArrayAdapter.createFromResource(
@@ -140,7 +199,7 @@ class AddClassFragment : BottomSheetDialogFragment() {
             adpater.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         }
 
-        placeTimeSelector.adapter = ArrayAdapter.createFromResource(
+        placeSelector.adapter = ArrayAdapter.createFromResource(
             requireContext(),
             R.array.lab_fullname_list,
             R.layout.spinner_custom_item
@@ -148,62 +207,119 @@ class AddClassFragment : BottomSheetDialogFragment() {
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         }
 
+        // 스피너 기본 값 설정
+        daySelector.setSelection(getSpinnerItemIndex(daySelector, "${day}요일"))
+        placeSelector.setSelection(getSpinnerItemIndex(placeSelector, place))
+
         // 타입 피커 등록
-        addTimePicker(classInfoView)
+        addTimePicker(classInfoView, startTime, endTime)
         
         classInfoLayout.addView(classInfoView)
     }
 
-    /** TimePicker 등록  메소드 */
-    private fun addTimePicker(classInfoView:View){
-        val cal = Calendar.getInstance()
-        val hour = cal.get(Calendar.HOUR)
+    /**
+     * @param classInfoView: View
+     * @param startTime: Time (default = 현재 시간)
+     * @param endTime: Time (default = 현재 시간)
+     *  TimePicker 등록  메소드
+     */
+    private fun addTimePicker(
+        classInfoView:View,
+        startTime:Time,
+        endTime:Time,
+    ){
 
         val startTimeEditText = classInfoView.findViewById<EditText>(R.id.startTimeEditText)
         val endTimeEditText = classInfoView.findViewById<EditText>(R.id.endTimeEditText)
 
-        startTimeEditText.setOnClickListener{
-            val timePicker = TimePickerDialog(requireContext(), android.R.style.Theme_Holo_Light_Dialog_NoActionBar, { timePicker, selectHour, selectMinute ->
-                startTimeEditText.setText(String.format("%02d:%02d", selectHour, selectMinute))
-            }, hour, 0, true)
+        // 수업 시간 EditText 기본 값 설정
+        startTimeEditText.setText(String.format("%02d:%02d", startTime.hour, startTime.minute))
+        endTimeEditText.setText(String.format("%02d:%02d", endTime.hour, endTime.minute))
 
-            timePicker.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            timePicker.show()
-        }
+        addTimePickerToEditText(startTimeEditText, startTime)
+        addTimePickerToEditText(endTimeEditText, endTime)
+//        startTimeEditText.setOnClickListener{
+//            val timePicker = TimePickerDialog(requireContext(), android.R.style.Theme_Holo_Light_Dialog_NoActionBar, { timePicker, selectHour, selectMinute ->
+//                startTimeEditText.setText(String.format("%02d:%02d", selectHour, selectMinute))
+//            }, startTime.hour, startTime.minute, true)
+//
+//            timePicker.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+//            timePicker.show()
+//        }
+//
+//        endTimeEditText.setOnClickListener{
+//            val timePicker = TimePickerDialog(requireContext(), android.R.style.Theme_Holo_Light_Dialog_NoActionBar, { timePicker, selectHour, selectMinute ->
+//                endTimeEditText.setText(String.format("%02d:%02d", selectHour, selectMinute))
+//            }, endTime.hour, endTime.minute, true)
+//
+//            timePicker.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+//            timePicker.show()
+//        }
+    }
 
-        endTimeEditText.setOnClickListener{
+    /**
+     * EditText에 TimePicker 등록하는 메소드
+     */
+    private fun addTimePickerToEditText(editText:EditText, initTime:Time){
+        editText.setOnClickListener{
             val timePicker = TimePickerDialog(requireContext(), android.R.style.Theme_Holo_Light_Dialog_NoActionBar, { timePicker, selectHour, selectMinute ->
-                endTimeEditText.setText(String.format("%02d:%02d", selectHour, selectMinute))
-            }, hour, 0, true)
+                editText.setText(String.format("%02d:%02d", selectHour, selectMinute))
+            }, initTime.hour, initTime.minute, true)
 
             timePicker.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             timePicker.show()
         }
     }
 
-    /** DatePicker 등록 메소드 */
+    /**
+     * DatePicker 등록 메소드
+     */
     private fun addDatePicker(){
         var cal = Calendar.getInstance()
         val year = cal.get(Calendar.YEAR)
         val month = cal.get(Calendar.MONTH)
         val day = cal.get(Calendar.DAY_OF_MONTH)
 
-        bind.startDateEditText.setOnClickListener{
+        addDatePickerToEditText(bind.startDateEditText, year, month, day)
+        addDatePickerToEditText(bind.endDateEditText, year, month, day)
 
+//        bind.startDateEditText.setOnClickListener{
+//            val datePickerDialog = DatePickerDialog(requireContext(), { _, year, month, day ->
+//                bind.startDateEditText.setText(String.format("%d-%02d-%02d",year, month+1, day))
+//            }, year, month, day)
+//
+//            datePickerDialog.show()
+//        }
+//
+//        bind.endDateEditText.setOnClickListener{
+//            val datePickerDialog = DatePickerDialog(requireContext(), { _, year, month, day ->
+//                bind.endDateEditText.setText(String.format("%d-%02d-%02d",year, month+1, day))
+//            }, year, month, day)
+//
+//            datePickerDialog.show()
+//        }
+    }
+
+    /**
+     * EditText에 DatePicker 등록하는 메소드
+     */
+    private fun addDatePickerToEditText(editText: EditText, year:Int, month:Int, day:Int){
+        editText.setOnClickListener {
             val datePickerDialog = DatePickerDialog(requireContext(), { _, year, month, day ->
-                bind.startDateEditText.setText(String.format("%d-%02d-%02d",year, month+1, day))
-            }, year, month, day)
-
-            datePickerDialog.show()
-        }
-
-        bind.endDateEditText.setOnClickListener{
-            val datePickerDialog = DatePickerDialog(requireContext(), { _, year, month, day ->
-                bind.endDateEditText.setText(String.format("%d-%02d-%02d",year, month+1, day))
+                bind.endDateEditText.setText(String.format("%d-%02d-%02d", year, month + 1, day))
             }, year, month, day)
 
             datePickerDialog.show()
         }
     }
-
+    /**
+     * 스피너에서 item의 인덱스를 찾아주는 메소드
+     */
+    private fun getSpinnerItemIndex(spinner:Spinner, item:String): Int{
+        for (i in 0 until spinner.count){
+            if(spinner.getItemAtPosition(i).toString() == item) return i
+        }
+        
+        return 0;
+    }
 }

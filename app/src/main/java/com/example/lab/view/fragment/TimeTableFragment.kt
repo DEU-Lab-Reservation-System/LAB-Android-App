@@ -22,6 +22,8 @@ import com.example.lab.view.bottomsheet.AddClassFragment
 import com.example.lab.view.bottomsheet.ClassInfoFragment
 import com.example.lab.viewmodel.LectureViewModel
 import com.github.tlaabs.timetableview.Time
+import org.json.JSONArray
+import org.json.JSONObject
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -111,54 +113,6 @@ class TimeTableFragment : Fragment() {
         }
     }
 
-    /** 시간표 스티커(수업) 클릭 이벤트 등록 메소드 */
-    private fun addClickEventToSticker(){
-        /** 시간표 스티커 클릭 이벤트 (수업 정보 출력) */
-        bind.timetable.setOnStickerSelectEventListener(object : CustomTimeTableView.OnStickerSelectedListener{
-            @RequiresApi(Build.VERSION_CODES.N)
-            override fun OnStickerSelected(idx: Int, schedules: java.util.ArrayList<Schedule>?) {
-                var schedule:ArrayList<Schedule> = bind.timetable.stickers[idx]!!.getSchedules()
-
-                val classPlaceInfo = StringJoiner(", ")
-                val classTimeInfo = StringBuilder()
-
-                schedule.forEach {
-                    classTimeInfo.append(String.format(" %s %02d:%02d~%02d:%02d", DateManager.day(it.day), it.startTime.hour, it.startTime.minute, it.endTime.hour, it.endTime.minute))
-                    classPlaceInfo.add("${it.classPlace}")
-
-                    Log.i("", it.toString())
-                }
-
-                val bottomSheet = ClassInfoFragment()
-                var args = Bundle()
-
-                args.apply {
-                    putInt("index", idx)
-                    putString("classTitle", schedule[0].classTitle)
-                    putString("professor", schedule[0].professorName)
-                    putString("classTime", classTimeInfo.toString())
-                    putString("classPlace", classPlaceInfo.toString())
-
-                    /** 같은 수업 정보를 전부 표시해줘야하므로 putStringArrayList()로 전달하기 */
-                }
-
-                bottomSheet.arguments = args
-                bottomSheet.show(parentFragmentManager, bottomSheet.tag)
-
-
-                /** 시간표 수정 코드
-                 *  edit : bind.timetable.stickers[idx]의 schedules를 다시 그려줌
-                 *  즉, 수정하려면 기존의 수업(schedule)을 다 불러와서 변경할 부분만 바꾼 후 다시 다 넣어주면 됨
-                 *
-                schedules!!.add(bind.timetable.stickers[idx]!!.schedules[0].apply {
-                    classTitle = "수정 됨"
-                })
-
-                bind.timetable.edit(idx, schedules)
-                */
-            }
-        })
-    }
 
     /**
      * 특정 실습실의 시간표를 가져오는 메소드
@@ -178,6 +132,47 @@ class TimeTableFragment : Fragment() {
             schedules.clear()
         }
     }
+
+    /** 시간표 스티커(수업) 클릭 이벤트 등록 메소드 */
+    private fun addClickEventToSticker(){
+        /** 시간표 스티커 클릭 이벤트 (수업 정보 출력) */
+        bind.timetable.setOnStickerSelectEventListener(object : CustomTimeTableView.OnStickerSelectedListener{
+
+            @RequiresApi(Build.VERSION_CODES.N)
+            override fun OnStickerSelected(idx: Int, schedules: java.util.ArrayList<Schedule>?) {
+                var schedule:ArrayList<Schedule> = bind.timetable.stickers[idx]!!.getSchedules()
+
+                // 클릭한 수업의 정보를 JSON으로 변환 (바텀 시트로 전달하기 위해)
+                var classInfo = Schedule.toJson(schedule)
+
+                // 수업 정보 바텀 시트로 전달
+
+                var args = Bundle()
+
+                args.apply {
+                    putInt("index", idx)
+                    putString("classInfoJson", classInfo.toString())
+                    /** 같은 수업 정보를 전부 표시해줘야하므로 putStringArrayList()로 전달하기 */
+                }
+
+                val bottomSheet = ClassInfoFragment()
+                bottomSheet.arguments = args
+                bottomSheet.show(parentFragmentManager, bottomSheet.tag)
+
+                /** 시간표 수정 코드
+                 *  edit : bind.timetable.stickers[idx]의 schedules를 다시 그려줌
+                 *  즉, 수정하려면 기존의 수업(schedule)을 다 불러와서 변경할 부분만 바꾼 후 다시 다 넣어주면 됨
+                 *
+                schedules!!.add(bind.timetable.stickers[idx]!!.schedules[0].apply {
+                    classTitle = "수정 됨"
+                })
+
+                bind.timetable.edit(idx, schedules)
+                */
+            }
+        })
+    }
+
 
     /**
      * 시간표 초기화 메소드

@@ -13,6 +13,7 @@ import android.text.Spanned
 import android.text.style.AbsoluteSizeSpan
 import android.text.style.StyleSpan
 import android.util.AttributeSet
+import android.util.Log
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -60,17 +61,11 @@ class CustomTimeTableView : LinearLayout {
 
         columnCount = a.getInt(R.styleable.TimetableView_column_count, DEFAULT_COLUMN_COUNT)
 
-        cellHeight = a.getDimensionPixelSize(R.styleable.TimetableView_cell_height, dp2Px(
-            DEFAULT_CELL_HEIGHT_DP
-        )
-        )
+        cellHeight = a.getDimensionPixelSize(R.styleable.TimetableView_cell_height, dp2Px(DEFAULT_CELL_HEIGHT_DP))
 
-        sideCellWidth = a.getDimensionPixelSize(R.styleable.TimetableView_side_cell_width, dp2Px(
-            DEFAULT_SIDE_CELL_WIDTH_DP
-        )
-        )
+        sideCellWidth = a.getDimensionPixelSize(R.styleable.TimetableView_side_cell_width,dp2Px(DEFAULT_SIDE_CELL_WIDTH_DP))
 
-        val titlesId = a.getResourceId(R.styleable.TimetableView_header_title, R.array.default_header_title)
+        val titlesId = a.getResourceId(R.styleable.TimetableView_header_title, com.example.lab.R.array.time_table_list)
 
         headerTitle = a.resources.getStringArray(titlesId)
 

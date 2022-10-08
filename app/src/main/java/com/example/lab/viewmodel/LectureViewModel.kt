@@ -88,6 +88,13 @@ class LectureViewModel : ViewModel() {
     }
 
     /**
+     * 수업 코드로 수업을 찾는 메소드
+     */
+    fun getLectures(code:String):ArrayList<Lecture>? {
+        return lectureHash.value?.get(code)
+    }
+
+    /**
      * @param lectureList: ArrayList<Lecture>
      * 시간표를 해시로 구현
      * code (강의 코드)를 Key, ArrayList<Lecture>를 Value로 가짐

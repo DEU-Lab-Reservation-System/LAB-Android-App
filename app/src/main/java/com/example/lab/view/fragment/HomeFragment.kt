@@ -85,7 +85,7 @@ class HomeFragment : Fragment() {
         if(reserv == null){
             bind.todayReservPlaceTv.text = "예약 내역이 존재하지 않습니다."
             bind.todayReservTimeTv.text = "00:00 - 00:00"
-            bind.todayReservSeatTv.text = "-번 좌석"
+            bind.todayReservSeatTv.text = "선택한 좌석이 없습니다."
             return
         }
 
