@@ -1,20 +1,35 @@
 package com.example.lab.custom.timetableview
 
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import com.example.lab.data.entity.Lecture
 import com.example.lab.utils.DateManager
 import com.github.tlaabs.timetableview.Time
 import org.json.JSONArray
 import org.json.JSONObject
-import retrofit2.http.Field
 import java.io.Serializable
-import java.util.*
-import kotlin.collections.ArrayList
 
-data class Schedule(var code:String?="") : com.github.tlaabs.timetableview.Schedule(), Serializable{
+data class Schedule(
+    var code: String? = "",
+    var classTitle: String = "",
+    var classPlace: String = "",
+    var professorName: String = "",
+    var day: Int = 0,
+    var startDate:String = "",
+    var endDate: String = "",
+    var startTime: Time = Time(),
+    var endTime: Time = Time(),
+) : Serializable {
+
     companion object{
+        const val MON = 0
+        const val TUE = 1
+        const val WED = 2
+        const val THU = 3
+        const val FRI = 4
+        const val SAT = 5
+        const val SUN = 6
+
         @RequiresApi(Build.VERSION_CODES.O)
         fun createSchedule(lecture: Lecture): Schedule{
             val startTime = lecture.startTime!!.split(":")
@@ -26,6 +41,8 @@ data class Schedule(var code:String?="") : com.github.tlaabs.timetableview.Sched
                 this.classPlace = "정보공학관 ${lecture.place}"
                 this.professorName = lecture.professor
                 this.day = DateManager.day(lecture.day!!)
+                this.startDate = lecture.startDate
+                this.endDate = lecture.endDate
                 this.startTime = Time(startTime[0].toInt(), startTime[1].toInt())
                 this.endTime = Time(endTime[0].toInt(), endTime[1].toInt())
             }
@@ -41,6 +58,8 @@ data class Schedule(var code:String?="") : com.github.tlaabs.timetableview.Sched
                 put("code", schedule[0].code)
                 put("classTitle", schedule[0].classTitle)
                 put("professor", schedule[0].professorName)
+                put("startDate", schedule[0].startDate)
+                put("endDate",  schedule[0].endDate)
 
                 var classSubInfo = JSONArray()
                 schedule.forEach{
@@ -77,8 +96,11 @@ data class Schedule(var code:String?="") : com.github.tlaabs.timetableview.Sched
                             code = json.getString("code")
                             classTitle = json.getString("classTitle")
                             professorName = json.getString("professor")
+                            startDate = json.getString("startDate")
+                            endDate = json.getString("endDate")
+
+                            classPlace = getString("place").split(" ")?.let { it[it.lastIndex] }.toString()
                             day = getInt("day")
-                            classPlace = getString("place").split(" ")?.let { it[it.lastIndex] }
                             startTime = Time(getInt("startHour"), getInt("startMinute"))
                             endTime = Time(getInt("endHour"), getInt("endMinute"))
                         }
@@ -90,7 +112,7 @@ data class Schedule(var code:String?="") : com.github.tlaabs.timetableview.Sched
         }
     }
 
-    override fun toString(): String {
-        return "[Schedule(code=${code}, classTitle=${classTitle}, classPlace=${classPlace}, professorName=${professorName}, day=${day}, startTime=${startTime.hour}:${startTime.minute}, endTime=${endTime.hour}:${endTime.minute}]"
-    }
+//    override fun toString(): String {
+//        return "[Schedule(code=${code}, classTitle=${classTitle}, classPlace=${classPlace}, professorName=${professorName}, day=${day}, startTime=${startTime.hour}:${startTime.minute}, endTime=${endTime.hour}:${endTime.minute}]"
+//    }
 }

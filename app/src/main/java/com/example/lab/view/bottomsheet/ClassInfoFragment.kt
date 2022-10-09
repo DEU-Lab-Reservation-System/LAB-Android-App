@@ -42,6 +42,8 @@ class ClassInfoFragment : BottomSheetDialogFragment() {
 
         // 이전 프래그먼트에서 넘어온 Bundle 데이터가 있는 경우에만 실행
         arguments?.getString("classInfoJson")?.let {
+            Log.i("수업 JSON", it)
+
             setClassInfo(it)
             addEditBtnEvent(it)
         }

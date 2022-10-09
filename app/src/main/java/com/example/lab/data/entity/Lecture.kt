@@ -19,61 +19,61 @@ data class Lecture(
      */
     @Expose
     @SerializedName("code")
-    var code: String? = null,
+    var code: String = "",
 
     /**
      * 강의의 이름
      */
     @Expose
     @SerializedName("title")
-    var title: String? = null,
+    var title: String = "",
 
     /**
      * 강의 담당 교수
      */
     @Expose
     @SerializedName("professor")
-    var professor: String? = null,
+    var professor: String = "",
 
     /**
      * 강의실 호수
      */
     @Expose
     @SerializedName("roomNumber")
-    var place: String? = null,
+    var place: String = "",
     
     /**
      * 정규 수업의 경우 개강 날짜
      */
     @Expose
     @SerializedName("startDate")
-    var startDate: String? = null,
+    var startDate: String = "",
 
     /**
      * 정규 수업의 경우 종강 날짜
      */
     @Expose
     @SerializedName("endDate")
-    var endDate: String? = null,
+    var endDate: String = "",
 
     /**
      * 강의 시작 시간
      */
     @Expose
     @SerializedName("startTime")
-    var startTime: String? = null,
+    var startTime: String = "",
 
     /**
      * 강의 종료 시간
      */
     @Expose
     @SerializedName("endTime")
-    var endTime: String? = null,
+    var endTime: String = "",
 
     /**
      * 강의 시작 요일
      */
     @Expose
     @SerializedName("day")
-    var day: String? = null,
+    var day: String = ""
 )

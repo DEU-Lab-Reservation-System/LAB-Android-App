@@ -142,6 +142,8 @@ class TimeTableFragment : Fragment() {
             override fun OnStickerSelected(idx: Int, schedules: java.util.ArrayList<Schedule>?) {
                 var schedule:ArrayList<Schedule> = bind.timetable.stickers[idx]!!.getSchedules()
 
+                Log.i("수업 정보", schedule[0].toString())
+
                 // 클릭한 수업의 정보를 JSON으로 변환 (바텀 시트로 전달하기 위해)
                 var classInfo = Schedule.toJson(schedule)
 
