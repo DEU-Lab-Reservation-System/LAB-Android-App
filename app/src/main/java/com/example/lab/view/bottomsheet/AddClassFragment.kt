@@ -12,11 +12,13 @@ import androidx.annotation.Nullable
 import androidx.annotation.RequiresApi
 import androidx.core.view.children
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProvider
 import com.example.lab.R
 import com.example.lab.data.entity.Lecture
 import com.example.lab.databinding.BottomsheetManageClassBinding
 import com.example.lab.view.viewmanager.BottomSheetDataReceiver
 import com.example.lab.view.viewmanager.ClassBottomSheetManager
+import com.example.lab.viewmodel.LectureViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import java.util.*
 import kotlin.collections.ArrayList
@@ -34,7 +36,7 @@ private const val ARG_PARAM2 = "param2"
 class AddClassFragment : BottomSheetDialogFragment() {
 
     // VARIABLE
-    lateinit var dataReciever: BottomSheetDataReceiver
+    private lateinit var lectureVM: LectureViewModel
     private lateinit var bind: BottomsheetManageClassBinding
     private lateinit var classManager: ClassBottomSheetManager
 
@@ -42,6 +44,7 @@ class AddClassFragment : BottomSheetDialogFragment() {
     @Nullable
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         bind = DataBindingUtil.inflate(inflater, R.layout.bottomsheet_manage_class, container, false)
+        lectureVM = ViewModelProvider(requireActivity())[LectureViewModel::class.java]
         classManager = ClassBottomSheetManager(bind, inflater, requireContext())
 
         classManager.addDatePicker()
@@ -63,6 +66,7 @@ class AddClassFragment : BottomSheetDialogFragment() {
     }
 
     /** 수업 추가 버튼 이벤트 */
+    @RequiresApi(Build.VERSION_CODES.N)
     private fun addCompleteBtnEvent(){
         bind.completeBtn.setOnClickListener{
             // 수업 코드 생성
@@ -70,11 +74,12 @@ class AddClassFragment : BottomSheetDialogFragment() {
 
             // BottomSheetDataReceiver 인터페이스를 통해 데이터를 전달 받음
             val lectureList = classManager.getInputClassData(classCode)
-            Log.i("전달 받은 데이터", lectureList.toString())
+
+            lectureVM.addLecture(lectureList)
         }
     }
 
-    /** 시간 및 장소 추가 버튼 이벤트 메소드 */
+    /** 시간 및 장소 레이아웃 추가 버튼 이벤트 메소드 */
     private fun addEventClassInfoBtn(container: ViewGroup?){
         bind.addClassInfoBtn.setOnClickListener{
             classManager.addClassInfoLayout(container)

@@ -4,9 +4,7 @@ import com.example.lab.data.entity.Lecture
 import com.example.lab.data.requestDto.LectureRequestDto
 import com.example.lab.data.responseDto.LectureResponseDto
 import retrofit2.Call
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
+import retrofit2.http.*
 
 interface LectureService {
 
@@ -16,6 +14,8 @@ interface LectureService {
     @POST("api/lecture")
     fun addLecture(@Body lecture:List<LectureRequestDto.Create>): Call<List<Lecture>>
 
+    @DELETE("api/lectures/{code}")
+    fun deleteLecture(@Path("code") classCode:String): Call<LectureResponseDto.Delete>
     /**
      * 전체 수업(시간표) 조회
      */

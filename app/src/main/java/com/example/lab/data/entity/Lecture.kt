@@ -76,4 +76,10 @@ data class Lecture(
     @Expose
     @SerializedName("day")
     var day: String = ""
-)
+){
+    companion object{
+        fun toJson(){
+
+        }
+    }
+}

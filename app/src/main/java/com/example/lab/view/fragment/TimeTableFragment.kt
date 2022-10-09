@@ -19,10 +19,9 @@ import com.example.lab.custom.timetableview.CustomTimeTableView
 import com.example.lab.custom.timetableview.Schedule
 import com.example.lab.view.bottomsheet.AddClassFragment
 import com.example.lab.view.bottomsheet.ClassInfoFragment
-import com.example.lab.view.viewmanager.BottomSheetDataReceiver
-import com.example.lab.view.viewmanager.ClassBottomSheetManager
 import com.example.lab.viewmodel.LectureViewModel
 import kotlin.collections.ArrayList
+import kotlin.streams.toList
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -35,7 +34,7 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 @RequiresApi(Build.VERSION_CODES.O)
-class TimeTableFragment : Fragment() {
+class TimeTableFragment : Fragment(){
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -65,6 +64,7 @@ class TimeTableFragment : Fragment() {
         initLabSpinner()
         addClickEventToSticker()
         addClassBtnEventListener()
+        addSwipeRefreshEvent()
 
         return bind.root
     }
@@ -89,28 +89,27 @@ class TimeTableFragment : Fragment() {
 
     /**
      * 수업 추가 버튼 이벤트
-     * AddClassFragment (바텀 시트)의 인터페이스를 해당 프래그먼트에서 구현함으로써 데이터를 전달 받음
+     *
+     * AddClassFragment 바텀 시트 생성
      */
     private fun addClassBtnEventListener(){
         bind.addClassBtn.setOnClickListener{
             val bottomSheet = AddClassFragment()
             bottomSheet.show(parentFragmentManager, bottomSheet.tag)
-
-            bottomSheet.dataReciever = object : BottomSheetDataReceiver {
-                @RequiresApi(Build.VERSION_CODES.N)
-                override fun <T> setBottomSheetDatas(lectureList: java.util.ArrayList<T>): Boolean {
-                    lectureList.forEach{
-                        Log.i("수업 정보", it.toString())
-                    }
-
-                    // 수업 등록
-                    lectureVM.addLecture(lectureList as ArrayList<Lecture>)
-                    return true
-                }
-            }
         }
     }
 
+
+    /**
+     * 시간표 초기화 메소드
+     */
+    private fun initTimeTable(){
+        lectureVM.getAllLectures()
+
+        lectureVM.lectureHash.observe(requireActivity()){
+            setLabTimeTable("${bind.labSelector.selectedItem}")
+        }
+    }
 
     /**
      * 특정 실습실의 시간표를 가져오는 메소드
@@ -120,6 +119,7 @@ class TimeTableFragment : Fragment() {
         bind.timetable.removeAll()
 
         val lectureList:Map<String?, List<Lecture>> = lectureVM.getLabsLectures(labId)
+
         var schedules:ArrayList<Schedule> = arrayListOf()
 
         lectureList.forEach {
@@ -132,7 +132,9 @@ class TimeTableFragment : Fragment() {
         }
     }
 
-    /** 시간표 스티커(수업) 클릭 이벤트 등록 메소드 */
+    /**
+     * 시간표 스티커(수업) 클릭 이벤트 등록 메소드
+     */
     private fun addClickEventToSticker(){
         /** 시간표 스티커 클릭 이벤트 (수업 정보 출력) */
         bind.timetable.setOnStickerSelectEventListener(object : CustomTimeTableView.OnStickerSelectedListener{
@@ -141,23 +143,18 @@ class TimeTableFragment : Fragment() {
             override fun OnStickerSelected(idx: Int, schedules: java.util.ArrayList<Schedule>?) {
                 var schedule:ArrayList<Schedule> = bind.timetable.stickers[idx]!!.getSchedules()
 
-                Log.i("수업 정보", schedule[0].toString())
+                // 클릭한 수업의 수업 코드로 해당 수업 전체를 가져온 후 Schedule 리스트로 변환
+                val clickSchdules = lectureVM.getLectures(schedule[0].code!!)?.let {
+                    it.stream().map { lecture -> Schedule.createSchedule(lecture) }.toList()
+                } as ArrayList<Schedule>
 
-                // 클릭한 수업의 정보를 JSON으로 변환 (바텀 시트로 전달하기 위해)
-                var classInfo = Schedule.toJson(schedule)
-
-                // 수업 정보 바텀 시트로 전달
-
-                var args = Bundle()
-
-                args.apply {
+                // 클릭한 수업의 정보를 JSON으로 변환 후 전달
+                val bottomSheet = ClassInfoFragment()
+                bottomSheet.arguments = Bundle().apply {
                     putInt("index", idx)
-                    putString("classInfoJson", classInfo.toString())
-                    /** 같은 수업 정보를 전부 표시해줘야하므로 putStringArrayList()로 전달하기 */
+                    putString("classInfoJson", Schedule.toJson(clickSchdules).toString())
                 }
 
-                val bottomSheet = ClassInfoFragment()
-                bottomSheet.arguments = args
                 bottomSheet.show(parentFragmentManager, bottomSheet.tag)
 
                 /** 시간표 수정 코드
@@ -174,17 +171,17 @@ class TimeTableFragment : Fragment() {
         })
     }
 
-
     /**
-     * 시간표 초기화 메소드
+     * SwipeRefreshLayout을 당겼을 때 호출되는 메소드
      */
-    private fun initTimeTable(){
-        lectureVM.getAllLectures()
+    private fun addSwipeRefreshEvent(){
+        bind.swipeLayout.setOnRefreshListener {
+            initTimeTable()
 
-        lectureVM.lectureHash.observe(requireActivity()){
-            setLabTimeTable("911")
+            bind.swipeLayout.isRefreshing = false
         }
     }
+
 
     companion object {
         /**
@@ -205,4 +202,6 @@ class TimeTableFragment : Fragment() {
                 }
             }
     }
+
+
 }
