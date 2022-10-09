@@ -4,10 +4,13 @@ import com.google.gson.annotations.SerializedName
 
 class MemberRequestDto(){
     data class Login(
-        @SerializedName("userId")       var userId:String,
-        @SerializedName("password")     var password: String,
-        @SerializedName("deviceToken")  var deviceToken:String
-        )
+        @SerializedName("userId") val userId: String,
+        @SerializedName("password") val password: String,
+        @SerializedName("deviceToken") val deviceToken: String
+    )
 
+    data class Check(
+        @SerializedName("userId") val userId: String
+    )
 
 }

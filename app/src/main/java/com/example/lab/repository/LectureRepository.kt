@@ -1,10 +1,12 @@
 package com.example.lab.repository
 
+import android.os.Message
 import com.example.lab.data.entity.Lecture
 import com.example.lab.data.remote.RetrofitClient
 import com.example.lab.data.remote.service.LectureService
 import com.example.lab.data.requestDto.LectureRequestDto
 import com.example.lab.data.responseDto.LectureResponseDto
+import com.example.lab.data.responseDto.MessageDto
 import retrofit2.Call
 import retrofit2.Response
 import java.io.IOException
@@ -29,8 +31,8 @@ object LectureRepository {
     /**
      * 시간표 삭제 메소드
      */
-    fun deleteLecture(classCode:String): Response<LectureResponseDto.Delete>?{
-        val lectureCall:Call<LectureResponseDto.Delete> = lectureService.deleteLecture(classCode)
+    fun deleteLecture(classCode:String): Response<MessageDto>?{
+        val lectureCall:Call<MessageDto> = lectureService.deleteLecture(classCode)
 
         return try{
             lectureCall.execute()
