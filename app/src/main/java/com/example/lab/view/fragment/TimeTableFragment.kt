@@ -17,14 +17,11 @@ import com.example.lab.data.entity.Lecture
 import com.example.lab.databinding.FragmentTimeTableBinding
 import com.example.lab.custom.timetableview.CustomTimeTableView
 import com.example.lab.custom.timetableview.Schedule
-import com.example.lab.utils.DateManager
 import com.example.lab.view.bottomsheet.AddClassFragment
 import com.example.lab.view.bottomsheet.ClassInfoFragment
+import com.example.lab.view.viewmanager.BottomSheetDataReceiver
+import com.example.lab.view.viewmanager.ClassBottomSheetManager
 import com.example.lab.viewmodel.LectureViewModel
-import com.github.tlaabs.timetableview.Time
-import org.json.JSONArray
-import org.json.JSONObject
-import java.util.*
 import kotlin.collections.ArrayList
 
 // TODO: Rename parameter arguments, choose names that match
@@ -99,15 +96,16 @@ class TimeTableFragment : Fragment() {
             val bottomSheet = AddClassFragment()
             bottomSheet.show(parentFragmentManager, bottomSheet.tag)
 
-            bottomSheet.dataReciever = object : AddClassFragment.BottomSheedDataReciever{
+            bottomSheet.dataReciever = object : BottomSheetDataReceiver {
                 @RequiresApi(Build.VERSION_CODES.N)
-                override fun setClassDatas(lectureList: ArrayList<Lecture>) {
+                override fun <T> setBottomSheetDatas(lectureList: java.util.ArrayList<T>): Boolean {
                     lectureList.forEach{
                         Log.i("수업 정보", it.toString())
                     }
 
                     // 수업 등록
-                    lectureVM.addLecture(lectureList)
+                    lectureVM.addLecture(lectureList as ArrayList<Lecture>)
+                    return true
                 }
             }
         }
@@ -118,6 +116,7 @@ class TimeTableFragment : Fragment() {
      * 특정 실습실의 시간표를 가져오는 메소드
      */
     private fun setLabTimeTable(labId:String){
+        // 기존 시간표를 지움
         bind.timetable.removeAll()
 
         val lectureList:Map<String?, List<Lecture>> = lectureVM.getLabsLectures(labId)

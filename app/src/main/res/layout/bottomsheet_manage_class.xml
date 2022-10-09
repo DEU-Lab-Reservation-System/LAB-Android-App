@@ -50,7 +50,7 @@
                     android:textSize="18dp" />
 
                 <Button
-                    android:id="@+id/addClassBtn"
+                    android:id="@+id/completeBtn"
                     style="?android:attr/borderlessButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

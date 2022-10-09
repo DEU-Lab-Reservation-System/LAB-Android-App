@@ -1,4 +1,4 @@
-package com.example.lab.enum
+package com.example.lab.data.enum
 
 enum class Role(role:String) {
     ADMIN("ROLE_ADMIN"),

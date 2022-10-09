@@ -1,6 +1,6 @@
 package com.example.lab.data.entity
 
-import com.example.lab.enum.Role
+import com.example.lab.data.enum.Role
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 

@@ -1,5 +1,6 @@
 package com.example.lab.application
 
+import android.app.Activity
 import android.app.Application
 import android.content.Context
 import android.util.Log

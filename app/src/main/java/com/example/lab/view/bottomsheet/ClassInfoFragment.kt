@@ -90,7 +90,7 @@ class ClassInfoFragment : BottomSheetDialogFragment() {
             val args = Bundle()
             args.putString("classInfoJson", classInfoJson)
 
-            val bottomSheet = AddClassFragment()
+            val bottomSheet = EditClassFragment()
             bottomSheet.arguments = args
 
             bottomSheet.show(parentFragmentManager, bottomSheet.tag)
