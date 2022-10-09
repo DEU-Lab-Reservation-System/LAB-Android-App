@@ -58,13 +58,17 @@ class AddClassFragment : BottomSheetDialogFragment() {
 
         // 전달 받은 데이터가 없으면 시간표 추가 모드
         if(arguments?.isEmpty == true){
+            bind.layoutTitleTextView.text = "시간표 추가"
+
             addCreateBtnEvent()
         } else { // 전달 받은 데이터가 있으면 시간표 수정 모드
+            bind.layoutTitleTextView.text = "시간표 수정"
+            
             arguments?.getString("classInfoJson")?.let { it ->
                 val schedules = Schedule.toScheduleList(JSONObject(it))
 
                 schedules[0].let {
-                    setEditLayout(it.classTitle, it.professorName, "it.startTime", "it.endTime")
+                    setEditLayout(it.classTitle, it.professorName, it.startDate, it.endDate)
                 }
                 // 전달 받은 수업 정보를 레이아웃에 추가
                 schedules.forEach { schedule ->
@@ -306,7 +310,7 @@ class AddClassFragment : BottomSheetDialogFragment() {
     private fun addDatePickerToEditText(editText: EditText, year:Int, month:Int, day:Int){
         editText.setOnClickListener {
             val datePickerDialog = DatePickerDialog(requireContext(), { _, year, month, day ->
-                bind.endDateEditText.setText(String.format("%d-%02d-%02d", year, month + 1, day))
+                editText.setText(String.format("%d-%02d-%02d", year, month + 1, day))
             }, year, month, day)
 
             datePickerDialog.show()
