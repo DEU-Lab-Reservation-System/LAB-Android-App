@@ -11,7 +11,7 @@ class Member {
      */
     @Expose
     @SerializedName("id")
-    var id: String? = null
+    var id: Long? = null
 
     /**
      *  사용자 id

@@ -6,22 +6,16 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
-import android.widget.Spinner
 import androidx.annotation.Nullable
 import androidx.annotation.RequiresApi
-import androidx.core.view.children
 import androidx.databinding.DataBindingUtil
 import com.example.lab.R
 import com.example.lab.custom.timetableview.Schedule
-import com.example.lab.data.entity.Lecture
 import com.example.lab.databinding.BottomsheetManageClassBinding
 import com.example.lab.utils.DateManager
 import com.example.lab.view.viewmanager.ClassBottomSheetManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.json.JSONObject
-import java.util.*
-import kotlin.collections.ArrayList
 
 class EditClassFragment : BottomSheetDialogFragment() {
     // VARIABLE
@@ -94,7 +88,6 @@ class EditClassFragment : BottomSheetDialogFragment() {
         bind.startDateEditText.setText(startDate)
         bind.endDateEditText.setText(endDate)
     }
-
 
     /** 시간 및 장소 추가 버튼 이벤트 메소드 */
     private fun addClassInfoBtnEvent(container: ViewGroup?){

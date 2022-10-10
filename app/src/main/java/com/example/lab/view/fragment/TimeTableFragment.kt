@@ -142,7 +142,7 @@ class TimeTableFragment : Fragment(){
             @RequiresApi(Build.VERSION_CODES.N)
             override fun OnStickerSelected(idx: Int, schedules: java.util.ArrayList<Schedule>?) {
                 var schedule:ArrayList<Schedule> = bind.timetable.stickers[idx]!!.getSchedules()
-
+                
                 // 클릭한 수업의 수업 코드로 해당 수업 전체를 가져온 후 Schedule 리스트로 변환
                 val clickSchdules = lectureVM.getLectures(schedule[0].code!!)?.let {
                     it.stream().map { lecture -> Schedule.createSchedule(lecture) }.toList()
