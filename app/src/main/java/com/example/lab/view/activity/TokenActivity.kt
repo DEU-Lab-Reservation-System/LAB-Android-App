@@ -1,6 +1,7 @@
 package com.example.lab.view.activity
 
 import android.content.Intent
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
@@ -10,6 +11,7 @@ import android.view.KeyEvent
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.core.widget.addTextChangedListener
 import androidx.core.widget.doAfterTextChanged
 import androidx.databinding.DataBindingUtil
@@ -24,6 +26,7 @@ import com.google.android.material.textfield.TextInputLayout
 import java.security.Key
 import kotlin.text.StringBuilder
 
+@RequiresApi(Build.VERSION_CODES.O)
 class TokenActivity : AppCompatActivity() {
 
     // VARIABLE
@@ -75,8 +78,8 @@ class TokenActivity : AppCompatActivity() {
         }
 
         override fun afterTextChanged(p0: Editable?) {}
-
     }
+
 
     private fun tokenCheckListener(){
 

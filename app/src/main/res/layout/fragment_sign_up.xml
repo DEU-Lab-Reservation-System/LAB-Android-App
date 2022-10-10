@@ -24,6 +24,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1">
 
+
+
                 <!-- LAYOUT 회원가입 1 -->
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -257,6 +259,8 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
                 <!-- LAYOUT END 회원가입 2 -->
 
+
+
                 <!-- LAYOUT 회원가입 3 -->
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -418,10 +422,55 @@
                             android:textColor="@color/colorAccent"
                             tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
                     </com.google.android.material.textfield.TextInputLayout>
-                    <!-- LAYOUT END 학과 입력 필드 -->
 
+                    <!-- LAYOUT END 학과 입력 필드 -->
                     <TextView
                         android:id="@+id/signup3_text6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/noto_sans_kr_bold"
+                        android:includeFontPadding="false"
+                        android:text="전화번호"
+                        android:textColor="@color/natural_navy"
+                        android:textSize="14dp"
+
+                        app:layout_constraintBottom_toTopOf="@+id/phoneEditText"
+                        app:layout_constraintLeft_toLeftOf="parent" />
+
+
+                    <!-- LAYOUT 전화번호 입력 필드 -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/phoneEditText"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="40dp"
+
+                        app:boxStrokeColor="@color/colorAccent"
+                        app:hintTextColor="@color/colorAccent"
+
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/majorEditText">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="45dp"
+
+                            android:fontFamily="@font/poppins_regular"
+                            android:hint="-없이 입력해주세요."
+                            android:includeFontPadding="false"
+                            android:maxLines="1"
+
+                            android:padding="0dp"
+                            android:singleLine="true"
+                            android:textColor="@color/colorAccent"
+                            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <!-- LAYOUT END 전화번호 입력 필드 -->
+
+                    <TextView
+                        android:id="@+id/signup3_text7"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/noto_sans_kr_bold"
@@ -432,6 +481,7 @@
 
                         app:layout_constraintBottom_toTopOf="@+id/emailEditText"
                         app:layout_constraintLeft_toLeftOf="parent" />
+
 
                     <!-- LAYOUT 이메일 입력 필드 -->
                     <com.google.android.material.textfield.TextInputLayout
@@ -446,7 +496,7 @@
 
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/majorEditText">
+                        app:layout_constraintTop_toBottomOf="@+id/phoneEditText">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:layout_width="match_parent"
@@ -465,7 +515,7 @@
                     <!-- LAYOUT END 이메일 입력 필드 -->
 
                     <TextView
-                        android:id="@+id/signup3_text7"
+                        android:id="@+id/signup3_text8"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="30dp"
@@ -479,7 +529,7 @@
                         app:layout_constraintTop_toBottomOf="@id/emailEditText" />
 
                     <TextView
-                        android:id="@+id/signup3_text8"
+                        android:id="@+id/signup3_text9"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/noto_sans_kr_regular"
@@ -489,16 +539,17 @@
                         android:textSize="10dp"
 
                         app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/signup3_text7" />
+                        app:layout_constraintTop_toBottomOf="@id/signup3_text8" />
 
-
+                    <!-- 회원 유형 라디오 버튼 그룹 -->
                     <RadioGroup
+                        android:id="@+id/roleRadioGroup"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
                         android:orientation="horizontal"
                         android:weightSum="4"
-                        app:layout_constraintTop_toBottomOf="@id/signup3_text8">
+                        app:layout_constraintTop_toBottomOf="@id/signup3_text9">
 
                         <RadioButton
                             android:id="@+id/student"
@@ -525,7 +576,7 @@
                             android:textSize="12dp" />
 
                         <RadioButton
-                            android:id="@+id/leave"
+                            android:id="@+id/takeoff"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="10dp"
@@ -592,9 +643,75 @@
                             android:textColor="@drawable/selector_radio_text"
                             android:textSize="12dp" />
                     </RadioGroup>
+                    <!-- 회원 유형 라디오 버튼 그룹 -->
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
                 <!-- LAYOUT END 회원가입 3 -->
+
+
+                <!-- LAYOUT 회원가입 4 -->
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="70dp"
+                    android:paddingLeft="30dp"
+                    android:paddingRight="30dp">
+
+                    <TextView
+                        android:id="@+id/signup4_text1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/noto_sans_kr_bold"
+                        android:includeFontPadding="false"
+                        android:text="회원가입이"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="24dp"
+
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/signup4_text2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/noto_sans_kr_bold"
+                        android:includeFontPadding="false"
+                        android:text="완료되었습니다."
+                        android:textColor="@color/natural_navy"
+                        android:textSize="24dp"
+
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/signup4_text1" />
+
+                    <TextView
+                        android:id="@+id/signup4_text3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:fontFamily="@font/poppins_regular"
+                        android:includeFontPadding="false"
+
+                        android:text="실습실 예약을 시작해보세요 !"
+                        android:textColor="@color/natural_navy"
+                        android:textSize="16dp"
+
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/signup4_text2" />
+
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30dp"
+                        android:src="@drawable/ic_welcome"
+                        android:adjustViewBounds="true"
+
+                        app:layout_constraintTop_toBottomOf="@+id/signup4_text3"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+                <!-- LAYOUT END 회원가입 4 -->
 
             </ViewFlipper>
 
@@ -602,6 +719,7 @@
                 android:id="@id/nextBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
 
                 android:background="@color/colorAccent"
                 android:fontFamily="@font/noto_sans_kr_bold"

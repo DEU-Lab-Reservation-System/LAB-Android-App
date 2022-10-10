@@ -1,9 +1,11 @@
 package com.example.lab.view.activity
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.KeyEvent
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -11,22 +13,23 @@ import com.example.lab.R
 import com.example.lab.application.MyApplication
 import com.example.lab.databinding.ActivityLoginBinding
 import com.example.lab.view.fragment.SignUpFragment
-import com.example.lab.viewmodel.LoginViewModel
+import com.example.lab.viewmodel.MemberViewModel
 
 class LoginActivity : AppCompatActivity() {
 
     // VARIABLE
     private lateinit var bind: ActivityLoginBinding
-    private lateinit var loginViewModel: LoginViewModel
+    private lateinit var memberVM: MemberViewModel
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         bind = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(bind.root)
 
-        loginViewModel = ViewModelProvider(this)[LoginViewModel::class.java]
+        memberVM = ViewModelProvider(this)[MemberViewModel::class.java]
 
         addLoginBtnEvent()
         addSignUpBtnEvent()
@@ -44,6 +47,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     /** 로그인 버튼 이벤트 등록 */
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun addLoginBtnEvent(){
         bind.signInBtn.setOnClickListener {
             val id = bind.idEditText.editText?.text.toString()
@@ -60,11 +64,11 @@ class LoginActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            loginViewModel.login(id, pw)
+            memberVM.login(id, pw)
         }
 
         /** 로그인 성공 시 */
-        loginViewModel.loginFlag.observe(this, Observer{
+        memberVM.loginFlag.observe(this, Observer{
             // 인증이 되지 않은 사용자면 토큰 입력 화면으로 이동
             MyApplication.member?.let {
                 val intent = if(!it.isAuth){
@@ -79,7 +83,7 @@ class LoginActivity : AppCompatActivity() {
         })
 
         /** 로그인 실패 시 */
-        loginViewModel.error.observe(this) {
+        memberVM.loginError.observe(this) {
             bind.pwEditText.error = it.contentIfNotHandled()
         }
     }

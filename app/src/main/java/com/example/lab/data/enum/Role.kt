@@ -1,6 +1,8 @@
 package com.example.lab.data.enum
 
 enum class Role(role:String) {
-    ADMIN("ROLE_ADMIN"),
-    USER("ROLE_USER");
+    ADMIN("ADMIN"),
+    USER("USER"),
+    USER_TAKEOFF("TAKEOFF"),
+    USER_GRADUATE("GRADUATE");
 }
