@@ -7,6 +7,7 @@ import com.example.lab.application.MyApplication
 import com.example.lab.data.requestDto.MemberRequestDto
 import com.example.lab.repository.MemberRepository
 import com.example.lab.utils.Event
+import com.example.lab.utils.ResponseLogger
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -42,6 +43,8 @@ class MemberViewModel: ViewModel() {
             }
             else {
                 val errorMessage = JSONObject(response.errorBody()?.string()!!)
+
+//                ResponseLogger.loggingError("로그인 실패", response)
 
                 loginError.postValue(Event(errorMessage.getString("message")?:""))
 

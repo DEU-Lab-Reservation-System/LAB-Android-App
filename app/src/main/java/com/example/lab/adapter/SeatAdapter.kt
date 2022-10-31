@@ -35,7 +35,7 @@ class SeatAdapter(var context: Context, var seatList: List<Int>): BaseAdapter(){
             gridView = inflater.inflate(R.layout.sub_seat_layout, null) as View
         }
 
-        return gridView!!
+        return gridView
     }
 
 }

@@ -82,7 +82,7 @@ dependencies {
     /** TimeTableView */
     implementation 'com.github.tlaabs:TimetableView:1.0.3-fx1'
 
-    /** SwipRefershLayout */
+    /** SwipeRefershLayout */
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
 
     testImplementation 'junit:junit:4.13.2'

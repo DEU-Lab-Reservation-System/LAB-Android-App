@@ -8,10 +8,12 @@ import androidx.lifecycle.ViewModel
 import com.example.lab.data.entity.Lecture
 import com.example.lab.data.requestDto.LectureRequestDto
 import com.example.lab.repository.LectureRepository
+import com.example.lab.utils.ResponseLogger
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.json.JSONObject
+import retrofit2.Response
 import java.util.stream.Collectors
 import kotlin.streams.toList
 
@@ -40,6 +42,8 @@ class LectureViewModel : ViewModel() {
                 Log.i("수업 추가 완료", response.body().toString())
             }
             else{
+                ResponseLogger.loggingError("수업 추가", response)
+
                 val errorMessage = JSONObject(response.errorBody()?.string())
 
                 Log.i("수업 추가 실패", "${response.code()}")
@@ -52,19 +56,18 @@ class LectureViewModel : ViewModel() {
      * 수업 삭제 메소드
      * @param classCode String
      */
-    fun deleteLecture(classCode:String){
-        GlobalScope.launch(Dispatchers.IO){
+    fun deleteLecture(classCode: String) {
+        GlobalScope.launch(Dispatchers.IO) {
             val response = LectureRepository.deleteLecture(classCode)
 
-            if(response!!.isSuccessful){
+            if (response!!.isSuccessful) {
                 Log.i("수업 삭제 완료", classCode)
-            }
-            else {
+            } else {
                 val errorMessage = JSONObject(response.errorBody()?.string())
 
                 Log.i("수업 삭제 실패", "${response.code()}")
                 Log.i("수업 삭제 실패", errorMessage.getString("message"))
-        }
+            }
         }
     }
 

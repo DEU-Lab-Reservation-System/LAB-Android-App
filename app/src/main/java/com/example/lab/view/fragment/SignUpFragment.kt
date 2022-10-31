@@ -147,8 +147,8 @@ class SignUpFragment : Fragment() {
     private fun userRole(checkedId: Int): Role{
         return when(checkedId){
             R.id.student -> Role.USER
-            R.id.takeoff -> Role.USER_TAKEOFF
-            R.id.graduate -> Role.USER_GRADUATE
+            R.id.takeoff -> Role.TAKEOFF
+            R.id.graduate -> Role.GRADUATE
             R.id.admin -> Role.ADMIN
             else -> Role.USER
         }

@@ -19,18 +19,17 @@ class LectureRequestDto {
         companion object{
             fun createDto(lecture: Lecture): Create{
                 return Create(
-                    code = lecture.code!!,
-                    title = lecture.title!!,
-                    professor = lecture.professor!!,
-                    day = lecture.day!!,
-                    roomNumber = lecture.place!!.split(" ")[1],
-                    startDate = lecture.startDate!!,
-                    endDate = lecture.endDate!!,
-                    startTime = lecture.startTime!!,
-                    endTime = lecture.endTime!!
+                    code = lecture.code,
+                    title = lecture.title,
+                    professor = lecture.professor,
+                    day = lecture.day,
+                    roomNumber = lecture.place.split(" ")[1],
+                    startDate = lecture.startDate,
+                    endDate = lecture.endDate,
+                    startTime = lecture.startTime,
+                    endTime = lecture.endTime
                 )
             }
         }
     }
-
 }
