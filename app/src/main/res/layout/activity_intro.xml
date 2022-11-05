@@ -14,45 +14,39 @@
         android:layout_height="match_parent"
         android:layout_weight="1">
 
-
-
-
-
         <!-- LAYOUT 인트로 1 -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="70dp"
             android:paddingLeft="30dp"
-            android:paddingRight="30dp"
-            >
+            android:paddingRight="30dp">
 
             <TextView
                 android:id="@+id/intro1_text1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="실습실 예약"
-                android:textSize="24dp"
-                android:textColor="@color/colorAccent"
                 android:fontFamily="@font/noto_sans_kr_bold"
                 android:includeFontPadding="false"
+                android:text="실습실 예약"
+                android:textColor="@color/colorAccent"
+                android:textSize="24dp"
 
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                />
+                app:layout_constraintTop_toTopOf="parent" />
+
             <TextView
                 android:id="@+id/intro1_text2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="이젠 폰으로 하자"
-                android:textSize="24dp"
-                android:textColor="@color/natural_navy"
                 android:fontFamily="@font/noto_sans_kr_bold"
                 android:includeFontPadding="false"
+                android:text="이젠 폰으로 하자"
+                android:textColor="@color/natural_navy"
+                android:textSize="24dp"
 
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/intro1_text1"
-                />
+                app:layout_constraintTop_toBottomOf="@id/intro1_text1" />
 
             <TextView
                 android:id="@+id/explainText"
@@ -73,16 +67,16 @@
                 android:id="@+id/reservImg"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:layout_gravity="center"
 
                 android:adjustViewBounds="true"
                 android:src="@drawable/ic_mobile_reservation"
 
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/explainText"
                 app:layout_constraintVertical_bias="0.4" />
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -103,47 +97,45 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="30dp"
 
-                android:text="실습실 예약 내역도"
-                android:textSize="24dp"
-                android:textColor="@color/colorAccent"
                 android:fontFamily="@font/noto_sans_kr_bold"
                 android:includeFontPadding="false"
+                android:text="실습실 예약 내역도"
+                android:textColor="@color/colorAccent"
+                android:textSize="24dp"
 
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                />
+                app:layout_constraintTop_toTopOf="parent" />
+
             <TextView
                 android:id="@+id/intro2_text2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="30dp"
 
-                android:text="한 눈에"
-                android:textSize="24dp"
-                android:textColor="@color/natural_navy"
                 android:fontFamily="@font/noto_sans_kr_bold"
                 android:includeFontPadding="false"
+                android:text="한 눈에"
+                android:textColor="@color/natural_navy"
+                android:textSize="24dp"
 
-                app:layout_constraintTop_toBottomOf="@+id/intro2_text1"
                 app:layout_constraintLeft_toLeftOf="parent"
-                />
+                app:layout_constraintTop_toBottomOf="@+id/intro2_text1" />
 
             <TextView
                 android:id="@+id/intro2_text3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
                 android:layout_marginLeft="30dp"
+                android:layout_marginTop="20dp"
 
-                android:text="십슬실 예약 내역도 빠르게 확인할 수 있어요"
-                android:textSize="16dp"
-                android:textColor="@color/natural_navy"
                 android:fontFamily="@font/poppins_regular"
                 android:includeFontPadding="false"
+                android:text="십슬실 예약 내역도 빠르게 확인할 수 있어요"
+                android:textColor="@color/natural_navy"
+                android:textSize="16dp"
 
-                app:layout_constraintTop_toBottomOf="@+id/intro2_text2"
                 app:layout_constraintLeft_toLeftOf="parent"
-                />
+                app:layout_constraintTop_toBottomOf="@+id/intro2_text2" />
 
             <ImageView
                 android:layout_width="0dp"
@@ -152,12 +144,11 @@
                 android:adjustViewBounds="true"
                 android:background="@drawable/ic_check_reservation"
 
-                app:layout_constraintTop_toBottomOf="@+id/intro2_text3"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintVertical_bias="0.4"
-                />
+                app:layout_constraintTop_toBottomOf="@+id/intro2_text3"
+                app:layout_constraintVertical_bias="0.4" />
         </androidx.constraintlayout.widget.ConstraintLayout>
         <!-- LAYOUT END 인트로 2 -->
 
@@ -173,28 +164,27 @@
                 android:id="@+id/intro3_text1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="실습실 시간표도"
-                android:textSize="24dp"
-                android:textColor="@color/colorAccent"
                 android:fontFamily="@font/noto_sans_kr_bold"
                 android:includeFontPadding="false"
+                android:text="실습실 시간표도"
+                android:textColor="@color/colorAccent"
+                android:textSize="24dp"
 
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                />
+                app:layout_constraintTop_toTopOf="parent" />
+
             <TextView
                 android:id="@+id/intro3_text2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="한 눈에"
-                android:textSize="24dp"
-                android:textColor="@color/natural_navy"
                 android:fontFamily="@font/noto_sans_kr_bold"
                 android:includeFontPadding="false"
+                android:text="한 눈에"
+                android:textColor="@color/natural_navy"
+                android:textSize="24dp"
 
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/intro3_text1"
-                />
+                app:layout_constraintTop_toBottomOf="@id/intro3_text1" />
 
             <TextView
                 android:id="@+id/intro3_text3"
@@ -214,16 +204,16 @@
             <ImageView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:layout_gravity="center"
 
                 android:adjustViewBounds="true"
                 android:src="@drawable/ic_check_timetable"
 
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/intro3_text3"
                 app:layout_constraintVertical_bias="0.4" />
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -241,28 +231,27 @@
                 android:id="@+id/intro4_text1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="실습실 관리도"
-                android:textSize="24dp"
-                android:textColor="@color/colorAccent"
                 android:fontFamily="@font/noto_sans_kr_bold"
                 android:includeFontPadding="false"
+                android:text="실습실 관리도"
+                android:textColor="@color/colorAccent"
+                android:textSize="24dp"
 
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                />
+                app:layout_constraintTop_toTopOf="parent" />
+
             <TextView
                 android:id="@+id/intro4_text2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="가능해요"
-                android:textSize="24dp"
-                android:textColor="@color/natural_navy"
                 android:fontFamily="@font/noto_sans_kr_bold"
                 android:includeFontPadding="false"
+                android:text="가능해요"
+                android:textColor="@color/natural_navy"
+                android:textSize="24dp"
 
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/intro4_text1"
-                />
+                app:layout_constraintTop_toBottomOf="@id/intro4_text1" />
 
             <TextView
                 android:id="@+id/intro4_text3"
@@ -282,16 +271,16 @@
             <ImageView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:layout_gravity="center"
 
                 android:adjustViewBounds="true"
                 android:src="@drawable/ic_confirm_reservation"
 
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/intro4_text3"
                 app:layout_constraintVertical_bias="0.35" />
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -303,47 +292,46 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="70dp"
+            android:orientation="vertical"
             android:paddingLeft="30dp"
-            android:paddingRight="30dp"
-            android:orientation="vertical">
+            android:paddingRight="30dp">
 
             <TextView
                 android:id="@+id/intro5_text1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="실습실 예약"
-                android:textSize="24dp"
-                android:textColor="@color/colorAccent"
                 android:fontFamily="@font/noto_sans_kr_bold"
                 android:includeFontPadding="false"
+                android:text="실습실 예약"
+                android:textColor="@color/colorAccent"
+                android:textSize="24dp"
 
-                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
-                />
+                app:layout_constraintTop_toTopOf="parent" />
+
             <TextView
                 android:id="@+id/intro5_text2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="지금 바로 시작하세요"
-                android:textSize="24dp"
-                android:textColor="@color/natural_navy"
                 android:fontFamily="@font/noto_sans_kr_bold"
                 android:includeFontPadding="false"
+                android:text="지금 바로 시작하세요"
+                android:textColor="@color/natural_navy"
+                android:textSize="24dp"
 
-                app:layout_constraintTop_toBottomOf="@+id/intro5_text1"
                 app:layout_constraintLeft_toLeftOf="parent"
-                />
+                app:layout_constraintTop_toBottomOf="@+id/intro5_text1" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/mockupImage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/intro5_text2"
+                android:paddingLeft="30dp"
+                android:paddingRight="30dp"
+                app:layout_constraintBottom_toTopOf="@+id/learnMoreBtn"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintBottom_toTopOf="@+id/learnMoreBtn"
-                android:paddingLeft="30dp"
-                android:paddingRight="30dp">
+                app:layout_constraintTop_toBottomOf="@+id/intro5_text2">
 
                 <ImageView
                     android:id="@+id/ic_lab_start"
@@ -353,9 +341,9 @@
                     android:adjustViewBounds="true"
                     android:src="@drawable/ic_lab_start"
 
-                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"/>
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <View
                     android:layout_width="120dp"
@@ -378,18 +366,18 @@
                 android:layout_gravity="center"
                 android:scaleType="center"
 
-                app:lottie_rawRes="@raw/learn_more"
-                app:lottie_loop="true"
-                app:lottie_autoPlay="true"
-
-                app:layout_constraintTop_toBottomOf="@+id/mockupImage"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                />
+
+                app:layout_constraintTop_toBottomOf="@+id/mockupImage"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/learn_more" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
         <!-- LAYOUT END 인트로 5 -->
+
     </ViewFlipper>
 
     <TextView
@@ -397,23 +385,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="COMPUTER SOFTWARE ENGINEERING"
-        android:textColor="@color/black_gray"
-        android:textSize="12dp"
         android:fontFamily="@font/poppins_regular"
         android:includeFontPadding="false"
-        />
+        android:text="COMPUTER SOFTWARE ENGINEERING"
+        android:textColor="@color/black_gray"
+        android:textSize="12dp" />
 
     <TextView
         android:id="@+id/teamname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_marginBottom="10dp"
+        android:fontFamily="@font/poppins_regular"
+        android:includeFontPadding="false"
         android:text="Team. Dong-geulami"
         android:textColor="@color/black_gray"
-        android:textSize="12dp"
-        android:fontFamily="@font/poppins_regular"
-        android:layout_marginBottom="10dp"
-        android:includeFontPadding="false"
-        />
+        android:textSize="12dp" />
 </LinearLayout>
