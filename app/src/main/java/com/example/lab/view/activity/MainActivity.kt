@@ -127,20 +127,20 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    /** 뒤로가기 버튼 클릭 이벤트 */
-    private val limitTime = 1000        // 뒤로가기 버튼 누르는 제한시간
-    private var pressTime:Long = 0L     // 누른 시점
-
-    override fun onBackPressed() {
-        val now = System.currentTimeMillis()
-        val interval = now - pressTime
-
-        if(interval in 0..limitTime) {
-            finish()
-        }
-        else{
-            pressTime = now
-            Toast.makeText(applicationContext, "한 번 더 누르면 앱이 종료됩니다.", Toast.LENGTH_SHORT).show()
-        }
-    }
+//    /** 뒤로가기 버튼 클릭 이벤트 */
+//    private val limitTime = 1000        // 뒤로가기 버튼 누르는 제한시간
+//    private var pressTime:Long = 0L     // 누른 시점
+//
+//    override fun onBackPressed() {
+//        val now = System.currentTimeMillis()
+//        val interval = now - pressTime
+//
+//        if(interval in 0..limitTime) {
+//            finish()
+//        }
+//        else{
+//            pressTime = now
+//            Toast.makeText(applicationContext, "한 번 더 누르면 앱이 종료됩니다.", Toast.LENGTH_SHORT).show()
+//        }
+//    }
 }

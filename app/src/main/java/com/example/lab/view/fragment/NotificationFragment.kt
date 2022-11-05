@@ -1,10 +1,14 @@
 package com.example.lab.view.fragment
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.OnBackPressedDispatcher
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import com.example.lab.R
@@ -27,6 +31,7 @@ class NotificationFragment : Fragment() {
 
     // VARIABLE
     private lateinit var bind:FragmentNotificationBinding
+    private lateinit var callback:OnBackPressedCallback
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +46,20 @@ class NotificationFragment : Fragment() {
         bind = DataBindingUtil.inflate(inflater, R.layout.fragment_notification, container, false)
 
         return bind.root
+    }
+
+
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        callback = object : OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                requireActivity().supportFragmentManager.beginTransaction().remove(this@NotificationFragment).commit();
+                requireActivity().supportFragmentManager.popBackStack();
+            }
+        }
+
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
     }
 
     companion object {

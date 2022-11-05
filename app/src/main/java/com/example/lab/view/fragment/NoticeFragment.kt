@@ -45,12 +45,12 @@ class NoticeFragment : Fragment() {
 
     private fun addNextBtnEvent(){
         bind.nextBtn.setOnClickListener(View.OnClickListener {
-            requireActivity().supportFragmentManager.beginTransaction().remove(this).commit();
-            requireActivity().supportFragmentManager.popBackStack();
+            requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
+            requireActivity().supportFragmentManager.popBackStack()
 
             requireActivity().supportFragmentManager
                 .beginTransaction()
-                .replace(R.id.frameLayout, ReservResultFragment())
+                .replace(R.id.frameLayout, ReservCompleteFragment())
                 .addToBackStack(null)
                 .commit()
         })

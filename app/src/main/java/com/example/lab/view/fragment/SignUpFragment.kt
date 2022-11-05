@@ -97,8 +97,9 @@ class SignUpFragment : Fragment() {
                 }
                 2 -> signUp()
                 3 ->{
-                    requireActivity().supportFragmentManager.beginTransaction().remove(this@SignUpFragment).commit();
-                    requireActivity().supportFragmentManager.popBackStack();
+                    requireActivity().supportFragmentManager.beginTransaction().remove(this@SignUpFragment).commit()
+                    requireActivity().supportFragmentManager.popBackStack()
+
                 }
             }
         }

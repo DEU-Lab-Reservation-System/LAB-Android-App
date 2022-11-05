@@ -1,5 +1,6 @@
 package com.example.lab.view.fragment
 
+import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -9,6 +10,7 @@ import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.widget.*
 import android.widget.AdapterView.OnItemClickListener
+import androidx.activity.OnBackPressedCallback
 import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -50,6 +52,7 @@ class HomeFragment : Fragment() {
     private lateinit var lablist:Array<String>
     private val dateFormat = SimpleDateFormat("yyyy-MM-dd")
     private val dateTimeFormat = SimpleDateFormat("yyyy-MM-dd HH : mm")
+    private lateinit var callback:OnBackPressedCallback
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -112,7 +115,7 @@ class HomeFragment : Fragment() {
         bind.labSelector.adapter = spinnerAdapter
         bind.labSelector.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onItemSelected(adapterView: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                bind.seatGridView.labNumber.text = "${lablist[position]}호 좌석 현황"
+                bind.labNumber.text = "${lablist[position]}호 좌석 현황"
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {}
@@ -123,7 +126,7 @@ class HomeFragment : Fragment() {
         // 그리드뷰를 include로 불러왔으므로 include한 레이아웃을 먼저 가져옴
         var seatGridView: SubSeatGridviewBinding = bind.seatGridView
 
-        seatGridView.todayTimeTV.text = dateTimeFormat.format(Calendar.getInstance().timeInMillis)
+        bind.todayTimeTV.text = dateTimeFormat.format(Calendar.getInstance().timeInMillis)
 
         var leftSeatList: MutableList<Int> = mutableListOf()
         var rightSeatList: MutableList<Int> = mutableListOf()
@@ -178,6 +181,31 @@ class HomeFragment : Fragment() {
 //            Toast.makeText(requireContext(), "${seatList[position]} 번 좌석", Toast.LENGTH_SHORT).show()
 //        }
 //    }
+
+
+
+    /** 뒤로가기 버튼 클릭 이벤트 */
+    private val limitTime = 1000        // 뒤로가기 버튼 누르는 제한시간
+    private var pressTime:Long = 0L     // 누른 시점
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        callback = object : OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                val now = System.currentTimeMillis()
+                val interval = now - pressTime
+
+                if (interval in 0..limitTime) {
+                    requireActivity().finish()
+                } else {
+                    pressTime = now
+                    Toast.makeText(requireContext(), "한 번 더 누르면 앱이 종료됩니다.", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
+    }
 
     companion object {
         /**

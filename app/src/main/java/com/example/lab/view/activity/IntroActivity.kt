@@ -11,6 +11,7 @@ import android.widget.ViewFlipper
 import com.airbnb.lottie.LottieAnimationView
 import com.example.lab.R
 
+
 class IntroActivity : AppCompatActivity(), View.OnTouchListener{
 
     private lateinit var learnMoreBtn:LottieAnimationView
