@@ -20,6 +20,10 @@ import com.example.lab.databinding.BottomsheetManageClassBinding
 import com.github.tlaabs.timetableview.Time
 import java.util.*
 
+/**
+ * 수업 추가 레이아웃과 수업 수정 레이아웃이 동일하므로 중복 코드가 발생
+ * 동일한 코드를 ClassBottomSheetManager로 분리
+ */
 class ClassBottomSheetManager(
     private var bind:BottomsheetManageClassBinding,
     private var inflater: LayoutInflater,
@@ -167,8 +171,6 @@ class ClassBottomSheetManager(
         addTimePickerToEditText(startTimeEditText, startTime)
         addTimePickerToEditText(endTimeEditText, endTime)
     }
-
-
 
     /**
      * DatePicker 등록 메소드

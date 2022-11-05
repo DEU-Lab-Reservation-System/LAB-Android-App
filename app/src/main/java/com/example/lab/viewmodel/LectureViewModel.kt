@@ -9,6 +9,7 @@ import com.example.lab.data.entity.Lecture
 import com.example.lab.data.requestDto.LectureRequestDto
 import com.example.lab.repository.LectureRepository
 import com.example.lab.utils.ResponseLogger
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -18,9 +19,11 @@ import java.util.stream.Collectors
 import kotlin.streams.toList
 
 
+@OptIn(DelicateCoroutinesApi::class)
 class LectureViewModel : ViewModel() {
 
     val lectureHash = MutableLiveData<HashMap<String, ArrayList<Lecture>>>()
+    val addLectureFlag = MutableLiveData<Boolean>()
 
     /**
      * 수업 추가 메소드
@@ -39,15 +42,16 @@ class LectureViewModel : ViewModel() {
             if(response!!.isSuccessful){
                 // 새로 추가한 수업은 해시에 추가
                 hashingLectures(response.body() as ArrayList<Lecture>)
+                addLectureFlag.postValue(true)
                 Log.i("수업 추가 완료", response.body().toString())
             }
             else{
-                ResponseLogger.loggingError("수업 추가", response)
+                addLectureFlag.postValue(false)
 
-                val errorMessage = JSONObject(response.errorBody()?.string())
+                val errorMessage = response.errorBody()?.string()?.let { JSONObject(it) }
 
                 Log.i("수업 추가 실패", "${response.code()}")
-                Log.i("수업 추가 실패", errorMessage.getString("message"))
+                Log.i("수업 추가 실패", errorMessage?.getString("message") ?: "")
             }
         }
     }
@@ -63,10 +67,10 @@ class LectureViewModel : ViewModel() {
             if (response!!.isSuccessful) {
                 Log.i("수업 삭제 완료", classCode)
             } else {
-                val errorMessage = JSONObject(response.errorBody()?.string())
+                val errorMessage = response.errorBody()?.string()?.let { JSONObject(it) }
 
                 Log.i("수업 삭제 실패", "${response.code()}")
-                Log.i("수업 삭제 실패", errorMessage.getString("message"))
+                Log.i("수업 삭제 실패", errorMessage?.getString("message") ?: "")
             }
         }
     }
@@ -87,10 +91,10 @@ class LectureViewModel : ViewModel() {
                 }
             }
             else{
-                val errorMessage = JSONObject(response.errorBody()?.string())
+                val errorMessage = response.errorBody()?.string()?.let { JSONObject(it) }
 
                 Log.i("전체 시간표 조회 실패", "${response.code()}")
-                Log.i("전체 시간표 조회 실패", errorMessage.getString("message"))
+                Log.i("전체 시간표 조회 실패", errorMessage?.getString("message") ?: "")
             }
         }
     }

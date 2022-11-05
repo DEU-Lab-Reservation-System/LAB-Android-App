@@ -1,5 +1,6 @@
 package com.example.lab.view.fragment
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
@@ -48,9 +49,10 @@ class HomeFragment : Fragment() {
 
     // VARIABLE
     private lateinit var bind: FragmentHomeBinding
-    private lateinit var labSeatLayout:LinearLayout
     private lateinit var lablist:Array<String>
+    @SuppressLint("SimpleDateFormat")
     private val dateFormat = SimpleDateFormat("yyyy-MM-dd")
+    @SuppressLint("SimpleDateFormat")
     private val dateTimeFormat = SimpleDateFormat("yyyy-MM-dd HH : mm")
     private lateinit var callback:OnBackPressedCallback
 
@@ -160,8 +162,8 @@ class HomeFragment : Fragment() {
             }
         })
 
-        //        addSeatGridViewOnClickListener(seatGridView.leftSeatGridView, leftSeatList)
-//        addSeatGridViewOnClickListener(seatGridView.rightSeatGridView, rightSeatList)
+        // addSeatGridViewOnClickListener(seatGridView.leftSeatGridView, leftSeatList)
+        // addSeatGridViewOnClickListener(seatGridView.rightSeatGridView, rightSeatList)
     }
 
 //    private fun addSeatGridViewOnClickListener(gridView: GridView, seatList:MutableList<Int>){

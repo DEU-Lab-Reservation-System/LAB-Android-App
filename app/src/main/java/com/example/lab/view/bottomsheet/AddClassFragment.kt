@@ -1,5 +1,6 @@
 package com.example.lab.view.bottomsheet
 
+import android.app.AlertDialog
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -71,11 +72,30 @@ class AddClassFragment : BottomSheetDialogFragment() {
         bind.completeBtn.setOnClickListener{
             // 수업 코드 생성
             val classCode = UUID.randomUUID().toString().substring(0 until 8)
-
-            // BottomSheetDataReceiver 인터페이스를 통해 데이터를 전달 받음
+            // 입력한 수업의 정보 받아오기
             val lectureList = classManager.getInputClassData(classCode)
 
             lectureVM.addLecture(lectureList)
+        }
+
+        lectureVM.addLectureFlag.observe(requireActivity()) {
+            AlertDialog.Builder(requireContext()).apply {
+                // 수업 추가 성공 시
+                if (it) {
+                    setTitle("수업 추가 완료")
+                    setMessage("수업이 추가되었습니다.")
+                    setPositiveButton("OK") { dialog, _ ->
+                        dialog.dismiss()
+                        this@AddClassFragment.dismiss()
+                    }
+                } else { // 수업 추가 실패 시
+                    setTitle("수업 추가 실패")
+                    setMessage("수업 추가에 실패했습니다. 입력 값을 확인해주세요.")
+                    setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
+                }
+                create()
+                show()
+            }
         }
     }
 
