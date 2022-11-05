@@ -1,5 +1,6 @@
 package com.example.lab.view.fragment
 
+import android.annotation.SuppressLint
 import android.app.TimePickerDialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -9,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.EditText
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -65,22 +67,23 @@ class ReservFragment : Fragment() {
         bind.reservBtn.setOnClickListener(View.OnClickListener {
             requireActivity().supportFragmentManager
                 .beginTransaction()
-                .replace(R.id.frameLayout, NoticeFragment())
+                .add(R.id.frameLayout,NoticeFragment())
                 .addToBackStack(null)
                 .commit()
-
         })
     }
 
     private fun initSpinner(){
         // ArrayAdapter.createFromResource가 ArrayAdapter를 반환하므로 also로 adapter를 초기화한 후 할당
-        bind.teamSelector.adapter = ArrayAdapter.createFromResource(
-            requireContext(),
-            R.array.team_list,
-            R.layout.spinner_custom_item
-        ).also { adapter ->
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        }
+
+        bind.teamSelector.setAdapter(
+                ArrayAdapter.createFromResource(
+                requireContext(),
+                R.array.team_list,
+                R.layout.spinner_custom_item_padding
+            ).also { adapter ->
+                adapter.setDropDownViewResource(android.R.layout.select_dialog_item)
+            })
 
         lablist = resources.getStringArray(R.array.lab_list)
         val spinnerAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, lablist)
@@ -88,8 +91,9 @@ class ReservFragment : Fragment() {
         // 어댑터 등록
         bind.labSelector.adapter = spinnerAdapter
         bind.labSelector.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            @SuppressLint("SetTextI18n")
             override fun onItemSelected(adapterView: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                bind.seatGridView.labNumber.text = "${lablist[position]}호 좌석 현황"
+                bind.labNumber.text = "${lablist[position]}호 좌석 현황"
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {}
@@ -100,33 +104,28 @@ class ReservFragment : Fragment() {
     private fun initLabSpinner(){
         // 스피너는 고정된 리스트를 보여주는 것이기 때문에 xml로 따로 관리하는 것이 좋음
         lablist = resources.getStringArray(R.array.lab_list)
-
-
     }
 
+    /** 타임피커 등록 메소드 */
     private fun addTimePicker(){
         val cal = Calendar.getInstance()
         val hour = cal.get(Calendar.HOUR)
 
-        bind.startTimeEditText.setOnClickListener{
-            val timePicker = TimePickerDialog(requireContext(), android.R.style.Theme_Holo_Light_Dialog_NoActionBar, { timePicker, selectHour, selectMinute ->
-                bind.startTimeEditText.setText(String.format("%02d:%02d", selectHour, selectMinute))
-            }, hour, 0, true)
+        fun addTimePickerToEditText(editText:EditText){
+            editText.setOnClickListener{
+                val timePicker = TimePickerDialog(requireContext(), android.R.style.Theme_Holo_Light_Dialog_NoActionBar, { timePicker, selectHour, selectMinute ->
+                    editText.setText(String.format("%02d:%02d", selectHour, selectMinute))
+                }, hour, 0, true)
 
-            timePicker.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            timePicker.show()
+                timePicker.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                timePicker.show()
+            }
         }
-
-        bind.endTimeEditText.setOnClickListener{
-            val timePicker = TimePickerDialog(requireContext(), android.R.style.Theme_Holo_Light_Dialog_NoActionBar, { timePicker, selectHour, selectMinute ->
-                bind.endTimeEditText.setText(String.format("%02d:%02d", selectHour, selectMinute))
-            }, hour, 0, true)
-
-            timePicker.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            timePicker.show()
-        }
+        addTimePickerToEditText(bind.startTimeEditText.editText!!)
+        addTimePickerToEditText(bind.endTimeEditText.editText!!)
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables", "SetTextI18n")
     private fun initGridView(){
         // 그리드뷰를 include로 불러왔으므로 include한 레이아웃을 먼저 가져옴
         var seatGridView: SubSeatGridviewBinding = bind.seatGridView
@@ -160,10 +159,10 @@ class ReservFragment : Fragment() {
                 prevSelectSeat = seat
 
                 seat.background = resources.getDrawable(R.drawable.shape_seat_selected)
-                bind.selectSeatTV.text = "${leftSeatList[position]} 번"
+
                 Toast.makeText(
                     requireContext(),
-                    "${leftSeatList[position]} 번 좌석",
+                    "${leftSeatList[position]} 번 좌석이 선택되었습니다.",
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -179,13 +178,18 @@ class ReservFragment : Fragment() {
                 prevSelectSeat = seat
 
                 seat.background = resources.getDrawable(R.drawable.shape_seat_selected)
-                bind.selectSeatTV.text = "${rightSeatList[position]} 번"
                 Toast.makeText(
                     requireContext(),
-                    "${rightSeatList[position]} 번 좌석",
+                    "${rightSeatList[position]} 번 좌석이 선택되었습니다.",
                     Toast.LENGTH_SHORT
                 ).show()
             }
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        initSpinner()
     }
 
     companion object {

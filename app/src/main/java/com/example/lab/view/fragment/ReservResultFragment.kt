@@ -5,9 +5,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import androidx.databinding.DataBindingUtil
 import com.example.lab.R
+import com.example.lab.adapter.SeatAdapter
 import com.example.lab.databinding.FragmentReservResultBinding
+import com.example.lab.databinding.SubSeatGridviewBinding
+import com.example.lab.utils.DensityManager
+import java.text.SimpleDateFormat
+import java.util.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -16,7 +22,7 @@ private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [ReservResultFragment.newInstance] factory method to
+ * Use the [ReservResult.newInstance] factory method to
  * create an instance of this fragment.
  */
 class ReservResultFragment : Fragment() {
@@ -24,8 +30,9 @@ class ReservResultFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
-    private lateinit var bind:FragmentReservResultBinding
-
+    // VARIABLE
+    private lateinit var bind: FragmentReservResultBinding
+    private val dateFormat = SimpleDateFormat("yyyy-MM-dd")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,22 +44,55 @@ class ReservResultFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        // 데이터 바인딩
         bind = DataBindingUtil.inflate(inflater, R.layout.fragment_reserv_result, container, false)
 
         /** 데이터를 관리하는 뷰 모델을 bind에 연결해줘야 적용 됨 */
         bind.lifecycleOwner = requireActivity()
 
-        addButtonEvent()
-
+        initGridView()
         return bind.root
     }
 
-    private fun addButtonEvent(){
-        bind.nextBtn.setOnClickListener{
-            requireActivity().supportFragmentManager.beginTransaction().remove(this).commit();
-            requireActivity().supportFragmentManager.popBackStack();
+    private fun initGridView(){
+        // 그리드뷰를 include로 불러왔으므로 include한 레이아웃을 먼저 가져옴
+        var seatGridView: SubSeatGridviewBinding = bind.seatGridView
+
+        bind.todayTimeTV.text = dateFormat.format(Calendar.getInstance().timeInMillis)
+
+        var leftSeatList: MutableList<Int> = mutableListOf()
+        var rightSeatList: MutableList<Int> = mutableListOf()
+
+        // 좌석 번호 세팅
+        var flag = true
+        for (i in 1..32){
+            if(flag) leftSeatList.add(i)
+            else rightSeatList.add(i)
+
+            if(i % 4 == 0) flag = !flag
         }
+
+        // 어댑터 생성
+        var leftSeatAdapter: SeatAdapter = SeatAdapter(context = requireContext(), leftSeatList)
+        var rightSeatAdapter: SeatAdapter = SeatAdapter(context = requireContext(), rightSeatList)
+
+        seatGridView.leftSeatGridView.adapter = leftSeatAdapter
+        seatGridView.rightSeatGridView.adapter = rightSeatAdapter
+
+        /** BlurView 높이 동적으로 변경 */
+        seatGridView.labSeatLayout.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener{
+            override fun onGlobalLayout() {
+                val params = seatGridView.blurView.layoutParams
+
+                seatGridView.blurView.layoutParams = params.apply {
+                    height = seatGridView.labSeatLayout.height + DensityManager.convertDPtoPX(30)
+                }
+
+                seatGridView.labSeatLayout.viewTreeObserver.removeOnGlobalLayoutListener(this)
+            }
+        })
+
+        //        addSeatGridViewOnClickListener(seatGridView.leftSeatGridView, leftSeatList)
+//        addSeatGridViewOnClickListener(seatGridView.rightSeatGridView, rightSeatList)
     }
 
     companion object {
@@ -62,7 +102,7 @@ class ReservResultFragment : Fragment() {
          *
          * @param param1 Parameter 1.
          * @param param2 Parameter 2.
-         * @return A new instance of fragment ReservResultFragment.
+         * @return A new instance of fragment ReservResult.
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
