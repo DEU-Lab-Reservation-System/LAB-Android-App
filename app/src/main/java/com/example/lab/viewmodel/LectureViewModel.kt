@@ -135,7 +135,6 @@ class LectureViewModel : ViewModel() {
 
         lectureHash.value?.entries?.forEach {
             it.value.forEach { lecture ->
-                Log.d("갱신할 수업 정보", lecture.toString())
                 if(lecture.place == labId) lectures.add(lecture)
             }
         }
