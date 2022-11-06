@@ -1,5 +1,6 @@
 package com.example.lab.adapter
 
+import android.annotation.SuppressLint
 import android.app.ActionBar
 import android.content.Context
 import android.view.LayoutInflater
@@ -24,6 +25,7 @@ class SeatAdapter(var context: Context, var seatList: List<Int>): BaseAdapter(){
         return 0
     }
 
+    @SuppressLint("InflateParams")
     override fun getView(position: Int, view: View?, viewGroup: ViewGroup?): View {
         var gridView:View? = view
 

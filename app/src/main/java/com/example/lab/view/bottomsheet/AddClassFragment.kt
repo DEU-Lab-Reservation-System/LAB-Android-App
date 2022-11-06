@@ -37,8 +37,7 @@ class AddClassFragment : BottomSheetDialogFragment() {
     private lateinit var classManager: ClassBottomSheetManager
 
     @RequiresApi(Build.VERSION_CODES.O)
-    @Nullable
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         bind = DataBindingUtil.inflate(inflater, R.layout.bottomsheet_manage_class, container, false)
         lectureVM = ViewModelProvider(requireActivity())[LectureViewModel::class.java]
         classManager = ClassBottomSheetManager(bind, inflater, requireContext())
