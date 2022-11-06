@@ -3,26 +3,21 @@ package com.example.lab.view.bottomsheet
 import android.app.AlertDialog
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.Nullable
 import androidx.annotation.RequiresApi
-import androidx.core.view.children
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.lab.R
-import com.example.lab.data.entity.Lecture
 import com.example.lab.databinding.BottomsheetManageClassBinding
-import com.example.lab.view.viewmanager.BottomSheetDataReceiver
 import com.example.lab.view.viewmanager.ClassBottomSheetManager
 import com.example.lab.viewmodel.LectureViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import java.util.*
-import kotlin.collections.ArrayList
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -83,14 +78,14 @@ class AddClassFragment : BottomSheetDialogFragment() {
                 // 수업 추가 성공 시
                 if (it) {
                     setTitle("수업 추가 완료")
-                    setMessage("수업이 추가되었습니다.")
+                    setMessage("수업이 추가 되었습니다.")
                     setPositiveButton("OK") { dialog, _ ->
                         dialog.dismiss()
                         this@AddClassFragment.dismiss()
                     }
                 } else { // 수업 추가 실패 시
                     setTitle("수업 추가 실패")
-                    setMessage("수업 추가에 실패했습니다. 입력 값을 확인해주세요.")
+                    setMessage("수업 추가 중 오류가 발생했습니다. 입력 값을 확인해주세요.")
                     setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
                 }
                 create()

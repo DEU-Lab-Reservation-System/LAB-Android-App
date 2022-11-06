@@ -120,6 +120,8 @@ class TimeTableFragment : Fragment(){
 
         val lectureList:Map<String?, List<Lecture>> = lectureVM.getLabsLectures(labId)
 
+        Log.i("갱신된 수업 리스트", lectureList.toString())
+
         var schedules:ArrayList<Schedule> = arrayListOf()
 
         lectureList.forEach {

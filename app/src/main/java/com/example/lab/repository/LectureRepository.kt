@@ -17,12 +17,26 @@ object LectureRepository {
     /**
      *  시간표(수업) 추가 메소드
      */
-    fun addLecture(lectureList:List<LectureRequestDto.Create>): Response<List<Lecture>>?{
-        val lectureCall:Call<List<Lecture>> = lectureService.addLecture(lectureList)
+    fun addLecture(lectureList:List<LectureRequestDto.Create>): Response<ArrayList<Lecture>>?{
+        val lectureCall:Call<ArrayList<Lecture>> = lectureService.addLecture(lectureList)
 
         return try{
             lectureCall.execute()
         } catch (e : IOException){
+            e.printStackTrace()
+            null
+        }
+    }
+
+    /**
+     * 시간표(수업) 수정 메소드
+     */
+    fun editLecture(lectureList:List<LectureRequestDto.Edit>) :Response<ArrayList<Lecture>>?{
+        val lectureCall:Call<ArrayList<Lecture>> = lectureService.editLecture(lectureList)
+
+        return try{
+            lectureCall.execute()
+        }catch (e : IOException){
             e.printStackTrace()
             null
         }
