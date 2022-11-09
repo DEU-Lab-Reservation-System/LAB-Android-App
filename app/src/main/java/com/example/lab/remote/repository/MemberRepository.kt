@@ -1,8 +1,8 @@
 package com.example.lab.repository
 
 import com.example.lab.data.entity.Member
-import com.example.lab.data.remote.RetrofitClient
-import com.example.lab.data.remote.service.MemberService
+import com.example.lab.remote.RetrofitClient
+import com.example.lab.remote.service.MemberService
 import com.example.lab.data.requestDto.MemberRequestDto
 import com.example.lab.data.responseDto.MessageDto
 import retrofit2.Call
