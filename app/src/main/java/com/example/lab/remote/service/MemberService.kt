@@ -1,4 +1,4 @@
-package com.example.lab.data.remote.service
+package com.example.lab.remote.service
 
 import android.os.Message
 import com.example.lab.data.requestDto.MemberRequestDto

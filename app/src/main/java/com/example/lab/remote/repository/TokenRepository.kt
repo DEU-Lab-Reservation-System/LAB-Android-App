@@ -1,4 +1,4 @@
-package com.example.lab.repository
+package com.example.lab.remote.repository
 
 import com.example.lab.data.requestDto.TokenRequestDto
 import com.example.lab.remote.RetrofitClient

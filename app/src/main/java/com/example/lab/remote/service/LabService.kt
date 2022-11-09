@@ -1,4 +1,4 @@
-package com.example.lab.data.remote.service
+package com.example.lab.remote.service
 
 
 import com.example.lab.data.responseDto.LabResponseDto

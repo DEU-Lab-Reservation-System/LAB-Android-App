@@ -1,4 +1,4 @@
-package com.example.lab.data.remote
+package com.example.lab.remote
 
 import com.example.lab.utils.ApiLogger
 import com.google.gson.GsonBuilder

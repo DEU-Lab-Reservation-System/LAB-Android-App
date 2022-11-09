@@ -1,4 +1,4 @@
-package com.example.lab.repository
+package com.example.lab.remote.repository
 
 import android.os.Message
 import com.example.lab.data.entity.Lecture

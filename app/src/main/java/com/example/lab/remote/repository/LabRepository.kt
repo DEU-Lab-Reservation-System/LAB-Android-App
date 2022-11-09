@@ -1,4 +1,4 @@
-package com.example.lab.repository
+package com.example.lab.remote.repository
 
 import com.example.lab.remote.RetrofitClient
 import com.example.lab.remote.service.LabService
