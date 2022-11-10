@@ -1,17 +1,25 @@
 package com.example.lab.view.fragment
 
+import android.annotation.SuppressLint
+import android.os.Build
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
+import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.get
 import com.example.lab.R
 import com.example.lab.adapter.SeatAdapter
+import com.example.lab.application.MyApplication
 import com.example.lab.databinding.FragmentReservResultBinding
 import com.example.lab.databinding.SubSeatGridviewBinding
+import com.example.lab.utils.DateManager
 import com.example.lab.utils.DensityManager
+import com.example.lab.viewmodel.ReservViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -32,6 +40,8 @@ class ReservResultFragment : Fragment() {
 
     // VARIABLE
     private lateinit var bind: FragmentReservResultBinding
+    private lateinit var reservVM: ReservViewModel
+    @SuppressLint("SimpleDateFormat")
     private val dateFormat = SimpleDateFormat("yyyy-MM-dd")
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,25 +52,59 @@ class ReservResultFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,savedInstanceState: Bundle?): View {
         // Inflate the layout for this fragment
         bind = DataBindingUtil.inflate(inflater, R.layout.fragment_reserv_result, container, false)
+        reservVM = ViewModelProvider(requireActivity())[ReservViewModel::class.java]
 
         /** 데이터를 관리하는 뷰 모델을 bind에 연결해줘야 적용 됨 */
         bind.lifecycleOwner = requireActivity()
 
+
+        /** 데이터를 관리하는 뷰 모델을 bind에 연결해줘야 적용 됨 */
         initGridView()
+        addButtonEvent()
+        initReservData()
+
         return bind.root
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    @SuppressLint("SetTextI18n")
+    private fun initReservData(){
+        reservVM.getUserReservs(MyApplication.member?.userId!!)
+
+        reservVM.reservList.observe(requireActivity()){
+
+            if(it.reservs.isNotEmpty()){
+                it.reservs[0].let {
+                    bind.apply {
+                        studentNameTv.text = "${it.name}(${it.userId})"
+                        majorTv.text = it.major
+                        replaceTv.text = "정보공학관 ${it.roomNumber}"
+                        timeTv.text = "${DateManager.dateParse(it.startTime)}-${DateManager.dateParse(it.endTime)}"
+                        seatTv.text = "${it.seatNum}번 좌석"
+                    }
+                }
+            }
+        }
+    }
+
+    private fun addButtonEvent(){
+        bind.okBtn.setOnClickListener{
+            requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
+            requireActivity().supportFragmentManager.popBackStack()
+        }
     }
 
     private fun initGridView(){
         // 그리드뷰를 include로 불러왔으므로 include한 레이아웃을 먼저 가져옴
-        var seatGridView: SubSeatGridviewBinding = bind.seatGridView
+        val seatGridView: SubSeatGridviewBinding = bind.seatGridView
 
         bind.todayTimeTV.text = dateFormat.format(Calendar.getInstance().timeInMillis)
 
-        var leftSeatList: MutableList<Int> = mutableListOf()
-        var rightSeatList: MutableList<Int> = mutableListOf()
+        val leftSeatList: MutableList<Int> = mutableListOf()
+        val rightSeatList: MutableList<Int> = mutableListOf()
 
         // 좌석 번호 세팅
         var flag = true
@@ -72,11 +116,8 @@ class ReservResultFragment : Fragment() {
         }
 
         // 어댑터 생성
-        var leftSeatAdapter: SeatAdapter = SeatAdapter(context = requireContext(), leftSeatList)
-        var rightSeatAdapter: SeatAdapter = SeatAdapter(context = requireContext(), rightSeatList)
-
-        seatGridView.leftSeatGridView.adapter = leftSeatAdapter
-        seatGridView.rightSeatGridView.adapter = rightSeatAdapter
+        seatGridView.leftSeatGridView.adapter = SeatAdapter(context = requireContext(), leftSeatList)
+        seatGridView.rightSeatGridView.adapter = SeatAdapter(context = requireContext(), rightSeatList)
 
         /** BlurView 높이 동적으로 변경 */
         seatGridView.labSeatLayout.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener{
@@ -92,7 +133,7 @@ class ReservResultFragment : Fragment() {
         })
 
         //        addSeatGridViewOnClickListener(seatGridView.leftSeatGridView, leftSeatList)
-//        addSeatGridViewOnClickListener(seatGridView.rightSeatGridView, rightSeatList)
+        //        addSeatGridViewOnClickListener(seatGridView.rightSeatGridView, rightSeatList)
     }
 
     companion object {

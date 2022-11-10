@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.lab.data.responseDto.TokenResponseDto
-import com.example.lab.repository.TokenRepository
+import com.example.lab.remote.repository.TokenRepository
 import com.example.lab.utils.Event
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -22,17 +22,18 @@ class TokenViewModel : ViewModel() {
         GlobalScope.launch(Dispatchers.IO) {
             val response: Response<TokenResponseDto.Check>? = TokenRepository.checkToken(userId, inputToken)
 
-            if(response!!.isSuccessful && response.body()!!.auth){
-                tokenFlag.postValue(true)
-                
-                Log.i("토큰 검증 성공", "${response.body()}")
-            }else{
-                error.postValue(Event("토큰이 유효하지 않습니다."))
+            response?.let {
+                if(it.isSuccessful && it.body()!!.auth){
+                    tokenFlag.postValue(true)
 
-                val errorMessage = JSONObject(response.errorBody()?.string())
+                    Log.i("토큰 검증 성공", "${it.body()}")
+                } else {
+                    error.postValue(Event("토큰이 유효하지 않습니다."))
 
-                Log.i("토큰 검증 실패 Code", "${response.code()}")
-                Log.i("토큰 검증 실패 Message", errorMessage.getString("message"))
+                    val errorMessage = it.errorBody()?.string()?.let { res -> JSONObject(res) }
+
+                    Log.i("토큰 검증 실패", "${it.code()}, ${errorMessage?.getString("message")?:""} ")
+                }
             }
         }
     }

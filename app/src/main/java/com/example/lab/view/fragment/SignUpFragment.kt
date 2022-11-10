@@ -99,7 +99,6 @@ class SignUpFragment : Fragment() {
                 3 ->{
                     requireActivity().supportFragmentManager.beginTransaction().remove(this@SignUpFragment).commit()
                     requireActivity().supportFragmentManager.popBackStack()
-
                 }
             }
         }

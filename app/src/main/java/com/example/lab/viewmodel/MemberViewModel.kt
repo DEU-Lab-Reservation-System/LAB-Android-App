@@ -5,9 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.lab.application.MyApplication
 import com.example.lab.data.requestDto.MemberRequestDto
-import com.example.lab.repository.MemberRepository
+import com.example.lab.remote.repository.MemberRepository
 import com.example.lab.utils.Event
 import com.example.lab.utils.ResponseLogger
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -28,6 +29,7 @@ class MemberViewModel: ViewModel() {
     /**
      * 로그인 메소드
      */
+    @OptIn(DelicateCoroutinesApi::class)
     fun login(id: String, password: String){
         GlobalScope.launch(Dispatchers.IO) {
             val response = MemberRepository.login(id, password, MyApplication.deviceToken!!)

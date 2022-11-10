@@ -4,13 +4,12 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.lab.data.responseDto.LabResponseDto
-import com.example.lab.repository.LabRepository
+import com.example.lab.remote.repository.LabRepository
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.json.JSONObject
-import java.util.logging.ErrorManager
 
 @OptIn(DelicateCoroutinesApi::class)
 class LabViewModel : ViewModel() {

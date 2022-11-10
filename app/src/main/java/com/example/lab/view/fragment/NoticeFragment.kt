@@ -50,7 +50,7 @@ class NoticeFragment : Fragment() {
 
             requireActivity().supportFragmentManager
                 .beginTransaction()
-                .replace(R.id.frameLayout, ReservCompleteFragment())
+                .add(R.id.frameLayout, ReservCompleteFragment())
                 .addToBackStack(null)
                 .commit()
         })

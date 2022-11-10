@@ -4,17 +4,13 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.widget.*
-import android.widget.AdapterView.OnItemClickListener
 import androidx.activity.OnBackPressedCallback
 import androidx.annotation.RequiresApi
-import androidx.core.view.allViews
-import androidx.core.view.children
 import androidx.core.view.get
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -28,9 +24,8 @@ import com.example.lab.databinding.SubSeatGridviewBinding
 import com.example.lab.utils.DateManager
 import com.example.lab.utils.DensityManager
 import com.example.lab.viewmodel.LabViewModel
+import com.example.lab.viewmodel.ReservViewModel
 import java.text.SimpleDateFormat
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import java.util.*
 
 
@@ -74,7 +69,14 @@ class HomeFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,savedInstanceState: Bundle?): View? {
+    override fun onResume() {
+        super.onResume()
+        // 그리드뷰 변수 연결
+        leftGridView = bind.seatGridView.leftSeatGridView
+        rightGridView = bind.seatGridView.rightSeatGridView
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
 
         // 데이터 바인딩
@@ -152,7 +154,7 @@ class HomeFragment : Fragment() {
              * item이 seatlist에 있으면 해당 아이템의 뷰의 색상을 변경
              * 없으면 회색으로 돌려놓기
              */
-            val seatlist:ArrayList<Int> = labVM.labStatus.value?.seatList?.map { it -> it.toInt() } as ArrayList<Int>
+            val seatlist:ArrayList<Int> = (labVM.labStatus.value?.seatList?:arrayListOf()).map { it.toInt() } as ArrayList<Int>
 
             fun markSeatInUse(gridView: GridView, idx:Int){
                 val seatNum = gridView.getItemAtPosition(idx) as Int
@@ -164,9 +166,9 @@ class HomeFragment : Fragment() {
                 }
             }
 
-            for (i in 0 until LAB_SEAT_SIZE / 2){
+            for (i in 0 until LAB_SEAT_SIZE / 2) {
                 markSeatInUse(leftGridView, i)
-                markSeatInUse(rightGridView,i)
+                markSeatInUse(rightGridView, i)
             }
         }
     }
@@ -206,26 +208,6 @@ class HomeFragment : Fragment() {
             }
         })
     }
-
-//    @SuppressLint("UseCompatLoadingForDrawables")
-//    private fun addSeatGridViewOnClickListener(gridView: GridView, seatList:MutableList<Int>){
-//        // 클릭 이벤트 : 클릭한 좌석 표시
-//        gridView.onItemClickListener = OnItemClickListener { adapterView, view, position, l ->
-//            // 이전에 선택했던 자리는 다시 회색으로 돌림
-//            if(::prevSelectSeat.isInitialized){
-//                prevSelectSeat.background = resources.getDrawable(R.drawable.shape_seat)
-//            }
-//            // view는 현재 클릭 된 뷰
-//            val seat = view.findViewById(R.id.seat) as View
-//            prevSelectSeat = seat
-//
-//            // 선택 된 좌석은 색깔로 표시
-//            seat.background = resources.getDrawable(R.drawable.shape_seat_selected)
-//
-//            Toast.makeText(requireContext(), "${seatList[position]} 번 좌석", Toast.LENGTH_SHORT).show()
-//        }
-//    }
-
 
 
     /** 뒤로가기 버튼 클릭 이벤트 */

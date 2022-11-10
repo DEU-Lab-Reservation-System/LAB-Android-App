@@ -67,7 +67,7 @@ class ReservFragment : Fragment() {
         bind.reservBtn.setOnClickListener(View.OnClickListener {
             requireActivity().supportFragmentManager
                 .beginTransaction()
-                .add(R.id.frameLayout,NoticeFragment())
+                .add(R.id.frameLayout, NoticeFragment())
                 .addToBackStack(null)
                 .commit()
         })
@@ -155,7 +155,7 @@ class ReservFragment : Fragment() {
                     prevSelectSeat.background = resources.getDrawable(R.drawable.shape_seat)
                 }
 
-                var seat = view.findViewById(R.id.seat) as View
+                val seat = view.findViewById(R.id.seat) as View
                 prevSelectSeat = seat
 
                 seat.background = resources.getDrawable(R.drawable.shape_seat_selected)
@@ -174,7 +174,7 @@ class ReservFragment : Fragment() {
                     prevSelectSeat.background = resources.getDrawable(R.drawable.shape_seat)
                 }
 
-                var seat = view.findViewById(R.id.seat) as View
+                val seat = view.findViewById(R.id.seat) as View
                 prevSelectSeat = seat
 
                 seat.background = resources.getDrawable(R.drawable.shape_seat_selected)

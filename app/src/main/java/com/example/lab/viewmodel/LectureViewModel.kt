@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.lab.data.entity.Lecture
 import com.example.lab.data.requestDto.LectureRequestDto
-import com.example.lab.repository.LectureRepository
+import com.example.lab.remote.repository.LectureRepository
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope

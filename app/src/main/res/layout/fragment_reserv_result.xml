@@ -8,7 +8,9 @@
     tools:context=".view.fragment.ReservResultFragment">
 
     <data>
-
+        <variable
+            name="reservVm"
+            type="com.example.lab.viewmodel.ReservViewModel" />
     </data>
 
     <ScrollView
@@ -19,7 +21,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:background="@color/white"
             android:orientation="vertical"
             android:padding="30dp">
@@ -125,6 +127,7 @@
                     android:layout_weight="1" />
 
                 <TextView
+                    android:id="@+id/studentNameTv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right|center"
@@ -165,6 +168,7 @@
                     android:layout_weight="1" />
 
                 <TextView
+                    android:id="@+id/majorTv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right|center"
@@ -204,6 +208,7 @@
                     android:layout_weight="1" />
 
                 <TextView
+                    android:id="@+id/replaceTv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right|center"
@@ -243,6 +248,7 @@
                     android:layout_weight="1" />
 
                 <TextView
+                    android:id="@+id/seatTv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right|center"
@@ -283,6 +289,7 @@
                     android:layout_weight="1" />
 
                 <TextView
+                    android:id="@+id/timeTv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right|center"
@@ -302,7 +309,7 @@
             <!-- LAYOUT END 예약 시간 필드 레이아웃 -->
 
             <Button
-                android:id="@+id/nextBtn"
+                android:id="@+id/okBtn"
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

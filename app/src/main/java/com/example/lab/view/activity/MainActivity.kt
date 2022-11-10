@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
         bind.reservResultBtn.setOnClickListener(View.OnClickListener {
             supportFragmentManager
                 .beginTransaction()
-                .replace(R.id.frameLayout, ReservResultFragment())
+                .add(R.id.frameLayout, ReservResultFragment())
                 .addToBackStack(null)
                 .commit()
         })
@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity() {
         bind.notifyBtn.setOnClickListener(View.OnClickListener {
             supportFragmentManager
                 .beginTransaction()
-                .replace(R.id.frameLayout, NotificationFragment())
+                .add(R.id.frameLayout, NotificationFragment())
                 .addToBackStack(null)
                 .commit()
         })
