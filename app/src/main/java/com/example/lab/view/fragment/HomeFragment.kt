@@ -71,13 +71,6 @@ class HomeFragment : Fragment() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        // 그리드뷰 변수 연결
-        leftGridView = bind.seatGridView.leftSeatGridView
-        rightGridView = bind.seatGridView.rightSeatGridView
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
 
@@ -148,12 +141,14 @@ class HomeFragment : Fragment() {
         }
     }
 
+
     /**
      * 실습실의 이용중인 좌석 표시 or 수업 중인지 표시
      */
     private fun setLabStatus(){
-        // bind.seatGridView.blurFrameLayout.visibility = View.VISIBLE
-        labVM.labStatus.observe(requireActivity()){
+        // 처음 선택되어 있는 실습실의 현황을 조회
+        labVM.getLabStatus(bind.labSelector.selectedItemPosition)
+        labVM.labStatus.observe(viewLifecycleOwner){
             /**
              * 0부터 실습실 좌석 수까지 순회 (그리드뷰 반반씩 나눠져 있으니 / 2 )
              * 인덱스에 해당하는 gridView의 item(실제 좌석 번호)을 가져옴
@@ -210,7 +205,7 @@ class HomeFragment : Fragment() {
                 val params = seatGridView.blurView.layoutParams
 
                 seatGridView.blurView.layoutParams = params.apply {
-                    height = seatGridView.labSeatLayout.height + DensityManager.convertDPtoPX(30)
+                    height = seatGridView.labSeatLayout.height
                 }
 
                 seatGridView.labSeatLayout.viewTreeObserver.removeOnGlobalLayoutListener(this)

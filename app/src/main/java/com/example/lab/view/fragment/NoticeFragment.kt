@@ -21,16 +21,14 @@ private const val ARG_PARAM2 = "param2"
  */
 class NoticeFragment : Fragment() {
     // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private var reservInfo:String? = null
 
     // VARIABLE
     private lateinit var bind: FragmentNoticeBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+            reservInfo = it.getString("ReservInfo")
         }
     }
 
@@ -48,9 +46,15 @@ class NoticeFragment : Fragment() {
             requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
             requireActivity().supportFragmentManager.popBackStack()
 
+            val fragment = ReservCompleteFragment().apply {
+                arguments = Bundle().apply {
+                    putString("ReservInfo", reservInfo)
+                }
+            }
+
             requireActivity().supportFragmentManager
                 .beginTransaction()
-                .add(R.id.frameLayout, ReservCompleteFragment())
+                .add(R.id.frameLayout, fragment)
                 .addToBackStack(null)
                 .commit()
         })

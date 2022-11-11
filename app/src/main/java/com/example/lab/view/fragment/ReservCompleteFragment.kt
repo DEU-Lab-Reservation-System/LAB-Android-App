@@ -1,13 +1,19 @@
 package com.example.lab.view.fragment
 
+import android.annotation.SuppressLint
+import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
 import com.example.lab.R
+import com.example.lab.data.responseDto.ReservResponseDto
 import com.example.lab.databinding.FragmentReservCompleteBinding
+import com.example.lab.utils.DateManager
+import org.json.JSONObject
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -20,18 +26,16 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class ReservCompleteFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
+    private var argument:String? = null
+
+    // VARIABLE
     private lateinit var bind: FragmentReservCompleteBinding
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+            argument = it.getString("ReservInfo")
         }
     }
 
@@ -44,8 +48,30 @@ class ReservCompleteFragment : Fragment() {
         bind.lifecycleOwner = requireActivity()
 
         addButtonEvent()
+        setReservData()
 
         return bind.root
+    }
+
+    /**
+     * 예약 신청 결과를 표시하는 메소드
+     */
+    @SuppressLint("SetTextI18n")
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun setReservData(){
+        if(argument == null) return
+
+        val reservInfo = ReservResponseDto.Reserv.createDto(JSONObject(argument))
+
+        bind.apply {
+            reservInfo.apply {
+                userNameTv.text = "${name}(${userId})"
+                majorTv.text = major
+                placeTv.text = "정보공학관 $roomNumber"
+                seatTv.text = "${seatNum}번 좌석"
+                timeTv.text = "${DateManager.dateParse(startTime)}-${DateManager.dateParse(endTime)}"
+            }
+        }
     }
 
     private fun addButtonEvent(){

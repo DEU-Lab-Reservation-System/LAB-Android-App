@@ -1,7 +1,9 @@
 package com.example.lab.view.fragment
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.app.TimePickerDialog
+import android.content.DialogInterface
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -12,17 +14,22 @@ import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.widget.*
 import androidx.core.view.get
+import androidx.core.view.isEmpty
 import androidx.core.view.isNotEmpty
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.lab.R
 import com.example.lab.adapter.SeatAdapter
+import com.example.lab.application.MyApplication
 import com.example.lab.data.requestDto.LabRequestDto
+import com.example.lab.data.requestDto.ReservRequestDto
 import com.example.lab.databinding.FragmentReservBinding
 import com.example.lab.databinding.SubSeatGridviewBinding
 import com.example.lab.utils.DensityManager
 import com.example.lab.viewmodel.LabViewModel
+import com.example.lab.viewmodel.ReservViewModel
+import com.google.android.datatransport.runtime.backends.BackendResponse.ok
 import java.util.*
 
 // TODO: Rename parameter arguments, choose names that match
@@ -48,6 +55,7 @@ class ReservFragment : Fragment() {
     private lateinit var rightGridView : GridView
 
     private lateinit var labVM:LabViewModel
+    private lateinit var reservVM:ReservViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,6 +75,7 @@ class ReservFragment : Fragment() {
         // 데이터 바인딩
         bind = DataBindingUtil.inflate(inflater, R.layout.fragment_reserv, container, false)
         labVM = ViewModelProvider(requireActivity())[LabViewModel::class.java]
+        reservVM = ViewModelProvider(requireActivity())[ReservViewModel::class.java]
 
         /** 데이터를 관리하는 뷰 모델을 bind에 연결해줘야 적용 됨 */
         bind.lifecycleOwner = requireActivity()
@@ -93,17 +102,78 @@ class ReservFragment : Fragment() {
             endTimeEditText.editText?.addTimePicker()
         }
     }
-    
+
+    /**
+     * 예약 신청 버튼 이벤트 등록
+     */
     private fun addEventreservationBtn(){
         bind.reservBtn.setOnClickListener(View.OnClickListener {
+            bind.apply {
+                val reservInfo = ReservRequestDto.Create(
+                    userId = MyApplication.member?.userId?:"",
+                    labNum = labSelector.selectedItem as String,
+                    team = if(teamSelector.text.isEmpty()) -1 else teamSelector.text.toString().toInt(),
+                    seatNum = selectedSeatTv.text.toString(),
+                    startTime = startTimeEditText.editText?.text.toString(),
+                    endTime = endTimeEditText.editText?.text.toString()
+                )
+
+                // 모든 선택 값이 다 선택된 경우에만 예약 신청 가능
+                reservInfo.apply {
+                    if(startTime.isEmpty() || endTime.isEmpty() ||
+                        team == -1 || seatNum == "-"
+                    ){
+                        val alertDialog: AlertDialog? = activity?.let {
+                            val builder = AlertDialog.Builder(it)
+                            builder.apply {
+                                setTitle("시스템 알림")
+                                setMessage("모든 항목을 선택해주세요.")
+                                setPositiveButton("확인") { dialog, _ -> dialog.dismiss()}
+                            }
+                            builder.create()
+                        }
+                        alertDialog?.show()
+                        return@OnClickListener
+                    }
+                }
+                // 예약 신청
+                reservVM.addReservation(reservInfo)
+            }
+        })
+
+        // 예약 성공시
+        reservVM.reserv.observe(viewLifecycleOwner){
+            val fragment = NoticeFragment().apply {
+                arguments = Bundle().apply {
+                    putString("ReservInfo", it.toJson().toString())
+                }
+            }
+
             requireActivity().supportFragmentManager
                 .beginTransaction()
-                .add(R.id.frameLayout, NoticeFragment())
+                .add(R.id.frameLayout, fragment)
                 .addToBackStack(null)
                 .commit()
-        })
+        }
+
+        // 예약 실패시
+        reservVM.reservError.observe(viewLifecycleOwner){error ->
+            val alertDialog: AlertDialog? = activity?.let {
+                val builder = AlertDialog.Builder(it)
+                builder.apply {
+                    setTitle("예약 실패")
+                    setMessage(error.contentIfNotHandled()?:"예약에 실패했습니다.")
+                    setPositiveButton("확인") { dialog, _ -> dialog.dismiss()}
+                }
+                builder.create()
+            }
+            alertDialog?.show()
+        }
     }
 
+    /**
+     * 팀 선택 스피너 초기화
+     */
     private fun initTeamSpinner(){
         // ArrayAdapter.createFromResource가 ArrayAdapter를 반환하므로 also로 adapter를 초기화한 후 할당
         bind.teamSelector.setAdapter(
@@ -116,7 +186,8 @@ class ReservFragment : Fragment() {
             })
     }
 
-    /** 실습실 선택 스피너 초기화
+    /**
+     * 실습실 선택 스피너 초기화
      * 선택된 시간이 없으면 현재 시간 기준으로 조회
      * 선택된 시간이 있으면 해당 시간대로 조회
      */
@@ -153,7 +224,7 @@ class ReservFragment : Fragment() {
     @SuppressLint("SetTextI18n")
     private fun setLabStatus(){
         // bind.seatGridView.blurFrameLayout.visibility = View.VISIBLE
-        labVM.labStatus.observe(requireActivity()){
+        labVM.labStatus.observe(viewLifecycleOwner){
             /**
              * 0부터 실습실 좌석 수까지 순회 (그리드뷰 반반씩 나눠져 있으니 / 2 )
              * 인덱스에 해당하는 gridView의 item(실제 좌석 번호)을 가져옴
@@ -162,19 +233,26 @@ class ReservFragment : Fragment() {
              */
             // 수업 중이면 수업 중임을 표시
             if(it.inClass){
-                bind.seatGridView.blurFrameLayout.visibility = View.VISIBLE
+                bind.seatGridView.apply {
+                    blurFrameLayout.visibility = View.VISIBLE
+                    leftGridView.isEnabled = false
+                    rightGridView.isEnabled = false
+                }
                 return@observe
             }
 
             val seatlist:ArrayList<Int> = (it.seatList?:arrayListOf()).map {seat -> seat.toInt() } as ArrayList<Int>
             bind.seatGridView.apply {
                 blurFrameLayout.visibility = View.GONE
+                leftGridView.isEnabled = true
+                rightGridView.isEnabled = true
+
                 peopleTv.text = "${seatlist.size} / 32"
                 managerTv.text =
                     if(it.manager == null) "방장이 없습니다."
                     else "${it.manager.name}(${it.manager.id})"
             }
-            
+
             for (i in 0 until LAB_SEAT_SIZE / 2) {
                 leftGridView.markSeatInUser(seatlist, i)
                 rightGridView.markSeatInUser(seatlist, i)
@@ -183,6 +261,9 @@ class ReservFragment : Fragment() {
     }
 
 
+    /**
+     * 그리드뷰 초기화 메소드
+     */
     @SuppressLint("UseCompatLoadingForDrawables", "SetTextI18n")
     private fun initGridView(){
         // 그리드뷰를 include로 불러왔으므로 include한 레이아웃을 먼저 가져옴
@@ -216,7 +297,7 @@ class ReservFragment : Fragment() {
                 val params = seatGridView.blurView.layoutParams
 
                 seatGridView.blurView.layoutParams = params.apply {
-                    height = seatGridView.labSeatLayout.height + DensityManager.convertDPtoPX(30)
+                    height = seatGridView.labSeatLayout.height
                 }
 
                 seatGridView.labSeatLayout.viewTreeObserver.removeOnGlobalLayoutListener(this)
@@ -240,6 +321,10 @@ class ReservFragment : Fragment() {
         }
     }
 
+    /**
+     * 그리드뷰 확장 함수
+     * 그리드뷰에 클릭 이벤트를 등록하는 메소드
+     */
     private fun GridView.addSeatClickEvent(seatList:MutableList<Int>){
         this.onItemClickListener = AdapterView.OnItemClickListener{ adapterView, view, position, l ->
             val seat = view.findViewById(R.id.seat) as View // 클릭한 좌석의 뷰
@@ -252,11 +337,7 @@ class ReservFragment : Fragment() {
             prevSelectSeat = seat
             seat.background = resources.getDrawable(R.drawable.shape_seat_selected)
 
-            Toast.makeText(
-                requireContext(),
-                "${seatList[position]} 번 좌석이 선택되었습니다.",
-                Toast.LENGTH_SHORT
-            ).show()
+            bind.selectedSeatTv.text = "${seatList[position]}"
         }
     }
 

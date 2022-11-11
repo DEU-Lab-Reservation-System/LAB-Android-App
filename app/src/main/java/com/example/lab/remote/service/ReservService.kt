@@ -1,5 +1,6 @@
 package com.example.lab.remote.service
 
+import com.example.lab.data.requestDto.ReservRequestDto
 import com.example.lab.data.responseDto.ReservResponseDto
 import retrofit2.Call
 import retrofit2.http.Body
@@ -9,7 +10,7 @@ import retrofit2.http.Path
 
 interface ReservService {
     @POST("api/reservation")
-    fun addReserv()
+    fun addReserv(@Body reservInfo:ReservRequestDto.Create): Call<ReservResponseDto.Reserv>
 
     @GET("api/reservations/{userId}")
     fun getUserReservs(@Path("userId") userId:String): Call<ReservResponseDto.ReservList>
