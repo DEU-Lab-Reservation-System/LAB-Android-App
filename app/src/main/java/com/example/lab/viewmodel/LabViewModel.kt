@@ -3,6 +3,7 @@ package com.example.lab.viewmodel
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.lab.data.requestDto.LabRequestDto
 import com.example.lab.data.responseDto.LabResponseDto
 import com.example.lab.remote.repository.LabRepository
 import kotlinx.coroutines.DelicateCoroutinesApi
@@ -15,9 +16,9 @@ import org.json.JSONObject
 class LabViewModel : ViewModel() {
     var labStatus = MutableLiveData<LabResponseDto.Status>()
 
-    fun getLabStatus(labNumber:Int){
+    fun getLabStatus(labNumber:Int, timeRange:LabRequestDto.TimeRange?=null){
         GlobalScope.launch(Dispatchers.IO) {
-            val response = LabRepository.getLabStatus(labNumber)
+            val response = LabRepository.getLabStatus(labNumber, timeRange)
 
             if(response!!.isSuccessful){
                 labStatus.postValue(response.body())
@@ -30,5 +31,4 @@ class LabViewModel : ViewModel() {
             }
         }
     }
-
 }

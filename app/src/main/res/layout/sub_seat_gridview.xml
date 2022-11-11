@@ -68,7 +68,7 @@
                 android:id="@+id/leftSeatGridView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
+                android:layout_marginEnd="10dp"
                 android:layout_weight="1"
                 android:horizontalSpacing="1dp"
                 android:listSelector="#00000000"
@@ -79,7 +79,7 @@
                 android:id="@+id/rightSeatGridView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
                 android:layout_weight="1"
                 android:horizontalSpacing="1dp"
                 android:numColumns="4"
@@ -105,10 +105,11 @@
                 android:src="@drawable/ic_profile_pic"/>
 
             <TextView
+                android:id="@+id/managerTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
 
                 android:text="김잼민(20181234)"
                 android:textSize="12dp"
@@ -130,6 +131,7 @@
                 app:cardBackgroundColor="@color/semi_light_blue">
 
                 <TextView
+                    android:id="@+id/peopleTv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"

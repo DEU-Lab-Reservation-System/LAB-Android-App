@@ -1,5 +1,6 @@
 package com.example.lab.remote.repository
 
+import com.example.lab.data.requestDto.LabRequestDto
 import com.example.lab.remote.RetrofitClient
 import com.example.lab.remote.service.LabService
 import com.example.lab.data.responseDto.LabResponseDto
@@ -11,8 +12,10 @@ import java.io.IOException
 object LabRepository {
     private val labService: LabService = RetrofitClient.retrofit.create(LabService::class.java)
 
-    fun getLabStatus(labNumber:Int): Response<LabResponseDto.Status>? {
-        val labCall:Call<LabResponseDto.Status> = labService.getLabStatus(labNumber)
+    fun getLabStatus(labNumber:Int, timeRange: LabRequestDto.TimeRange?): Response<LabResponseDto.Status>? {
+        val labCall:Call<LabResponseDto.Status> =
+            if(timeRange == null) labService.getLabStatus(labNumber)
+            else labService.getLabStatusInTime(labNumber, timeRange)
 
         return try{
             labCall.execute()

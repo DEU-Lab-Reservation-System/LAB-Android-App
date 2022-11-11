@@ -1,9 +1,13 @@
 package com.example.lab.view.fragment
 
 import android.annotation.SuppressLint
+import android.app.TimePickerDialog
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +16,7 @@ import android.widget.*
 import androidx.activity.OnBackPressedCallback
 import androidx.annotation.RequiresApi
 import androidx.core.view.get
+import androidx.core.view.isNotEmpty
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -24,7 +29,6 @@ import com.example.lab.databinding.SubSeatGridviewBinding
 import com.example.lab.utils.DateManager
 import com.example.lab.utils.DensityManager
 import com.example.lab.viewmodel.LabViewModel
-import com.example.lab.viewmodel.ReservViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -45,21 +49,19 @@ class HomeFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
-    private lateinit var prevSelectSeat:View
-
-    // VARIABLE
-    private lateinit var bind: FragmentHomeBinding
-    private lateinit var lablist:Array<String>
     @SuppressLint("SimpleDateFormat")
     private val dateFormat = SimpleDateFormat("yyyy-MM-dd")
     @SuppressLint("SimpleDateFormat")
     private val dateTimeFormat = SimpleDateFormat("yyyy-MM-dd HH : mm")
-    private lateinit var labVM:LabViewModel
-    private lateinit var callback:OnBackPressedCallback // 뒤로가기 버튼 이벤트 캐치를 위한 콜백
 
+    // VARIABLE
+    private lateinit var bind: FragmentHomeBinding
+    private lateinit var lablist:Array<String>
     private lateinit var leftGridView  : GridView
     private lateinit var rightGridView : GridView
+    private lateinit var callback:OnBackPressedCallback // 뒤로가기 버튼 이벤트 캐치를 위한 콜백
 
+    private lateinit var labVM:LabViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -86,16 +88,15 @@ class HomeFragment : Fragment() {
         /** 데이터를 관리하는 뷰 모델을 bind에 연결해줘야 적용 됨 */
         bind.lifecycleOwner = requireActivity()
 
-
         // 그리드뷰 변수 연결
         leftGridView = bind.seatGridView.leftSeatGridView
         rightGridView = bind.seatGridView.rightSeatGridView
 
         initView()
-        initGridView()
-        initLabSpinner()
-        initLabStatus()
-        setTodayReservation()
+        initGridView()          // 그리드뷰(좌석 배치도) 초기화
+        initLabSpinner()        // 실습실 선택 스피너 초기화
+        setLabStatus()          // 실습실 상태 표시
+        setTodayReservation()   // 당일 예약 내역 배너 데이터 세팅
 
         return bind.root
     }
@@ -130,7 +131,6 @@ class HomeFragment : Fragment() {
     private fun initLabSpinner(){
         // 스피너는 고정된 리스트를 보여주는 것이기 때문에 xml로 따로 관리하는 것이 좋음
         lablist = resources.getStringArray(R.array.lab_list)
-
         val spinnerAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, lablist)
 
         // 어댑터 등록
@@ -139,18 +139,19 @@ class HomeFragment : Fragment() {
             @SuppressLint("SetTextI18n")
             override fun onItemSelected(adapterView: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 bind.labNumber.text = "${lablist[position]}호 좌석 현황"
-                labVM.getLabStatus(lablist[position].toInt())
+                bind.todayTimeTV.text = dateTimeFormat.format(Calendar.getInstance().timeInMillis)
+
+                labVM.getLabStatus(lablist[position].toInt()) // 선택 된 실슬실의 상태를 조회
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {}
         }
-
     }
 
     /**
      * 실습실의 이용중인 좌석 표시 or 수업 중인지 표시
      */
-    private fun initLabStatus(){
+    private fun setLabStatus(){
         // bind.seatGridView.blurFrameLayout.visibility = View.VISIBLE
         labVM.labStatus.observe(requireActivity()){
             /**
@@ -159,34 +160,33 @@ class HomeFragment : Fragment() {
              * item이 seatlist에 있으면 해당 아이템의 뷰의 색상을 변경
              * 없으면 회색으로 돌려놓기
              */
+
+            // 수업 중이면 수업 중임을 표시
             if(it.inClass){
                 bind.seatGridView.blurFrameLayout.visibility = View.VISIBLE
                 return@observe
             }
-            bind.seatGridView.blurFrameLayout.visibility = View.GONE
-            val seatlist:ArrayList<Int> = (labVM.labStatus.value?.seatList?:arrayListOf()).map { it.toInt() } as ArrayList<Int>
 
-            fun markSeatInUse(gridView: GridView, idx:Int){
-                val seatNum = gridView.getItemAtPosition(idx) as Int
+            val seatlist:ArrayList<Int> = (it.seatList?:arrayListOf()).map {seat -> seat.toInt() } as ArrayList<Int>
 
-                if(seatlist.contains(seatNum)){
-                    gridView[idx].findViewById<View>(R.id.seat).background = resources.getDrawable(R.drawable.shape_seat_selected)
-                } else {
-                    gridView[idx].findViewById<View>(R.id.seat).background = resources.getDrawable(R.drawable.shape_seat)
-                }
+            bind.seatGridView.apply {
+                blurFrameLayout.visibility = View.GONE
+                peopleTv.text = "${seatlist.size} / 32"
+                managerTv.text =
+                    if(it.manager == null) "방장이 없습니다."
+                    else "${it.manager.name}(${it.manager.id})"
             }
 
             for (i in 0 until LAB_SEAT_SIZE / 2) {
-                markSeatInUse(leftGridView, i)
-                markSeatInUse(rightGridView, i)
+                leftGridView.markSeatInUser(seatlist, i)
+                rightGridView.markSeatInUser(seatlist, i)
             }
         }
     }
+
     private fun initGridView(){
         // 그리드뷰를 include로 불러왔으므로 include한 레이아웃을 먼저 가져옴
         val seatGridView: SubSeatGridviewBinding = bind.seatGridView
-
-        bind.todayTimeTV.text = dateTimeFormat.format(Calendar.getInstance().timeInMillis)
 
         val leftSeatList: MutableList<Int> = mutableListOf()
         val rightSeatList: MutableList<Int> = mutableListOf()
@@ -218,6 +218,21 @@ class HomeFragment : Fragment() {
         })
     }
 
+
+    /**
+     * 그리드뷰 확장 함수
+     * 사용 중인 좌석을 표시하는 메소드
+     */
+    private fun GridView.markSeatInUser(seatlist:ArrayList<Int>, idx:Int){
+        val seatNum = this.getItemAtPosition(idx) as Int
+        // 그리드뷰가 초기화 되기 전에 옵저버가 호출될 수 있으므로 Empty 체크
+        if(this.isNotEmpty()){
+            this[idx].findViewById<View>(R.id.seat).apply {
+                background = if(seatlist.contains(seatNum)) resources.getDrawable(R.drawable.shape_seat_selected)
+                else resources.getDrawable(R.drawable.shape_seat)
+            }
+        }
+    }
 
     /** 뒤로가기 버튼 클릭 이벤트 */
     private val limitTime = 1000        // 뒤로가기 버튼 누르는 제한시간

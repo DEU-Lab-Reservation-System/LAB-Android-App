@@ -274,6 +274,9 @@
                 <include
                     android:id="@+id/seatGridView"
                     layout="@layout/sub_seat_gridview"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
                     />
             </LinearLayout>
             <!-- LAYOUT END 실습실 좌석 그리드 뷰 -->

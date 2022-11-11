@@ -1,13 +1,11 @@
 package com.example.lab.adapter
 
 import android.annotation.SuppressLint
-import android.app.ActionBar
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
-import android.widget.GridView
 import com.example.lab.R
 
 class SeatAdapter(var context: Context, var seatList: List<Int>): BaseAdapter(){
