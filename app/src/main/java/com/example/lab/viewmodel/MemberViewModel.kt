@@ -15,6 +15,7 @@ import kotlinx.coroutines.launch
 import org.json.JSONObject
 import java.util.concurrent.Executors
 
+@OptIn(DelicateCoroutinesApi::class)
 class MemberViewModel: ViewModel() {
     val loginFlag = MutableLiveData<Boolean>(false)
     val signUpFlag = MutableLiveData<Boolean>(false)
@@ -24,34 +25,28 @@ class MemberViewModel: ViewModel() {
     val signUpError = MutableLiveData<Event<String>>()
     val idCheckError = MutableLiveData<Event<String>>()
 
-
-
     /**
      * 로그인 메소드
      */
-    @OptIn(DelicateCoroutinesApi::class)
     fun login(id: String, password: String){
         GlobalScope.launch(Dispatchers.IO) {
             val response = MemberRepository.login(id, password, MyApplication.deviceToken!!)
 
-            if(response!!.isSuccessful){
-                val member = response.body()
+            response?.let {
+                if(it.isSuccessful){
+                    val member = it.body()
 
-                // 전역 변수로 저장
-                MyApplication.member = member
+                    // 전역 변수로 저장
+                    MyApplication.member = member
 
-                loginFlag.postValue(true)
-                Log.i("로그인 성공", response.body().toString())
-            }
-            else {
-                val errorMessage = JSONObject(response.errorBody()?.string()!!)
+                    loginFlag.postValue(true)
+                    Log.i("로그인 성공", it.body().toString())
+                }else {
+                    val errorMessage = it.errorBody()?.string()?.let { res -> JSONObject(res) }
 
-//                ResponseLogger.loggingError("로그인 실패", response)
-
-                loginError.postValue(Event(errorMessage.getString("message")?:""))
-
-                Log.e("로그인 실패 Code", "${response.code()}")
-                Log.e("로그인 실패 Message", errorMessage.getString("message")?:"")
+                    loginError.postValue(Event(errorMessage?.getString("message")?:""))
+                    Log.i("로그인 실패", "${it.code()}, ${errorMessage?.getString("message")?:""} ")
+                }
             }
         }
     }
@@ -63,16 +58,17 @@ class MemberViewModel: ViewModel() {
         GlobalScope.launch(Dispatchers.IO){
             val response = MemberRepository.signUp(signUpDto)
 
-            if(response!!.isSuccessful){
-                signUpFlag.postValue(true)
-                Log.i("회원 가입 완료", response.body().toString())
-            } else {
-                val errorMessage = JSONObject(response.errorBody()?.string()!!)
+            response?.let {
+                if(it.isSuccessful){
+                    signUpFlag.postValue(true)
+                    Log.i("회원 가입 완료", response.body().toString())
+                } else {
+                    val errorMessage = it.errorBody()?.string()?.let { res -> JSONObject(res) }
 
-                signUpError.postValue(Event(errorMessage.getString("message")?:""))
-
-                Log.e("회원가입 실패 Code", "${response.code()}")
-                Log.e("회원가입 실패 Message", errorMessage.getString("message")?:"")
+                    signUpError.postValue(Event(errorMessage?.getString("message")?:""))
+                    
+                    Log.i("회원 가입 실패", "${it.code()}, ${errorMessage?.getString("message")?:""} ")
+                }
             }
         }
     }
