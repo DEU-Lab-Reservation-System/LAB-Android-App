@@ -85,7 +85,7 @@ class HomeFragment : Fragment() {
 
         /** 데이터를 관리하는 뷰 모델을 bind에 연결해줘야 적용 됨 */
         bind.lifecycleOwner = requireActivity()
-        // bind.seatGridView.blurFrameLayout.visibility = View.VISIBLE
+
 
         // 그리드뷰 변수 연결
         leftGridView = bind.seatGridView.leftSeatGridView
@@ -94,6 +94,7 @@ class HomeFragment : Fragment() {
         initView()
         initGridView()
         initLabSpinner()
+        initLabStatus()
         setTodayReservation()
 
         return bind.root
@@ -144,9 +145,13 @@ class HomeFragment : Fragment() {
             override fun onNothingSelected(p0: AdapterView<*>?) {}
         }
 
-        /**
-         * 이용중인 좌석 표시
-         */
+    }
+
+    /**
+     * 실습실의 이용중인 좌석 표시 or 수업 중인지 표시
+     */
+    private fun initLabStatus(){
+        // bind.seatGridView.blurFrameLayout.visibility = View.VISIBLE
         labVM.labStatus.observe(requireActivity()){
             /**
              * 0부터 실습실 좌석 수까지 순회 (그리드뷰 반반씩 나눠져 있으니 / 2 )
@@ -154,6 +159,11 @@ class HomeFragment : Fragment() {
              * item이 seatlist에 있으면 해당 아이템의 뷰의 색상을 변경
              * 없으면 회색으로 돌려놓기
              */
+            if(it.inClass){
+                bind.seatGridView.blurFrameLayout.visibility = View.VISIBLE
+                return@observe
+            }
+            bind.seatGridView.blurFrameLayout.visibility = View.GONE
             val seatlist:ArrayList<Int> = (labVM.labStatus.value?.seatList?:arrayListOf()).map { it.toInt() } as ArrayList<Int>
 
             fun markSeatInUse(gridView: GridView, idx:Int){
@@ -172,7 +182,6 @@ class HomeFragment : Fragment() {
             }
         }
     }
-
     private fun initGridView(){
         // 그리드뷰를 include로 불러왔으므로 include한 레이아웃을 먼저 가져옴
         val seatGridView: SubSeatGridviewBinding = bind.seatGridView
