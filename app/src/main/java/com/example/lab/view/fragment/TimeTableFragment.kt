@@ -143,9 +143,8 @@ class TimeTableFragment : Fragment(){
                 val schedule:ArrayList<Schedule> = bind.timetable.stickers[idx]!!.getSchedules()
                 
                 // 클릭한 수업의 수업 코드로 해당 수업 전체를 가져온 후 Schedule 리스트로 변환
-                val clickSchdules = lectureVM.getLectures(schedule[0].code!!)?.let {
-                    it.stream().map { lecture -> Schedule.createSchedule(lecture) }.toList()
-                } as ArrayList<Schedule>
+                val clickSchdules = lectureVM.getLectures(schedule[0].code!!)?.stream()
+                    ?.map { lecture -> Schedule.createSchedule(lecture) }?.toList() as ArrayList<Schedule>
 
                 // 클릭한 수업의 정보를 JSON으로 변환 후 전달
                 val bottomSheet = ClassInfoFragment()
