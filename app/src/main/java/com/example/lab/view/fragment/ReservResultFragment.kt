@@ -11,7 +11,6 @@ import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.get
 import com.example.lab.R
 import com.example.lab.adapter.SeatAdapter
 import com.example.lab.application.MyApplication
@@ -76,8 +75,8 @@ class ReservResultFragment : Fragment() {
 
         reservVM.reservList.observe(requireActivity()){
 
-            if(it.reservs.isNotEmpty()){
-                it.reservs[0].let {
+            if(it.reservList.isNotEmpty()){
+                it.reservList[0].let {
                     bind.apply {
                         studentNameTv.text = "${it.name}(${it.userId})"
                         majorTv.text = it.major
