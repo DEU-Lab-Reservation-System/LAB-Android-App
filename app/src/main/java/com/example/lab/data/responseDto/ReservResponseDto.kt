@@ -1,11 +1,10 @@
 package com.example.lab.data.responseDto
 
-import android.bluetooth.BluetoothClass.Device.Major
 import com.google.gson.annotations.SerializedName
 
 class ReservResponseDto {
     data class ReservList(
-        @SerializedName("reservations") val reservs:ArrayList<Reserv>
+        @SerializedName("reservations") val reservList:ArrayList<Reserv>
     )
 
     data class Reserv(

@@ -7,5 +7,6 @@ class LabResponseDto {
     data class Status(
         @SerializedName("manager") val manager: MemberResponseDto.ManagerMember,
         @SerializedName("seatList") val seatList: ArrayList<String>,
+        @SerializedName("inClass") val inClass: Boolean
     )
 }
