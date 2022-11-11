@@ -26,7 +26,7 @@ object DateManager {
         }
     }
     /**
-     * "yyyy-MM-dd'T'HH:mm:ss" 형식의 날짜 데이터를 String으로 변환해주는 메소드
+     * "yyyy-MM-dd'T'HH:mm:ss" 형식의 날짜 데이터를 HH:mm 형식으로 변환하는 메소드
      */
     fun dateParse(date:String):String{
         return DateTimeFormatter.ofPattern("HH:mm").format(LocalDateTime.parse(date))

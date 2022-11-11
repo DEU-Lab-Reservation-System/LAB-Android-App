@@ -53,7 +53,7 @@ class LoginActivity : AppCompatActivity() {
             val id = bind.idEditText.editText?.text.toString()
             val pw = bind.pwEditText.editText?.text.toString()
 
-            if(id.isNullOrEmpty()){
+            if(id.isEmpty()){
                 bind.idEditText.error = "빈 칸 없이 기재해주세요."
                 return@setOnClickListener
             }

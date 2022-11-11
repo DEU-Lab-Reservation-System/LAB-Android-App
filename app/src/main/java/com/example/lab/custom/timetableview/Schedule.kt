@@ -53,7 +53,7 @@ data class Schedule(
          * Schedule 리스트를 JSON으로 변환하는 메소드
          */
         fun toJson(schedule:ArrayList<Schedule>):JSONObject {
-            var classInfo = JSONObject()
+            val classInfo = JSONObject()
             classInfo.apply {
                 put("code", schedule[0].code)
                 put("classTitle", schedule[0].classTitle)
@@ -61,7 +61,7 @@ data class Schedule(
                 put("startDate", schedule[0].startDate)
                 put("endDate",  schedule[0].endDate)
 
-                var classSubInfo = JSONArray()
+                val classSubInfo = JSONArray()
                 schedule.forEach{
                     val info = JSONObject()
                     info.put("day", it.day)
@@ -99,7 +99,7 @@ data class Schedule(
                             startDate = json.getString("startDate")
                             endDate = json.getString("endDate")
 
-                            classPlace = getString("place").split(" ")?.let { it[it.lastIndex] }.toString()
+                            classPlace = getString("place").split(" ").let { it[it.lastIndex] }.toString()
                             day = getInt("day")
                             startTime = Time(getInt("startHour"), getInt("startMinute"))
                             endTime = Time(getInt("endHour"), getInt("endMinute"))
