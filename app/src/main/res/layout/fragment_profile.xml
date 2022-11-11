@@ -14,226 +14,328 @@
         android:padding="30dp"
         android:orientation="vertical">
 
-        <View
-            android:layout_width="218dp"
-            android:layout_height="166dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="50dp"
-            android:layout_marginBottom="70dp"
-            android:background="@drawable/ic_undraw_order_confirmed_re_g0if"/>
-
+        <!-- LAYOUT 프로필 레이아웃 -->
         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="50dp"
+            android:orientation="horizontal">
+
+            <!-- 프로필 이미지 -->
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:src="@drawable/profile_icon"/>
+
+            <!-- LAYOUT 사용자 정보 레이아웃 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="15dp"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+                <!-- LAYOUT 이름, 재학 정보 레이아웃 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:text="김잼민"
+                        android:textSize="18sp"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/noto_sans_kr_bold"
+                        android:includeFontPadding="false"
+                        />
+                    
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/badge"/>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="20181234"
+                    android:textSize="12dp"
+                    android:textColor="@color/semi_gray"
+                    android:fontFamily="@font/poppins_regular"
+                    android:includeFontPadding="false"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="컴퓨터소프트웨어공학과"
+                    android:textSize="12dp"
+                    android:textColor="@color/semi_gray"
+                    android:fontFamily="@font/poppins_regular"
+                    android:includeFontPadding="false"
+                    />
+                <!-- LAYOUT END 이름, 재학 정보 레이아웃 -->
+            </LinearLayout>
+            <!-- LAYOUT END 사용자 정보 레이아웃 -->
+        </LinearLayout>
+        <!-- LAYOUT END 프로필 레이아웃 -->
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="70dp"
-            android:orientation="horizontal">
+            android:layout_marginBottom="20dp"
+            android:text="PROFILE MENU"
+            android:textSize="16dp"
+            android:textColor="@color/natural_navy"
+            android:fontFamily="@font/poppins_medium"
+            android:includeFontPadding="false"
+            />
 
-            <View
-                android:layout_width="14.3dp"
-                android:layout_height="14.3dp"
-                android:layout_gravity="left"
-
-                android:background="@drawable/ic_star"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="예약이 완료 되었습니다."
-                android:textSize="20dp"
-                android:textColor="@color/natural_navy"
-                android:fontFamily="@font/noto_sans_kr_bold"
-                android:includeFontPadding="false"/>
-        </LinearLayout>
-
-        <!-- LAYOUT 사용자 이름 필드 레이아웃 -->
+        <!-- LAYOUT 메뉴 레이아웃 (프로필 설정) -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="25dp"
+            android:clickable="true"
+            android:focusable="true"
             android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginEnd="10dp"
+                android:adjustViewBounds="true"
+                android:src="@drawable/profile_menu_icon"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="사용자 이름"
-                android:textSize="14dp"
-                android:textColor="@color/black"
-                android:fontFamily="@font/poppins_regular"
-                android:includeFontPadding="false"/>
+                android:layout_gravity="center_vertical"
+                android:fontFamily="@font/poppins_medium"
+                android:includeFontPadding="false"
+                android:text="프로필 설정"
+                android:textColor="@drawable/selector_profile_menu_onclick"
+                android:textSize="14dp" />
 
             <View
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_weight="1"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right|center"
-                android:text="김잼민 (20181234)"
-                android:textSize="12dp"
-                android:textColor="@color/black_gray"
-                android:fontFamily="@font/poppins_regular"
-                android:includeFontPadding="false"/>
+            <ImageView
+                android:layout_width="8dp"
+                android:layout_height="12dp"
+                android:layout_gravity="center_vertical|right"
+                android:src="@drawable/arrow_right_v2"
+                />
         </LinearLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="15dp"
-            android:background="#EFEFEF"/>
-        <!-- LAYOUT END 사용자 이름 필드 레이아웃 -->
+        <!-- LAYOUT END 메뉴 레이아웃 (프로필 설정) -->
 
 
-        <!-- LAYOUT 학과 필드 레이아웃 -->
+        <!-- LAYOUT 메뉴 레이아웃 (예약내역 조회) -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginBottom="25dp"
+            android:clickable="true"
+            android:focusable="true"
             android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginEnd="10dp"
+                android:adjustViewBounds="true"
+                android:src="@drawable/reserv_history_icon"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="학과"
+                android:layout_gravity="center_vertical"
+                android:text="예약내역 조회"
                 android:textSize="14dp"
-                android:textColor="@color/black"
-                android:fontFamily="@font/poppins_regular"
-                android:includeFontPadding="false"/>
+                android:textColor="@drawable/selector_profile_menu_onclick"
+                android:fontFamily="@font/poppins_medium"
+                android:includeFontPadding="false"
+                />
 
             <View
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_weight="1"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right|center"
-                android:text="컴퓨터소프트웨어공학과"
-                android:textSize="12dp"
-                android:textColor="@color/black_gray"
-                android:fontFamily="@font/poppins_regular"
-                android:includeFontPadding="false"/>
+            <ImageView
+                android:layout_width="8dp"
+                android:layout_height="12dp"
+                android:layout_gravity="center_vertical|right"
+                android:src="@drawable/arrow_right_v2"
+                />
         </LinearLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="15dp"
-            android:background="#EFEFEF"/>
-        <!-- LAYOUT END 학과 필드 레이아웃 -->
+        <!-- LAYOUT END 메뉴 레이아웃 (예약내역 조회) -->
 
-        <!-- LAYOUT 예약 장소 필드 레이아웃 -->
+        <!-- LAYOUT 메뉴 레이아웃 (사용자 신고) -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginBottom="25dp"
+            android:clickable="true"
+            android:focusable="true"
             android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginEnd="10dp"
+                android:adjustViewBounds="true"
+                android:src="@drawable/report_user_icon"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="예약 장소"
+                android:layout_gravity="center_vertical"
+                android:text="사용자 신고"
                 android:textSize="14dp"
-                android:textColor="@color/black"
-                android:fontFamily="@font/poppins_regular"
-                android:includeFontPadding="false"/>
+                android:textColor="@drawable/selector_profile_menu_onclick"
+                android:fontFamily="@font/poppins_medium"
+                android:includeFontPadding="false"
+                />
 
             <View
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_weight="1"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right|center"
-                android:text="정보공학관 911 호"
-                android:textSize="12dp"
-                android:textColor="@color/black_gray"
-                android:fontFamily="@font/poppins_regular"
-                android:includeFontPadding="false"/>
+            <ImageView
+                android:layout_width="8dp"
+                android:layout_height="12dp"
+                android:layout_gravity="center_vertical|right"
+                android:src="@drawable/arrow_right_v2"
+                />
         </LinearLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="15dp"
-            android:background="#EFEFEF"/>
-        <!-- LAYOUT END 예약 장소 필드 레이아웃 -->
+        <!-- LAYOUT END 메뉴 레이아웃 (사용자 신고) -->
 
-        <!-- LAYOUT 예약 좌석 필드 레이아웃 -->
+        <!-- LAYOUT 메뉴 레이아웃 (앱 정보) -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginBottom="25dp"
+            android:clickable="true"
+            android:focusable="true"
             android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginEnd="10dp"
+                android:adjustViewBounds="true"
+                android:src="@drawable/app_info_icon"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="예약 좌석"
+                android:layout_gravity="center_vertical"
+                android:text="앱 정보"
                 android:textSize="14dp"
-                android:textColor="@color/black"
-                android:fontFamily="@font/poppins_regular"
-                android:includeFontPadding="false"/>
+                android:textColor="@drawable/selector_profile_menu_onclick"
+                android:fontFamily="@font/poppins_medium"
+                android:includeFontPadding="false"
+                />
 
             <View
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_weight="1"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right|center"
-                android:text="11 번"
-                android:textSize="12dp"
-                android:textColor="@color/black_gray"
-                android:fontFamily="@font/poppins_regular"
-                android:includeFontPadding="false"/>
+            <ImageView
+                android:layout_width="8dp"
+                android:layout_height="12dp"
+                android:layout_gravity="center_vertical|right"
+                android:src="@drawable/arrow_right_v2"
+                />
         </LinearLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="15dp"
-            android:background="#EFEFEF"/>
-        <!-- LAYOUT END 예약 좌석 필드 레이아웃 -->
+        <!-- LAYOUT END 메뉴 레이아웃 (앱 정보) -->
 
-
-        <!-- LAYOUT 예약 시간 필드 레이아웃 -->
+        <!-- LAYOUT 메뉴 레이아웃 (설정) -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginBottom="25dp"
+            android:clickable="true"
+            android:focusable="true"
             android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginEnd="10dp"
+                android:adjustViewBounds="true"
+                android:src="@drawable/app_setting_icon"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="예약 시간"
+                android:layout_gravity="center_vertical"
+                android:text="설정"
                 android:textSize="14dp"
-                android:textColor="@color/black"
-                android:fontFamily="@font/poppins_regular"
-                android:includeFontPadding="false"/>
+                android:textColor="@drawable/selector_profile_menu_onclick"
+                android:fontFamily="@font/poppins_medium"
+                android:includeFontPadding="false"
+                />
 
             <View
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_weight="1"/>
+            <ImageView
+                android:layout_width="8dp"
+                android:layout_height="12dp"
+                android:layout_gravity="center_vertical|right"
+                android:src="@drawable/arrow_right_v2"
+                />
+        </LinearLayout>
+        <!-- LAYOUT END 메뉴 레이아웃 (설정) -->
+
+        <!-- LAYOUT 메뉴 레이아웃 (로그아웃) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="25dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginEnd="10dp"
+                android:adjustViewBounds="true"
+                android:src="@drawable/app_logout_icon"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right|center"
-                android:text="11:00 ~ 16:00"
-                android:textSize="12dp"
-                android:textColor="@color/black_gray"
-                android:fontFamily="@font/poppins_regular"
-                android:includeFontPadding="false"/>
+                android:layout_gravity="center_vertical"
+                android:text="로그아웃"
+                android:textSize="14dp"
+                android:textColor="@drawable/selector_profile_menu_onclick"
+                android:fontFamily="@font/poppins_medium"
+                android:includeFontPadding="false"
+                />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+            <ImageView
+                android:layout_width="8dp"
+                android:layout_height="12dp"
+                android:layout_gravity="center_vertical|right"
+                android:src="@drawable/arrow_right_v2"
+                />
         </LinearLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="15dp"
-            android:background="#EFEFEF"/>
-        <!-- LAYOUT END 예약 시간 필드 레이아웃 -->
+        <!-- LAYOUT END 메뉴 레이아웃 (로그아웃) -->
+
     </LinearLayout>
 </layout>
 

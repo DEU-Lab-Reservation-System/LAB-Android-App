@@ -2,17 +2,20 @@ package com.example.lab.view.fragment
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
-import androidx.activity.OnBackPressedDispatcher
 import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.lab.R
+import com.example.lab.adapter.UnAuthReservAdapter
+import com.example.lab.data.responseDto.ReservResponseDto
 import com.example.lab.databinding.FragmentNotificationBinding
+import com.example.lab.viewmodel.ReservViewModel
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -31,6 +34,7 @@ class NotificationFragment : Fragment() {
 
     // VARIABLE
     private lateinit var bind:FragmentNotificationBinding
+    private lateinit var reservVM:ReservViewModel
     private lateinit var callback:OnBackPressedCallback
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,11 +48,31 @@ class NotificationFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         bind = DataBindingUtil.inflate(inflater, R.layout.fragment_notification, container, false)
+        reservVM = ViewModelProvider(requireActivity())[ReservViewModel::class.java]
+
+        initRecyclerView()
 
         return bind.root
     }
 
+    private fun initRecyclerView(){
+        // 예약 신청 리스트 조회
+        reservVM.getUnauthReservs()
 
+        reservVM.unauthReservList.observe(viewLifecycleOwner){
+            bind.notifyRecyclerView.apply {
+                layoutManager = LinearLayoutManager(requireContext())
+                adapter = UnAuthReservAdapter(it)
+            }
+
+            bind.approvalBtn.setOnClickListener {
+                val list = (bind.notifyRecyclerView.adapter as UnAuthReservAdapter).getSelectedItem()
+                list.forEach {
+                    Log.i("체크 됨 ${it.id}", it.toString())
+                }
+            }
+        }
+    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)

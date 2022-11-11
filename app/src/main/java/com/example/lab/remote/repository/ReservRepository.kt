@@ -23,4 +23,18 @@ object ReservRepository {
             null
         }
     }
+
+    /**
+     * 승인되지 않은 예약(예약 신청 리스트)를 가져오는 메소드
+     */
+    fun getUnauthReserv():Response<ReservResponseDto.ReservList>? {
+        val reservCall: Call<ReservResponseDto.ReservList> = reservService.getUnauthReservs()
+
+        return try{
+            reservCall.execute()
+        } catch (e: IOException){
+            e.printStackTrace()
+            null
+        }
+    }
 }
