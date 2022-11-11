@@ -76,7 +76,7 @@ class EditClassFragment : BottomSheetDialogFragment() {
 
             lectureVM.editLecture(lectureList)
 
-            lectureVM.editLectureFlag.observe(requireActivity()){
+            lectureVM.editLectureFlag.observe(this){
                 AlertDialog.Builder(requireContext()).apply {
                     if(it){
                         setTitle("수업 수정 완료")
@@ -93,6 +93,11 @@ class EditClassFragment : BottomSheetDialogFragment() {
                     create()
                     show()
                 }
+                /**
+                 * AlertDialog가 두번 뜨는 것을 방지하기 위해 다이얼로그 띄우고 바로 옵저버 제거
+                 * 버튼 누를 때마다 옵저버를 등록 시킴
+                 */
+                lectureVM.editLectureFlag.removeObservers(this@EditClassFragment)
             }
 
 //            Log.i("수정 전 수업 정보", schedules.toString())

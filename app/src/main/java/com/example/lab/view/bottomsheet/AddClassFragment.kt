@@ -1,8 +1,11 @@
 package com.example.lab.view.bottomsheet
 
+import android.app.Activity
 import android.app.AlertDialog
 import android.os.Build
 import android.os.Bundle
+import android.text.Layout
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +16,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.lab.R
+import com.example.lab.application.MyApplication
 import com.example.lab.databinding.BottomsheetManageClassBinding
+import com.example.lab.view.activity.MainActivity
 import com.example.lab.view.viewmanager.ClassBottomSheetManager
 import com.example.lab.viewmodel.LectureViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -44,10 +49,8 @@ class AddClassFragment : BottomSheetDialogFragment() {
 
         classManager.addDatePicker()
         addEventClassInfoBtn(container)
-
         // 확인 버튼 클릭 이벤트
         addCompleteBtnEvent()
-
         return bind.root
     }
 
@@ -70,27 +73,40 @@ class AddClassFragment : BottomSheetDialogFragment() {
             val lectureList = classManager.getInputClassData(classCode)
 
             lectureVM.addLecture(lectureList)
-        }
 
-        lectureVM.addLectureFlag.observe(requireActivity()) {
-            AlertDialog.Builder(requireContext()).apply {
-                // 수업 추가 성공 시
-                if (it) {
-                    setTitle("수업 추가 완료")
-                    setMessage("수업이 추가 되었습니다.")
-                    setPositiveButton("OK") { dialog, _ ->
-                        dialog.dismiss()
-                        this@AddClassFragment.dismiss()
+
+            /**
+             * 버튼을 누를 때 옵저버가 등록 되어서 두 번째부터는 Alert가 두개 뜸
+             */
+            lectureVM.addLectureFlag.observe(this) {
+                Log.i("옵저버 발동", "${it}")
+
+                AlertDialog.Builder(requireContext()).apply {
+                    // 수업 추가 성공 시
+                    if (it) {
+                        setTitle("수업 추가 완료")
+                        setMessage("수업이 추가 되었습니다.")
+                        setPositiveButton("OK") { dialog, _ ->
+                            dialog.dismiss()
+                            this@AddClassFragment.dismiss()
+                        }
+                    } else { // 수업 추가 실패 시
+                        setTitle("수업 추가 실패")
+                        setMessage("수업 추가 중 오류가 발생했습니다. 입력 값을 확인해주세요.")
+                        setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
                     }
-                } else { // 수업 추가 실패 시
-                    setTitle("수업 추가 실패")
-                    setMessage("수업 추가 중 오류가 발생했습니다. 입력 값을 확인해주세요.")
-                    setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
+                    create()
+                    show()
                 }
-                create()
-                show()
+                /**
+                 * AlertDialog가 두번 뜨는 것을 방지하기 위해 다이얼로그 띄우고 바로 옵저버 제거
+                 * 버튼 누를 때마다 옵저버를 등록 시킴
+                 */
+                lectureVM.addLectureFlag.removeObservers(this@AddClassFragment)
             }
         }
+
+
     }
 
     /** 시간 및 장소 레이아웃 추가 버튼 이벤트 메소드 */
@@ -99,4 +115,5 @@ class AddClassFragment : BottomSheetDialogFragment() {
             classManager.addClassInfoLayout(container)
         }
     }
+
 }
