@@ -192,6 +192,34 @@
                         android:textColor="@color/natural_navy"
                         android:textSize="14dp" />
 
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:fontFamily="@font/noto_sans_kr_regular"
+                            android:includeFontPadding="false"
+                            android:text="선택 좌석 : "
+                            android:textColor="@color/black"
+                            android:textSize="12dp" />
+
+                        <TextView
+                            android:id="@+id/selectedSeatTv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:fontFamily="@font/noto_sans_kr_regular"
+                            android:includeFontPadding="false"
+                            android:text="-"
+                            android:textColor="@color/black"
+                            android:textSize="12dp" />
+                    </LinearLayout>
+
+
                     <include
                         android:id="@+id/seatGridView"
                         android:layout_width="match_parent"
@@ -315,66 +343,6 @@
                                 tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
                         </com.google.android.material.textfield.TextInputLayout>
                         <!-- LAYOUT END 종료 시간 텍스트 인풋 레이아웃(스피너) -->
-
-<!--                        &lt;!&ndash; 시작 시간 선택 스피너 &ndash;&gt;-->
-<!--                        <EditText-->
-<!--                            android:id="@+id/startTimeEditText"-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="match_parent"-->
-<!--                            android:layout_gravity="center"-->
-
-<!--                            android:hint="HH:mm"-->
-<!--                            android:background="@android:color/transparent"-->
-
-<!--                            android:inputType="time"-->
-<!--                            android:focusable="false"-->
-<!--                            android:clickable="true"-->
-
-<!--                            android:text="09:00"-->
-<!--                            android:textSize="16sp"-->
-<!--                            android:textColor="@color/natural_navy"-->
-<!--                            />-->
-
-<!--                        <View-->
-<!--                            android:layout_width="12dp"-->
-<!--                            android:layout_height="6dp"-->
-<!--                            android:layout_gravity="center"-->
-<!--                            android:background="@drawable/ic_arrow_down"-->
-<!--                            android:backgroundTint="@color/natural_navy" />-->
-
-<!--                        <TextView-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:layout_marginLeft="10dp"-->
-<!--                            android:layout_marginRight="10dp"-->
-<!--                            android:text="~"-->
-<!--                            android:textSize="18dp" />-->
-
-<!--                        &lt;!&ndash; 시작 시간 선택 스피너 &ndash;&gt;-->
-<!--                        <EditText-->
-<!--                            android:id="@+id/endTimeEditText"-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="match_parent"-->
-<!--                            android:layout_gravity="center"-->
-
-<!--                            android:hint="HH:mm"-->
-<!--                            android:background="@android:color/transparent"-->
-
-<!--                            android:inputType="time"-->
-<!--                            android:focusable="true"-->
-<!--                            android:clickable="true"-->
-
-<!--                            android:text="09:00"-->
-<!--                            android:textSize="16sp"-->
-<!--                            android:textColor="@color/natural_navy"-->
-<!--                            />-->
-
-<!--                        <View-->
-<!--                            android:layout_width="12dp"-->
-<!--                            android:layout_height="6dp"-->
-<!--                            android:layout_gravity="center"-->
-<!--                            android:background="@drawable/ic_arrow_down"-->
-<!--                            android:backgroundTint="@color/natural_navy" />-->
                     </LinearLayout>
                 </LinearLayout>
                 <!-- LAYOUT END 이용 시간 입력 레이아웃 -->
@@ -420,6 +388,7 @@
                         app:boxStrokeColor="@color/colorAccent"
                         app:hintTextColor="@color/colorAccent">
 
+
                         <AutoCompleteTextView
                             android:id="@+id/teamSelector"
                             android:layout_width="match_parent"
@@ -445,43 +414,6 @@
                     android:layout_weight="1.45"/>
             </LinearLayout>
             <!-- LAYOUT END 팀 인원 입력 레이아웃 -->
-
-<!--            &lt;!&ndash; LAYOUT 좌석 선택 정보 레이아웃 &ndash;&gt;-->
-<!--            <LinearLayout-->
-<!--                android:id="@+id/selectSeat"-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_weight="1"-->
-<!--                android:paddingLeft="50dp"-->
-<!--                android:paddingRight="50dp"-->
-
-<!--                android:orientation="vertical"-->
-
-<!--                app:layout_constraintTop_toBottomOf="@+id/teamLayout">-->
-
-<!--                <TextView-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    android:fontFamily="@font/noto_sans_kr_bold"-->
-<!--                    android:includeFontPadding="false"-->
-<!--                    android:text="선택 좌석"-->
-<!--                    android:textColor="@color/natural_navy"-->
-<!--                    android:textSize="14dp" />-->
-
-<!--                <TextView-->
-<!--                    android:id="@+id/selectSeatTV"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginTop="10dp"-->
-<!--                    android:fontFamily="@font/noto_sans_kr_regular"-->
-<!--                    android:includeFontPadding="false"-->
-<!--                    android:text="미선택"-->
-<!--                    android:textSize="16sp"-->
-<!--                    android:textColor="@color/natural_navy"-->
-<!--                    />-->
-<!--            </LinearLayout>-->
-<!--            &lt;!&ndash; LAYOUT END 좌석 선택 정보 레이아웃 &ndash;&gt;-->
-
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"

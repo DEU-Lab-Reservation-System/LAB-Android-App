@@ -99,6 +99,7 @@
                 android:layout_weight="1" />
 
             <TextView
+                android:id="@+id/userNameTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right|center"
@@ -139,6 +140,7 @@
                 android:layout_weight="1" />
 
             <TextView
+                android:id="@+id/majorTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right|center"
@@ -178,6 +180,7 @@
                 android:layout_weight="1" />
 
             <TextView
+                android:id="@+id/placeTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right|center"
@@ -217,6 +220,7 @@
                 android:layout_weight="1" />
 
             <TextView
+                android:id="@+id/seatTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right|center"
@@ -257,6 +261,7 @@
                 android:layout_weight="1" />
 
             <TextView
+                android:id="@+id/timeTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right|center"
