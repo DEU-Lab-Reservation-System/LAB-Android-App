@@ -1,6 +1,8 @@
 package com.example.lab.data.requestDto
 
+import com.example.lab.data.entity.Member
 import com.example.lab.data.enum.Role
+import com.example.lab.data.responseDto.MemberResponseDto
 import com.google.gson.annotations.SerializedName
 
 class MemberRequestDto(){
@@ -23,4 +25,35 @@ class MemberRequestDto(){
         @SerializedName("userId") val userId: String
     )
 
+    data class Update(
+        @SerializedName("id") var id:Int,
+        @SerializedName("userId") var userId:String,
+        @SerializedName("password") var password:String,
+        @SerializedName("name") var name:String,
+        @SerializedName("major") var major:String,
+        @SerializedName("phoneNum") var phoneNumber: String,
+        @SerializedName("email") var email: String,
+        @SerializedName("role") var role:Role,
+        @SerializedName("deviceToken") var deviceToken: String,
+        @SerializedName("isAuth") var isAuth:Boolean,
+    ) {
+        companion object{
+            fun createDto(member:Member):Update{
+                return member.let {
+                    Update(
+                        id = it.id.toInt(),
+                        userId = it.userId?:"",
+                        password = it.password?:"",
+                        name = it.name?:"",
+                        major = it.major?:"",
+                        phoneNumber = it.phoneNumber?:"",
+                        email = it.email?:"",
+                        role = it.role?:Role.USER,
+                        deviceToken = it.deviceToken?:"",
+                        isAuth = it.isAuth
+                    )
+                }
+            }
+        }
+    }
 }
