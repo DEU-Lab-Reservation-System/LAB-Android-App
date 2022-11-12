@@ -19,53 +19,53 @@ data class Member(
      */
     @Expose
     @SerializedName("userId")
-    var userId: String? = null,
+    var userId: String,
 
     /**
      * 사용자 비밀번호
      */
     @Expose
     @SerializedName("password")
-    var password: String? = null,
+    var password: String,
 
     /**
      * 사용자 이름
      */
     @Expose
     @SerializedName("name")
-    var name: String? = null,
+    var name: String,
 
     @Expose
     @SerializedName("major")
-    var major: String? = null,
+    var major: String,
 
     /**
      * 사용자 이메일
      */
     @Expose
     @SerializedName("email")
-    var email: String? = null,
+    var email: String,
 
     /**
      * 사용자 전화번호
      */
     @Expose
     @SerializedName("phoneNum")
-    var phoneNumber: String? = null,
+    var phoneNumber: String,
 
     /**
      * 사용자 권한(재학생, 휴학생, 졸업생, 관리자)
      */
     @Expose
     @SerializedName("role")
-    var role: Role? = null,
+    var role: Role,
 
     /**
      * 디바이스 토큰
      */
     @Expose
     @SerializedName("deviceToken")
-    var deviceToken: String? = null,
+    var deviceToken: String,
 
     /**
      * 회원 인증 여부
@@ -73,6 +73,10 @@ data class Member(
     @Expose
     @SerializedName("isAuth")
     var isAuth: Boolean = false,
+
+    @Expose
+    @SerializedName("warningCount")
+    var warningCnt: Int = 0,
 
     /**
      * 사용자 예약 내역
