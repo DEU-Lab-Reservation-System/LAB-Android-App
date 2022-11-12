@@ -25,6 +25,7 @@
             android:exported="false" />
         <activity
             android:name=".view.activity.LoginActivity"
+            android:windowSoftInputMode="adjustNothing"
             android:exported="false" />
         <activity
             android:name=".view.activity.IntroActivity"

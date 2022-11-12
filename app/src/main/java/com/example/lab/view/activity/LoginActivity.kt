@@ -40,8 +40,7 @@ class LoginActivity : AppCompatActivity() {
         bind.signUpBtn.setOnClickListener{
             supportFragmentManager
                 .beginTransaction()
-                .replace(R.id.parentLayout, SignUpFragment())
-                .addToBackStack(null)
+                .add(R.id.parentLayout, SignUpFragment())
                 .commit()
         }
     }
