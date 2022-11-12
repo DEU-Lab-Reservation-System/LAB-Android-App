@@ -1,4 +1,6 @@
 package com.example.lab.adapter.data
 
-class SeatStatus {
-}
+class SeatStatus(
+    var idx:Int,
+    var status:Boolean = false
+)

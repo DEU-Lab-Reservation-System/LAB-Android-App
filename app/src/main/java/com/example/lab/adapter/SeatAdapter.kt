@@ -7,8 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import com.example.lab.R
+import com.example.lab.adapter.data.SeatStatus
 
-class SeatAdapter(var context: Context, var seatList: List<Int>): BaseAdapter(){
+class SeatAdapter(var context: Context, var seatList: ArrayList<SeatStatus>): BaseAdapter(){
     lateinit var inflater: LayoutInflater
 
     override fun getCount(): Int {
