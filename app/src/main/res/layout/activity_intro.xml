@@ -11,7 +11,7 @@
     <ViewFlipper
         android:id="@+id/viewFlipper"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:layout_weight="1">
 
         <!-- LAYOUT 인트로 1 -->
@@ -286,7 +286,6 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
         <!-- LAYOUT END 인트로 4 -->
 
-
         <!-- LAYOUT 인트로 5 -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -337,6 +336,8 @@
                     android:id="@+id/ic_lab_start"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
                     android:layout_gravity="center"
                     android:adjustViewBounds="true"
                     android:src="@drawable/ic_lab_start"

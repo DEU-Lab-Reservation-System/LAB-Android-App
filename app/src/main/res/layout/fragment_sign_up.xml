@@ -260,7 +260,6 @@
                 <!-- LAYOUT END 회원가입 2 -->
 
 
-
                 <!-- LAYOUT 회원가입 3 -->
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -344,7 +343,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/noto_sans_kr_bold"
                         android:includeFontPadding="false"
-                        android:text="학번"
+                        android:text="학번(직번)"
                         android:textColor="@color/natural_navy"
                         android:textSize="14dp"
 
@@ -541,113 +540,139 @@
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/signup3_text8" />
 
-                    <!-- 회원 유형 라디오 버튼 그룹 -->
-                    <RadioGroup
-                        android:id="@+id/roleRadioGroup"
+                    <HorizontalScrollView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
-                        android:orientation="horizontal"
-                        android:weightSum="4"
+                        android:scrollbars="none"
                         app:layout_constraintTop_toBottomOf="@id/signup3_text9">
 
-                        <RadioButton
-                            android:id="@+id/student"
+                        <!-- 회원 유형 라디오 버튼 그룹 -->
+                        <RadioGroup
+                            android:id="@+id/roleRadioGroup"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginRight="10dp"
-                            android:layout_weight="1"
-                            android:background="@drawable/selector_radio_button"
+                            android:orientation="horizontal"
+                            android:weightSum="4">
 
-                            android:button="@null"
-                            android:checked="true"
-                            android:fontFamily="@font/noto_sans_kr_regular"
-                            android:includeFontPadding="false"
-                            android:paddingLeft="10dp"
-                            android:paddingTop="7dp"
+                            <RadioButton
+                                android:id="@+id/student"
+                                android:layout_width="75dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="10dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/selector_radio_button"
 
-
-                            android:paddingRight="10dp"
-                            android:paddingBottom="7dp"
-                            android:text="재학생"
-                            android:textAlignment="center"
-
-                            android:textColor="@drawable/selector_radio_text"
-                            android:textSize="12dp" />
-
-                        <RadioButton
-                            android:id="@+id/takeoff"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginRight="10dp"
-                            android:layout_weight="1"
-
-                            android:background="@drawable/selector_radio_button"
-                            android:button="@null"
-                            android:fontFamily="@font/noto_sans_kr_regular"
-                            android:includeFontPadding="false"
-                            android:paddingLeft="10dp"
-                            android:paddingTop="7dp"
+                                android:button="@null"
+                                android:checked="true"
+                                android:fontFamily="@font/noto_sans_kr_regular"
+                                android:includeFontPadding="false"
+                                android:paddingLeft="10dp"
+                                android:paddingTop="7dp"
 
 
-                            android:paddingRight="10dp"
-                            android:paddingBottom="7dp"
-                            android:text="휴학생"
-                            android:textAlignment="center"
+                                android:paddingRight="10dp"
+                                android:paddingBottom="7dp"
+                                android:text="재학생"
+                                android:textAlignment="center"
 
-                            android:textColor="@drawable/selector_radio_text"
-                            android:textSize="12dp" />
+                                android:textColor="@drawable/selector_radio_text"
+                                android:textSize="12dp" />
 
-                        <RadioButton
-                            android:id="@+id/graduate"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginRight="10dp"
-                            android:layout_weight="1"
+                            <RadioButton
+                                android:id="@+id/takeoff"
+                                android:layout_width="75dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="10dp"
+                                android:layout_weight="1"
 
-                            android:background="@drawable/selector_radio_button"
-                            android:button="@null"
-                            android:fontFamily="@font/noto_sans_kr_regular"
-                            android:includeFontPadding="false"
-                            android:paddingLeft="10dp"
-                            android:paddingTop="7dp"
-
-
-                            android:paddingRight="10dp"
-                            android:paddingBottom="7dp"
-                            android:text="졸업생"
-                            android:textAlignment="center"
-
-                            android:textColor="@drawable/selector_radio_text"
-                            android:textSize="12dp" />
-
-                        <RadioButton
-                            android:id="@+id/admin"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-
-                            android:background="@drawable/selector_radio_button"
-                            android:button="@null"
-                            android:fontFamily="@font/noto_sans_kr_regular"
-                            android:includeFontPadding="false"
-                            android:paddingLeft="10dp"
-                            android:paddingTop="7dp"
+                                android:background="@drawable/selector_radio_button"
+                                android:button="@null"
+                                android:fontFamily="@font/noto_sans_kr_regular"
+                                android:includeFontPadding="false"
+                                android:paddingLeft="10dp"
+                                android:paddingTop="7dp"
 
 
-                            android:paddingRight="10dp"
-                            android:paddingBottom="7dp"
-                            android:text="관리자"
-                            android:textAlignment="center"
+                                android:paddingRight="10dp"
+                                android:paddingBottom="7dp"
+                                android:text="휴학생"
+                                android:textAlignment="center"
 
-                            android:textColor="@drawable/selector_radio_text"
-                            android:textSize="12dp" />
-                    </RadioGroup>
-                    <!-- 회원 유형 라디오 버튼 그룹 -->
+                                android:textColor="@drawable/selector_radio_text"
+                                android:textSize="12dp" />
 
+                            <RadioButton
+                                android:id="@+id/graduate"
+                                android:layout_width="75dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="10dp"
+                                android:layout_weight="1"
+
+                                android:background="@drawable/selector_radio_button"
+                                android:button="@null"
+                                android:fontFamily="@font/noto_sans_kr_regular"
+                                android:includeFontPadding="false"
+
+                                android:paddingLeft="10dp"
+                                android:paddingTop="7dp"
+                                android:paddingRight="10dp"
+                                android:paddingBottom="7dp"
+
+                                android:text="졸업생"
+                                android:textAlignment="center"
+                                android:textColor="@drawable/selector_radio_text"
+                                android:textSize="12dp" />
+
+                            <RadioButton
+                                android:id="@+id/prof"
+                                android:layout_width="75dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_marginEnd="10dp"
+
+                                android:background="@drawable/selector_radio_button"
+                                android:button="@null"
+                                android:fontFamily="@font/noto_sans_kr_regular"
+                                android:includeFontPadding="false"
+                                android:paddingLeft="10dp"
+                                android:paddingTop="7dp"
+
+
+                                android:paddingRight="10dp"
+                                android:paddingBottom="7dp"
+                                android:text="교수"
+                                android:textAlignment="center"
+
+                                android:textColor="@drawable/selector_radio_text"
+                                android:textSize="12dp" />
+
+                            <RadioButton
+                                android:id="@+id/admin"
+                                android:layout_width="75dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+
+                                android:background="@drawable/selector_radio_button"
+                                android:button="@null"
+                                android:fontFamily="@font/noto_sans_kr_regular"
+                                android:includeFontPadding="false"
+                                android:paddingLeft="10dp"
+                                android:paddingTop="7dp"
+
+
+                                android:paddingRight="10dp"
+                                android:paddingBottom="7dp"
+                                android:text="조교"
+                                android:textAlignment="center"
+
+                                android:textColor="@drawable/selector_radio_text"
+                                android:textSize="12dp" />
+                        </RadioGroup>
+                        <!-- 회원 유형 라디오 버튼 그룹 -->
+                    </HorizontalScrollView>
                 </androidx.constraintlayout.widget.ConstraintLayout>
                 <!-- LAYOUT END 회원가입 3 -->
-
 
                 <!-- LAYOUT 회원가입 4 -->
                 <androidx.constraintlayout.widget.ConstraintLayout

@@ -52,6 +52,39 @@
                 android:textColor="@color/black_gray"
                 android:textSize="12dp" />
 
+            <!-- LAYOUT 실습실 스피너 레이아웃 -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/noto_sans_kr_bold"
+                    android:includeFontPadding="false"
+                    android:text=" "
+                    android:textColor="@color/natural_navy"
+                    android:textSize="16dp" />
+
+                <!-- 실습실 선택 스피너 -->
+                <Spinner
+                    android:id="@+id/labSelector"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:background="@null"
+                    android:dropDownWidth="75dp"
+                    />
+                <View
+                    android:layout_width="12dp"
+                    android:layout_height="6dp"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="10dp"
+                    android:background="@drawable/ic_arrow_down"/>
+            </LinearLayout>
+            <!-- LAYOUT END 실습실 스피너 레이아웃 -->
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
