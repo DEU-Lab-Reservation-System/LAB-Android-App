@@ -8,6 +8,7 @@ import com.example.lab.data.responseDto.MemberResponseDto
 import com.example.lab.data.responseDto.MessageDto
 import retrofit2.http.Body
 import retrofit2.http.POST
+import retrofit2.http.PUT
 
 interface MemberService {
     @POST("api/member/login")
@@ -18,4 +19,7 @@ interface MemberService {
 
     @POST("api/member/check")
     fun idCheck(@Body checkDto: MemberRequestDto.Check): Call<MessageDto>
+
+    @PUT("api/member")
+    fun updateMember(@Body updateDto:MemberRequestDto.Update): Call<MemberResponseDto.Member>
 }

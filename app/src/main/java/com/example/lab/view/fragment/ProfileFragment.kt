@@ -1,11 +1,20 @@
 package com.example.lab.view.fragment
 
+import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.example.lab.R
+import com.example.lab.application.MyApplication
+import com.example.lab.data.enum.Role
+import com.example.lab.databinding.FragmentProfileBinding
+import com.example.lab.view.activity.LoginActivity
+import com.example.lab.viewmodel.MemberViewModel
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -22,6 +31,11 @@ class ProfileFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+
+    // VARIABLE
+    private lateinit var bind: FragmentProfileBinding
+    private lateinit var memberVM: MemberViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -30,12 +44,80 @@ class ProfileFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false)
+        bind = DataBindingUtil.inflate(inflater, R.layout.fragment_profile, container, false)
+        memberVM = ViewModelProvider(requireActivity())[MemberViewModel::class.java]
+
+        setProfileData()
+        addObserver()
+        addMenuClickEvent()
+        return bind.root
+    }
+
+    private fun addObserver(){
+        // 회원 정보가 업데이트 되면 자동으로 갱신
+        memberVM.updateFlag.observe(viewLifecycleOwner){
+            setProfileData()
+        }
+    }
+
+    /**
+     * 프로필 데이터 세팅 메소드
+     */
+    private fun setProfileData(){
+        bind.apply {
+            MyApplication.member?.let {
+                userNameTv.text = it.name
+                userIdTv.text = it.userId
+                majorTv.text = it.major
+                Log.i("Role = ${Role.USER}", "사용자 Role = ${it.role}")
+                userTypeTv.text = when(it.role){
+                    Role.USER -> "재학생"
+                    Role.USER_TAKEOFF -> "휴학생"
+                    Role.USER_GRADUATE -> "졸업생"
+                    Role.PROF -> "교수"
+                    Role.ADMIN -> "조교"
+                    else -> "???"
+                }
+            }
+        }
+    }
+
+    private fun addMenuClickEvent(){
+        // 프로필 수정 버튼 이벤트
+        bind.profileMenuLayout.setOnClickListener{
+            requireActivity().supportFragmentManager
+                .beginTransaction()
+                .add(R.id.frameLayout, EditProfileFragment())
+                .addToBackStack(null)
+                .commit()
+        }
+
+        // 회원 탈퇴 버튼 클릭 이벤트
+        bind.withdrawMenuLayout.setOnClickListener{
+            
+        }
+
+        // 로그아웃 버튼 클릭 이벤트
+        bind.logoutMenuLayout.setOnClickListener {
+            activity?.let {
+                val intent = Intent(it.applicationContext, LoginActivity::class.java).apply {
+                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                    addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                }
+                /**
+                 * LoginActivity가 실행될 때 loginFlag 옵저버가 실행 됨
+                 * 그 때 MyApplication에 Member 데이터가 있으면 바로 가져가서 로그인해버림
+                 * 로그아웃 할 때 null로 설정해서 자동 로그인되는 것을 방지
+                 */
+                MyApplication.member = null
+                
+                startActivity(intent) //intent 에 명시된 액티비티로 이동
+                it.finish() //현재 액티비티 종료
+            }
+        }
     }
 
     companion object {

@@ -4,6 +4,7 @@ import com.example.lab.data.entity.Member
 import com.example.lab.remote.RetrofitClient
 import com.example.lab.remote.service.MemberService
 import com.example.lab.data.requestDto.MemberRequestDto
+import com.example.lab.data.responseDto.MemberResponseDto
 import com.example.lab.data.responseDto.MessageDto
 import retrofit2.Call
 import retrofit2.Response
@@ -46,6 +47,20 @@ object MemberRepository {
      */
     fun idCheck(id:String): Response<MessageDto>? {
         val memberCall: Call<MessageDto> = memberService.idCheck(MemberRequestDto.Check(id))
+
+        return try{
+            memberCall.execute()
+        } catch (e: IOException){
+            e.printStackTrace()
+            null
+        }
+    }
+
+    /**
+     * 회원 정보 수정 메소드
+     */
+    fun updateMember(member:MemberRequestDto.Update): Response<MemberResponseDto.Member>? {
+        val memberCall: Call<MemberResponseDto.Member> = memberService.updateMember(member)
 
         return try{
             memberCall.execute()

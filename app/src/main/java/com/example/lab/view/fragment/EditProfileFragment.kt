@@ -1,10 +1,24 @@
-package com.example.lab
+package com.example.lab.view.fragment
 
+import android.app.AlertDialog
+import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RadioButton
+import androidx.activity.OnBackPressedCallback
+import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import com.example.lab.R
+import com.example.lab.application.MyApplication
+import com.example.lab.data.enum.Role
+import com.example.lab.data.requestDto.MemberRequestDto
+import com.example.lab.databinding.FragmentEditProfileBinding
+import com.example.lab.viewmodel.MemberViewModel
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -21,6 +35,11 @@ class EditProfileFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+
+    // VARIABLE
+    private lateinit var bind: FragmentEditProfileBinding
+    private lateinit var memberVM: MemberViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -29,12 +48,157 @@ class EditProfileFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_edit_profile, container, false)
+
+        bind = DataBindingUtil.inflate(inflater, R.layout.fragment_edit_profile, container, false)
+        memberVM = ViewModelProvider(requireActivity())[MemberViewModel::class.java]
+
+        activity?.let {
+            it.findViewById<BottomNavigationView>(R.id.bottomNavbar).visibility = View.GONE
+        }
+
+        setProfileData()
+        addCompleteBtnEvent()
+
+        return bind.root
+    }
+
+    private fun addCompleteBtnEvent(){
+        bind.apply {
+            completeBtn.setOnClickListener {
+                MyApplication.member?.let {
+                    val updateMember = MemberRequestDto.Update.createDto(it)
+
+                    updateMember.apply {
+                        name = "${nameEditText.editText?.text}"
+                        userId = "${numberEditText.editText?.text}"
+                        major = "${majorEditText.editText?.text}"
+                        phoneNumber = "${phoneEditText.editText?.text}"
+                        email = "${emailEditText.editText?.text}"
+                        role = userRole(bind.roleRadioGroup.checkedRadioButtonId)
+                    }
+
+                    memberVM.updateMember(updateMember)
+                }
+                // 회원 정보 수정 성공시
+                memberVM.updateFlag.observe(viewLifecycleOwner){
+                    setProfileData() // 수정된 정보로 변경
+                    val alertDialog: AlertDialog? = activity?.let {
+                        val builder = AlertDialog.Builder(it)
+                        builder.apply {
+                            setTitle("회원 정보 수정 완료")
+                            setMessage("회원 정보 수정이 완료 되었습니다.")
+                            setPositiveButton("확인") { dialog, _ ->
+                                dialog.dismiss()
+
+                            }
+                        }
+                        builder.create()
+                    }
+                    alertDialog?.show()
+                    memberVM.updateFlag.removeObservers(this@EditProfileFragment)
+                }
+
+                // 회원 정보 수정 실패시
+                memberVM.updateError.observe(viewLifecycleOwner){error->
+                    val alertDialog: AlertDialog? = activity?.let {
+                        val builder = AlertDialog.Builder(it)
+                        builder.apply {
+                            setTitle("회원 정보 수정 실패")
+                            setMessage(error.contentIfNotHandled()?:"입력 값을 확인해주세요.")
+                            setPositiveButton("확인") { dialog, _ -> dialog.dismiss()}
+                        }
+                        builder.create()
+                    }
+                    alertDialog?.show()
+                    memberVM.updateError.removeObservers(this@EditProfileFragment)
+                }
+            }
+        }
+    }
+
+    /**
+     * 프로필 데이터 세팅 메소드
+     */
+    private fun setProfileData(){
+        bind.apply {
+            MyApplication.member?.let {
+                userNameTv.text = it.name
+                userIdTv.text = it.userId
+                majorTv.text = it.major
+                Log.i("Role = ${Role.USER}", "사용자 Role = ${it.role}")
+                userTypeTv.text = when(it.role){
+                    Role.USER -> "재학생"
+                    Role.USER_TAKEOFF -> "휴학생"
+                    Role.USER_GRADUATE -> "졸업생"
+                    Role.PROF -> "교수"
+                    Role.ADMIN -> "조교"
+                    else -> "???"
+                }
+
+                nameEditText.editText?.setText(it.name)
+                numberEditText.editText?.setText(it.userId)
+                majorEditText.editText?.setText(it.major)
+                phoneEditText.editText?.setText(it.phoneNumber)
+                emailEditText.editText?.setText(it.email)
+
+                it.role?.let { role -> setRoleRadioButton(role) }
+            }
+        }
+    }
+
+    /**
+     * 사용자가 변경할 수 있는 회원 유형만 표시
+     * (학생이 관리자로 변경하는 것을 막기 위함)
+     */
+    private fun setRoleRadioButton(role: Role){
+        for (i in 0 until bind.roleRadioGroup.childCount) {
+            val radioBtn = bind.roleRadioGroup.getChildAt(i) as RadioButton
+
+            if (userRole(radioBtn.id).name == role.name) radioBtn.isChecked = true
+            // 변경 불가능한 회원 유형은 숨김
+            // ex) USER_GRADUATE는 USER와 USER_TAKEOFF로만 변경 가능
+            if (userRole(radioBtn.id).name.split("_")[0] != role.name.split("_")[0]) radioBtn.visibility = View.GONE
+        }
+    }
+
+    /**
+     * 라디오 버튼에 따라 회원 유형을 반환하는 메소드
+     */
+    private fun userRole(checkedId: Int): Role{
+        return when(checkedId){
+            R.id.student -> Role.USER
+            R.id.takeoff -> Role.USER_TAKEOFF
+            R.id.graduate -> Role.USER_GRADUATE
+            R.id.prof -> Role.PROF
+            R.id.admin -> Role.ADMIN
+            else -> Role.USER
+        }
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        /**
+         * 뒤로가기 버튼 콜백
+         */
+        requireActivity().onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                requireActivity().supportFragmentManager.beginTransaction().remove(this@EditProfileFragment).commit();
+                requireActivity().supportFragmentManager.popBackStack();
+            }
+        })
+    }
+
+    /**
+     * 뷰 사라질 때 바텀 네비게이션 바 보이도록
+     */
+    override fun onPause() {
+        super.onPause()
+        activity?.let {
+            it.findViewById<BottomNavigationView>(R.id.bottomNavbar).visibility = View.VISIBLE
+        }
     }
 
     companion object {

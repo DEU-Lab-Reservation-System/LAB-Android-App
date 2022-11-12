@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.lab.application.MyApplication
 import com.example.lab.data.requestDto.MemberRequestDto
+import com.example.lab.data.responseDto.MemberResponseDto
 import com.example.lab.remote.repository.MemberRepository
 import com.example.lab.utils.Event
 import com.example.lab.utils.ResponseLogger
@@ -20,10 +21,12 @@ class MemberViewModel: ViewModel() {
     val loginFlag = MutableLiveData<Boolean>(false)
     val signUpFlag = MutableLiveData<Boolean>(false)
     val idCheckFlag = MutableLiveData<Boolean>(false)
+    val updateFlag = MutableLiveData<Boolean>(false)
 
     val loginError = MutableLiveData<Event<String>>()
     val signUpError = MutableLiveData<Event<String>>()
     val idCheckError = MutableLiveData<Event<String>>()
+    val updateError = MutableLiveData<Event<String>>()
 
     /**
      * 로그인 메소드
@@ -67,7 +70,7 @@ class MemberViewModel: ViewModel() {
 
                     signUpError.postValue(Event(errorMessage?.getString("message")?:""))
                     
-                    Log.i("회원 가입 실패", "${it.code()}, ${errorMessage?.getString("message")?:""} ")
+                    Log.i("회원 가입 실패", "${it.code()}, ${errorMessage?.getString("message")?:""}")
                 }
             }
         }
@@ -80,16 +83,39 @@ class MemberViewModel: ViewModel() {
         GlobalScope.launch(Dispatchers.IO) {
             val response = MemberRepository.idCheck(id)
 
-            if(response!!.isSuccessful){
-                idCheckFlag.postValue(true)
-                Log.i("아이디 중복 확인 성공", response.body().toString())
-            } else {
-                val errorMessage = JSONObject(response.errorBody()?.string()!!)
+            response?.let {
+                if(it.isSuccessful){
+                    idCheckFlag.postValue(true)
+                    Log.i("아이디 중복 확인 성공", it.body().toString())
+                } else {
+                    val errorMessage = JSONObject(it.errorBody()?.string()!!)
+                    idCheckError.postValue(Event(errorMessage.getString("message")?:""))
 
-                idCheckError.postValue(Event(errorMessage.getString("message")?:""))
+                    Log.i("아이디 중복 확인 실패", "${it.code()}, ${errorMessage.getString("message") ?:""}")
+                }
+            }
+        }
+    }
 
-                Log.e("아이디 중복 확인 실패 Code", "${response.code()}")
-                Log.e("아이디 중복 확인 실패 Message", errorMessage.getString("message")?:"")
+    /**
+     * 회원 정보 수정 메소드
+     */
+    fun updateMember(member:MemberRequestDto.Update){
+        GlobalScope.launch(Dispatchers.IO){
+            val response = MemberRepository.updateMember(member)
+
+            response?.let {
+                if(it.isSuccessful){
+                    it.body()?.let { body -> MyApplication.member?.update(body) }
+                    updateFlag.postValue(true)
+
+                    Log.i("회원 정보 수정 성공", it.body().toString())
+                } else {
+                    val errorMessage = JSONObject(it.errorBody()?.string()!!)
+                    updateError.postValue(Event(errorMessage.getString("message")?:""))
+
+                    Log.i("회원 정보 수정 실패", "${it.code()}, ${errorMessage.getString("message") ?:""}")
+                }
             }
         }
     }
