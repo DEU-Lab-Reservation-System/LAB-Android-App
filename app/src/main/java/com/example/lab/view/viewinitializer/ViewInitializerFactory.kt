@@ -1,5 +1,7 @@
 package com.example.lab.view.viewinitializer
 
+import com.example.lab.data.enum.Role
+import com.example.lab.view.viewinitializer.notify.StudentNotifyViewInitializer
 import com.example.lab.view.viewinitializer.reserv.AdminReservViewInitializer
 import com.example.lab.view.viewinitializer.reserv.ProfReservViewInitializer
 import com.example.lab.view.viewinitializer.reserv.StuReservViewInitializer
@@ -28,12 +30,20 @@ class ViewInitializerFactory {
 
     init {
         map[Key("USER", "RESERVATION")]      = StuReservViewInitializer()
-        map[Key("PROFESSOR", "RESERVATION")] = ProfReservViewInitializer()
+        map[Key("PROF", "RESERVATION")]      = ProfReservViewInitializer()
         map[Key("ADMIN", "RESERVATION")]     = AdminReservViewInitializer()
+
+        map[Key("USER", "NOTIFICATION")]     = StudentNotifyViewInitializer()
+        map[Key("PROF", "NOTIFICATION")]     = AdminReservViewInitializer()
+        map[Key("ADMIN", "NOTIFICATION")]    = AdminReservViewInitializer()
     }
 
-    fun getInitializer(role:String, view:String): ViewInitializer {
-        println("Role = $role, View = $view")
-        return this.map[Key(role, view)]!!
+    /**
+     * role.split("_")[0]하는 이유
+     * USER, USER_TAKEOFF, USER_GRADUATE를 split("_")[0]하면
+     * 모두 USER이므로 같은 학생으로 취급 가능
+     */
+    fun getInitializer(role:Role, view:String): ViewInitializer {
+        return this.map[Key(role.name.split("_")[0], view)]!!
     }
 }

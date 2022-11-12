@@ -29,7 +29,19 @@ class StuReservViewInitializer : ViewInitializer {
             reservVM = ViewModelProvider(requireActivity())[ReservViewModel::class.java]
         }
 
+        initView()
         addEventreservationBtn()
+    }
+
+    /**
+     * 학생 뷰에 맞게 뷰를 초기화 (숨겨놨던 것들 표시)
+     */
+    private fun initView(){
+        bind.apply {
+            // 팀 선택 레이아웃 숨기기
+            teamLayout.visibility = View.VISIBLE
+            reservBtn.text = "예약 신청"
+        }
     }
 
     /**
