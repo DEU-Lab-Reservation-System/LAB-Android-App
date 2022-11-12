@@ -21,6 +21,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.lab.R
 import com.example.lab.adapter.SeatAdapter
+import com.example.lab.adapter.data.SeatStatus
 import com.example.lab.application.MyApplication
 import com.example.lab.data.requestDto.LabRequestDto
 import com.example.lab.data.requestDto.ReservRequestDto
@@ -32,6 +33,7 @@ import com.example.lab.viewmodel.LabViewModel
 import com.example.lab.viewmodel.ReservViewModel
 import com.google.android.datatransport.runtime.backends.BackendResponse.ok
 import java.util.*
+import kotlin.collections.ArrayList
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -78,7 +80,9 @@ class ReservFragment : Fragment() {
         labVM = ViewModelProvider(requireActivity())[LabViewModel::class.java]
         reservVM = ViewModelProvider(requireActivity())[ReservViewModel::class.java]
 
-        ViewInitializerFactory().getInitializer("USER", "RESERVATION").init(this, bind)
+        MyApplication.member?.let {
+            ViewInitializerFactory().getInitializer(it.role, "RESERVATION").init(this, bind)
+        }
 
         /** 데이터를 관리하는 뷰 모델을 bind에 연결해줘야 적용 됨 */
         bind.lifecycleOwner = requireActivity()
@@ -103,74 +107,6 @@ class ReservFragment : Fragment() {
         bind.apply {
             startTimeEditText.editText?.addTimePicker()
             endTimeEditText.editText?.addTimePicker()
-        }
-    }
-
-    /**
-     * 예약 신청 버튼 이벤트 등록
-     */
-    private fun addEventreservationBtn(){
-        bind.reservBtn.setOnClickListener(View.OnClickListener {
-            bind.apply {
-                val reservInfo = ReservRequestDto.Create(
-                    userId = MyApplication.member?.userId?:"",
-                    labNum = labSelector.selectedItem as String,
-                    team = if(teamSelector.text.isEmpty()) -1 else teamSelector.text.toString().toInt(),
-                    seatNum = selectedSeatTv.text.toString(),
-                    startTime = startTimeEditText.editText?.text.toString(),
-                    endTime = endTimeEditText.editText?.text.toString()
-                )
-
-                // 모든 선택 값이 다 선택된 경우에만 예약 신청 가능
-                reservInfo.apply {
-                    if(startTime.isEmpty() || endTime.isEmpty() ||
-                        team == -1 || seatNum == "-"
-                    ){
-                        val alertDialog: AlertDialog? = activity?.let {
-                            val builder = AlertDialog.Builder(it)
-                            builder.apply {
-                                setTitle("시스템 알림")
-                                setMessage("모든 항목을 선택해주세요.")
-                                setPositiveButton("확인") { dialog, _ -> dialog.dismiss()}
-                            }
-                            builder.create()
-                        }
-                        alertDialog?.show()
-                        return@OnClickListener
-                    }
-                }
-                // 예약 신청
-                reservVM.addReservation(reservInfo)
-            }
-        })
-
-        // 예약 성공시
-        reservVM.reserv.observe(viewLifecycleOwner){
-            val fragment = NoticeFragment().apply {
-                arguments = Bundle().apply {
-                    putString("ReservInfo", it.toJson().toString())
-                }
-            }
-
-            requireActivity().supportFragmentManager
-                .beginTransaction()
-                .add(R.id.frameLayout, fragment)
-                .addToBackStack(null)
-                .commit()
-        }
-
-        // 예약 실패시
-        reservVM.reservError.observe(viewLifecycleOwner){error ->
-            val alertDialog: AlertDialog? = activity?.let {
-                val builder = AlertDialog.Builder(it)
-                builder.apply {
-                    setTitle("예약 실패")
-                    setMessage(error.contentIfNotHandled()?:"예약에 실패했습니다.")
-                    setPositiveButton("확인") { dialog, _ -> dialog.dismiss()}
-                }
-                builder.create()
-            }
-            alertDialog?.show()
         }
     }
 
@@ -272,14 +208,14 @@ class ReservFragment : Fragment() {
         // 그리드뷰를 include로 불러왔으므로 include한 레이아웃을 먼저 가져옴
         val seatGridView: SubSeatGridviewBinding = bind.seatGridView
 
-        val leftSeatList: MutableList<Int> = mutableListOf()
-        val rightSeatList: MutableList<Int> = mutableListOf()
+        val leftSeatList: ArrayList<SeatStatus> = arrayListOf()
+        val rightSeatList: ArrayList<SeatStatus> = arrayListOf()
 
         // 좌석 번호 세팅
         var flag = true
         for (i in 1..32){
-            if(flag) leftSeatList.add(i)
-            else rightSeatList.add(i)
+            if(flag) leftSeatList.add(SeatStatus(i))
+            else rightSeatList.add(SeatStatus(i))
 
             if(i % 4 == 0) flag = !flag
         }
@@ -314,11 +250,11 @@ class ReservFragment : Fragment() {
      * 사용 중인 좌석을 표시하는 메소드
      */
     private fun GridView.markSeatInUser(seatlist:ArrayList<Int>, idx:Int){
-        val seatNum = this.getItemAtPosition(idx) as Int
+        val seatNum = this.getItemAtPosition(idx) as SeatStatus
         // 그리드뷰가 초기화 되기 전에 옵저버가 호출될 수 있으므로 Empty 체크
         if(this.isNotEmpty()){
             this[idx].findViewById<View>(R.id.seat).apply {
-                background = if(seatlist.contains(seatNum)) resources.getDrawable(R.drawable.shape_seat_selected)
+                background = if(seatlist.contains(seatNum.idx)) resources.getDrawable(R.drawable.shape_seat_selected)
                 else resources.getDrawable(R.drawable.shape_seat)
             }
         }
@@ -328,7 +264,7 @@ class ReservFragment : Fragment() {
      * 그리드뷰 확장 함수
      * 그리드뷰에 클릭 이벤트를 등록하는 메소드
      */
-    private fun GridView.addSeatClickEvent(seatList:MutableList<Int>){
+    private fun GridView.addSeatClickEvent(seatList:ArrayList<SeatStatus>){
         this.onItemClickListener = AdapterView.OnItemClickListener{ adapterView, view, position, l ->
             val seat = view.findViewById(R.id.seat) as View // 클릭한 좌석의 뷰
 
@@ -340,7 +276,7 @@ class ReservFragment : Fragment() {
             prevSelectSeat = seat
             seat.background = resources.getDrawable(R.drawable.shape_seat_selected)
 
-            bind.selectedSeatTv.text = "${seatList[position]}"
+            bind.selectedSeatTv.text = "${seatList[position].idx}"
         }
     }
 

@@ -8,6 +8,7 @@
     tools:context=".view.activity.MainActivity">
 
     <LinearLayout
+        android:id="@+id/titleBar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/white"
@@ -18,7 +19,7 @@
         <View
             android:layout_width="41dp"
             android:layout_height="29dp"
-            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
             android:background="@drawable/logo_lab_simple"
             />
 

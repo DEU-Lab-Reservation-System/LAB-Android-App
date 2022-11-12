@@ -17,6 +17,7 @@ import com.example.lab.application.MyApplication
 import com.example.lab.data.enum.Role
 import com.example.lab.data.requestDto.MemberRequestDto
 import com.example.lab.databinding.FragmentEditProfileBinding
+import com.example.lab.view.activity.MainActivity
 import com.example.lab.viewmodel.MemberViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -55,7 +56,9 @@ class EditProfileFragment : Fragment() {
         memberVM = ViewModelProvider(requireActivity())[MemberViewModel::class.java]
 
         activity?.let {
-            it.findViewById<BottomNavigationView>(R.id.bottomNavbar).visibility = View.GONE
+            (it as MainActivity).apply {
+                hideBottomNavBar()
+            }
         }
 
         setProfileData()
@@ -197,7 +200,9 @@ class EditProfileFragment : Fragment() {
     override fun onPause() {
         super.onPause()
         activity?.let {
-            it.findViewById<BottomNavigationView>(R.id.bottomNavbar).visibility = View.VISIBLE
+            (it as MainActivity).apply {
+                showBottomNavBar()
+            }
         }
     }
 

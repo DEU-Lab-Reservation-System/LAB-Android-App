@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
+import android.widget.LinearLayout
 import androidx.activity.OnBackPressedCallback
 import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
@@ -15,15 +16,18 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.lab.R
 import com.example.lab.adapter.SeatAdapter
+import com.example.lab.adapter.data.SeatStatus
 import com.example.lab.application.MyApplication
 import com.example.lab.databinding.FragmentReservResultBinding
 import com.example.lab.databinding.SubSeatGridviewBinding
 import com.example.lab.utils.DateManager
 import com.example.lab.utils.DensityManager
+import com.example.lab.view.activity.MainActivity
 import com.example.lab.viewmodel.ReservViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -64,7 +68,10 @@ class ReservResultFragment : Fragment() {
         bind.lifecycleOwner = requireActivity()
 
         activity?.let {
-            it.findViewById<BottomNavigationView>(R.id.bottomNavbar).visibility = View.GONE
+            (it as MainActivity).apply {
+                hideTitleBar()
+                hideBottomNavBar()
+            }
         }
 
         /** 데이터를 관리하는 뷰 모델을 bind에 연결해줘야 적용 됨 */
@@ -109,14 +116,14 @@ class ReservResultFragment : Fragment() {
 
         bind.todayTimeTV.text = dateFormat.format(Calendar.getInstance().timeInMillis)
 
-        val leftSeatList: MutableList<Int> = mutableListOf()
-        val rightSeatList: MutableList<Int> = mutableListOf()
+        val leftSeatList: ArrayList<SeatStatus> = arrayListOf()
+        val rightSeatList: ArrayList<SeatStatus> = arrayListOf()
 
         // 좌석 번호 세팅
         var flag = true
         for (i in 1..32){
-            if(flag) leftSeatList.add(i)
-            else rightSeatList.add(i)
+            if(flag) leftSeatList.add(SeatStatus(i))
+            else rightSeatList.add(SeatStatus(i))
 
             if(i % 4 == 0) flag = !flag
         }
@@ -154,7 +161,10 @@ class ReservResultFragment : Fragment() {
         super.onPause()
 
         activity?.let {
-            it.findViewById<BottomNavigationView>(R.id.bottomNavbar).visibility = View.VISIBLE
+            (it as MainActivity).apply {
+                showTitleBar()
+                showBottomNavBar()
+            }
         }
     }
 

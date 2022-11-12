@@ -22,6 +22,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.lab.R
 import com.example.lab.adapter.SeatAdapter
+import com.example.lab.adapter.data.SeatStatus
 import com.example.lab.application.MyApplication
 import com.example.lab.data.entity.Reservation
 import com.example.lab.databinding.FragmentHomeBinding
@@ -31,6 +32,7 @@ import com.example.lab.utils.DensityManager
 import com.example.lab.viewmodel.LabViewModel
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -49,10 +51,6 @@ class HomeFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
-    @SuppressLint("SimpleDateFormat")
-    private val dateFormat = SimpleDateFormat("yyyy-MM-dd")
-    @SuppressLint("SimpleDateFormat")
-    private val dateTimeFormat = SimpleDateFormat("yyyy-MM-dd HH : mm")
 
     // VARIABLE
     private lateinit var bind: FragmentHomeBinding
@@ -116,7 +114,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun initView(){
-        bind.todayTV.text = dateFormat.format(Calendar.getInstance().timeInMillis)
+        bind.todayTV.text = DateManager.getDateUntilDate(Calendar.getInstance().timeInMillis)
     }
 
     /** 실습실 선택 스피너 초기화 */
@@ -132,7 +130,7 @@ class HomeFragment : Fragment() {
             @SuppressLint("SetTextI18n")
             override fun onItemSelected(adapterView: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 bind.labNumber.text = "${lablist[position]}호 좌석 현황"
-                bind.todayTimeTV.text = dateTimeFormat.format(Calendar.getInstance().timeInMillis)
+                bind.todayTimeTV.text = DateManager.getDateUntilMinute(Calendar.getInstance().timeInMillis)
 
                 labVM.getLabStatus(lablist[position].toInt()) // 선택 된 실슬실의 상태를 조회
             }
@@ -183,14 +181,14 @@ class HomeFragment : Fragment() {
         // 그리드뷰를 include로 불러왔으므로 include한 레이아웃을 먼저 가져옴
         val seatGridView: SubSeatGridviewBinding = bind.seatGridView
 
-        val leftSeatList: MutableList<Int> = mutableListOf()
-        val rightSeatList: MutableList<Int> = mutableListOf()
+        val leftSeatList: ArrayList<SeatStatus> = arrayListOf()
+        val rightSeatList: ArrayList<SeatStatus> = arrayListOf()
         
         // 좌석 번호 세팅
         var flag = true
         for (i in 1..32){
-            if(flag) leftSeatList.add(i)
-            else rightSeatList.add(i)
+            if(flag) leftSeatList.add(SeatStatus(i, false))
+            else rightSeatList.add(SeatStatus(i, false))
 
             if(i % 4 == 0) flag = !flag
         }
@@ -219,11 +217,11 @@ class HomeFragment : Fragment() {
      * 사용 중인 좌석을 표시하는 메소드
      */
     private fun GridView.markSeatInUser(seatlist:ArrayList<Int>, idx:Int){
-        val seatNum = this.getItemAtPosition(idx) as Int
+        val seatNum = this.getItemAtPosition(idx) as SeatStatus
         // 그리드뷰가 초기화 되기 전에 옵저버가 호출될 수 있으므로 Empty 체크
         if(this.isNotEmpty()){
             this[idx].findViewById<View>(R.id.seat).apply {
-                background = if(seatlist.contains(seatNum)) resources.getDrawable(R.drawable.shape_seat_selected)
+                background = if(seatlist.contains(seatNum.idx)) resources.getDrawable(R.drawable.shape_seat_selected)
                 else resources.getDrawable(R.drawable.shape_seat)
             }
         }

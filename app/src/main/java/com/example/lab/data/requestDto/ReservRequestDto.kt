@@ -21,7 +21,4 @@ class ReservRequestDto {
         @SerializedName("state")            var state           :Boolean // 승인할 정보는 True 거절할 정보는 false
     )
 
-    class ReservIdList(
-        var idList:ArrayList<Int>
-    )
 }

@@ -356,12 +356,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                android:layout_marginBottom="50dp"
                 android:orientation="horizontal"
 
                 android:paddingLeft="50dp"
                 android:paddingRight="50dp"
 
-                app:layout_constraintTop_toBottomOf="@+id/reservInputView">
+                app:layout_constraintTop_toBottomOf="@+id/reservInputView"
+                app:layout_constraintBottom_toTopOf="@+id/btnLayout">
 
                 <!-- LAYOUT END 입력 레이아웃 -->
                 <LinearLayout
@@ -416,10 +418,11 @@
             <!-- LAYOUT END 팀 인원 입력 레이아웃 -->
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/btnLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
 
-                android:layout_marginTop="50dp"
+
                 android:layout_marginStart="25dp"
                 android:layout_marginEnd="25dp"
                 android:layout_marginBottom="25dp"
@@ -428,8 +431,7 @@
                 app:cardCornerRadius="10dp"
                 app:cardElevation="0dp"
 
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/teamLayout">
+                app:layout_constraintBottom_toBottomOf="parent">
 
                 <Button
                     android:id="@+id/reservBtn"

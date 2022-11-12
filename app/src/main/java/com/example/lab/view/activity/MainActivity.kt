@@ -6,6 +6,7 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
@@ -13,6 +14,7 @@ import com.example.lab.R
 import com.example.lab.application.MyApplication
 import com.example.lab.databinding.ActivityMainBinding
 import com.example.lab.view.fragment.*
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 @RequiresApi(Build.VERSION_CODES.O)
 class MainActivity : AppCompatActivity() {
@@ -129,6 +131,27 @@ class MainActivity : AppCompatActivity() {
                 .commit()
         }
     }
+
+    /**
+     * 바텀 네비게이션바 or 타이틀 바 관련 메소드
+     */
+    fun showTitleBar() {
+        findViewById<LinearLayout>(R.id.titleBar).visibility = View.VISIBLE
+    }
+
+    fun hideTitleBar(){
+        findViewById<LinearLayout>(R.id.titleBar).visibility = View.GONE
+    }
+
+    fun showBottomNavBar(){
+        findViewById<BottomNavigationView>(R.id.bottomNavbar).visibility = View.VISIBLE
+    }
+
+    fun hideBottomNavBar(){
+        findViewById<BottomNavigationView>(R.id.bottomNavbar).visibility = View.GONE
+    }
+
+
 
     override fun onDestroy() {
         super.onDestroy()

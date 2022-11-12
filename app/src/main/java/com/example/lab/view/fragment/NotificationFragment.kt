@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.LinearLayout
 import androidx.activity.OnBackPressedCallback
 import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
@@ -18,8 +19,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.lab.R
 import com.example.lab.adapter.UnAuthReservAdapter
+import com.example.lab.application.MyApplication
 import com.example.lab.data.responseDto.ReservResponseDto
 import com.example.lab.databinding.FragmentNotificationBinding
+import com.example.lab.utils.DateManager
+import com.example.lab.view.activity.MainActivity
+import com.example.lab.view.viewinitializer.ViewInitializerFactory
 import com.example.lab.viewmodel.ReservViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.util.*
@@ -53,19 +58,32 @@ class NotificationFragment : Fragment() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.N)
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         bind = DataBindingUtil.inflate(inflater, R.layout.fragment_notification, container, false)
         reservVM = ViewModelProvider(requireActivity())[ReservViewModel::class.java]
         activity?.let {
-            it.findViewById<BottomNavigationView>(R.id.bottomNavbar).visibility = View.GONE
+            (it as MainActivity).apply {
+                hideTitleBar()
+                hideBottomNavBar()
+            }
         }
 
+        MyApplication.member?.let {
+            ViewInitializerFactory().getInitializer(it.role, "NOTIFICATION").init(this, bind)
+        }
+
+        initView()
         initRecyclerView()
         initLabSpinner()
 
         return bind.root
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun initView(){
+        bind.todayTV.text = DateManager.getDateUntilDate(Calendar.getInstance().timeInMillis)
     }
 
     /** 실습실 선택 스피너 초기화 */
@@ -132,7 +150,10 @@ class NotificationFragment : Fragment() {
     override fun onPause() {
         super.onPause()
         activity?.let {
-            it.findViewById<BottomNavigationView>(R.id.bottomNavbar).visibility = View.VISIBLE
+            (it as MainActivity).apply {
+                showTitleBar()
+                showBottomNavBar()
+            }
         }
     }
 

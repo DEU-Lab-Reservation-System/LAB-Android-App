@@ -65,7 +65,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:layout_marginBottom="40dp"
+                android:layout_marginBottom="70dp"
                 android:orientation="vertical">
 
                 <TextView
@@ -101,7 +101,8 @@
                     android:id="@+id/seatGridView"
                     layout="@layout/sub_seat_gridview"
                     android:layout_width="match_parent"
-                    android:layout_height="300dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
                     />
             </LinearLayout>
             <!-- LAYOUT END 좌석 그리드뷰 레이아웃 -->
@@ -308,12 +309,17 @@
 
             <!-- LAYOUT END 예약 시간 필드 레이아웃 -->
 
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+            
             <Button
                 android:id="@+id/okBtn"
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
+                android:layout_gravity="right|bottom"
                 android:layout_marginTop="20dp"
 
                 android:backgroundTint="@color/white"
