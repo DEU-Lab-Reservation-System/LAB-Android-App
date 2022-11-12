@@ -1,13 +1,18 @@
 package com.example.lab.view.fragment
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.activity.OnBackPressedCallback
+import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,6 +21,8 @@ import com.example.lab.adapter.UnAuthReservAdapter
 import com.example.lab.data.responseDto.ReservResponseDto
 import com.example.lab.databinding.FragmentNotificationBinding
 import com.example.lab.viewmodel.ReservViewModel
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import java.util.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -36,6 +43,7 @@ class NotificationFragment : Fragment() {
     private lateinit var bind:FragmentNotificationBinding
     private lateinit var reservVM:ReservViewModel
     private lateinit var callback:OnBackPressedCallback
+    private lateinit var lablist:Array<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,16 +53,50 @@ class NotificationFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,savedInstanceState: Bundle?): View? {
+    @RequiresApi(Build.VERSION_CODES.N)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         bind = DataBindingUtil.inflate(inflater, R.layout.fragment_notification, container, false)
         reservVM = ViewModelProvider(requireActivity())[ReservViewModel::class.java]
+        activity?.let {
+            it.findViewById<BottomNavigationView>(R.id.bottomNavbar).visibility = View.GONE
+        }
 
         initRecyclerView()
+        initLabSpinner()
 
         return bind.root
     }
 
+    /** 실습실 선택 스피너 초기화 */
+    @SuppressLint("UseCompatLoadingForDrawables")
+    private fun initLabSpinner(){
+        // 스피너는 고정된 리스트를 보여주는 것이기 때문에 xml로 따로 관리하는 것이 좋음
+        lablist = resources.getStringArray(R.array.lab_list)
+        val spinnerAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, lablist)
+
+        // 어댑터 등록
+        bind.labSelector.adapter = spinnerAdapter
+        bind.labSelector.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            @SuppressLint("SetTextI18n")
+            @RequiresApi(Build.VERSION_CODES.N)
+            override fun onItemSelected(adapterView: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                Log.i("${lablist[position]} 선택 됨", "")
+                // 전체 예약 신청 내역을 어댑터에게 넘겨주면 실습실 별로 분류하여 출력함
+                reservVM.unauthReservList.value?.let {
+                    (bind.notifyRecyclerView.adapter as UnAuthReservAdapter).groupingDataList(it, lablist[position])
+                }
+
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {}
+        }
+    }
+
+    /**
+     * 리사이클러뷰 초기화
+     */
+    @RequiresApi(Build.VERSION_CODES.N)
     private fun initRecyclerView(){
         // 예약 신청 리스트 조회
         reservVM.getUnauthReservs()
@@ -64,13 +106,14 @@ class NotificationFragment : Fragment() {
                 layoutManager = LinearLayoutManager(requireContext())
                 adapter = UnAuthReservAdapter(it)
             }
-
-            bind.approvalBtn.setOnClickListener {
-                val list = (bind.notifyRecyclerView.adapter as UnAuthReservAdapter).getSelectedItem()
-                list.forEach {
-                    Log.i("체크 됨 ${it.id}", it.toString())
-                }
+        }
+        // 승인 버튼 클릭 이벤트
+        bind.approvalBtn.setOnClickListener {
+            val list = (bind.notifyRecyclerView.adapter as UnAuthReservAdapter).getSelectedItem()
+            list.forEach {
+                Log.i("체크 됨 ${it.id}", it.toString())
             }
+            reservVM.authReservs(list, true)
         }
     }
 
@@ -84,6 +127,13 @@ class NotificationFragment : Fragment() {
         }
 
         requireActivity().onBackPressedDispatcher.addCallback(this, callback)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        activity?.let {
+            it.findViewById<BottomNavigationView>(R.id.bottomNavbar).visibility = View.VISIBLE
+        }
     }
 
     companion object {

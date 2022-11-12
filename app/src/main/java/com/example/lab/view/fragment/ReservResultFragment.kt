@@ -1,12 +1,14 @@
 package com.example.lab.view.fragment
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
+import androidx.activity.OnBackPressedCallback
 import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -19,6 +21,7 @@ import com.example.lab.databinding.SubSeatGridviewBinding
 import com.example.lab.utils.DateManager
 import com.example.lab.utils.DensityManager
 import com.example.lab.viewmodel.ReservViewModel
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -60,6 +63,9 @@ class ReservResultFragment : Fragment() {
         /** 데이터를 관리하는 뷰 모델을 bind에 연결해줘야 적용 됨 */
         bind.lifecycleOwner = requireActivity()
 
+        activity?.let {
+            it.findViewById<BottomNavigationView>(R.id.bottomNavbar).visibility = View.GONE
+        }
 
         /** 데이터를 관리하는 뷰 모델을 bind에 연결해줘야 적용 됨 */
         initGridView()
@@ -131,9 +137,25 @@ class ReservResultFragment : Fragment() {
                 seatGridView.labSeatLayout.viewTreeObserver.removeOnGlobalLayoutListener(this)
             }
         })
+    }
 
-        //        addSeatGridViewOnClickListener(seatGridView.leftSeatGridView, leftSeatList)
-        //        addSeatGridViewOnClickListener(seatGridView.rightSeatGridView, rightSeatList)
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        requireActivity().onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                requireActivity().supportFragmentManager.beginTransaction().remove(this@ReservResultFragment).commit();
+                requireActivity().supportFragmentManager.popBackStack();
+            }
+        })
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+        activity?.let {
+            it.findViewById<BottomNavigationView>(R.id.bottomNavbar).visibility = View.VISIBLE
+        }
     }
 
     companion object {

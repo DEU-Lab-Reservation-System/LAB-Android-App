@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import com.example.lab.R
+import com.example.lab.application.MyApplication
 import com.example.lab.databinding.ActivityMainBinding
 import com.example.lab.view.fragment.*
 
@@ -56,6 +57,8 @@ class MainActivity : AppCompatActivity() {
                 .commit()
         })
     }
+
+
 
     private fun initBottomNavibar() {
         bind.bottomNavbar.run {
@@ -125,6 +128,11 @@ class MainActivity : AppCompatActivity() {
                 .hide(it)
                 .commit()
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        MyApplication.member = null
     }
 
 //    /** 뒤로가기 버튼 클릭 이벤트 */

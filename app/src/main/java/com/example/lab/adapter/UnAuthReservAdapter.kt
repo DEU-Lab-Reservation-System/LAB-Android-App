@@ -2,6 +2,7 @@ package com.example.lab.adapter
 
 import android.annotation.SuppressLint
 import android.os.Build
+import android.util.Log
 import android.util.SparseBooleanArray
 import android.view.LayoutInflater
 import android.view.View
@@ -14,10 +15,12 @@ import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.example.lab.R
 import com.example.lab.application.MyApplication
+import com.example.lab.data.entity.Lecture
 import com.example.lab.data.responseDto.ReservResponseDto
 import com.example.lab.utils.DateManager
+import java.util.stream.Collectors
 
-class UnAuthReservAdapter(private val reservations:ReservResponseDto.ReservList) : RecyclerView.Adapter<UnAuthReservAdapter.ViewHolder>() {
+class UnAuthReservAdapter(private var reservations:ReservResponseDto.ReservList) : RecyclerView.Adapter<UnAuthReservAdapter.ViewHolder>() {
     private val checkBoxStatus = SparseBooleanArray()
 
     inner class ViewHolder(itemView: View) :RecyclerView.ViewHolder(itemView) {
@@ -67,12 +70,34 @@ class UnAuthReservAdapter(private val reservations:ReservResponseDto.ReservList)
 
     fun getSelectedItem(): ArrayList<ReservResponseDto.Reserv> {
         val checkedItems = arrayListOf<ReservResponseDto.Reserv>()
-        for (i in 0 .. itemCount){
-            if(checkBoxStatus[i]){
+        for (i in 0..itemCount) {
+            if (checkBoxStatus[i]) {
                 checkedItems.add(reservations.reservList[i])
             }
         }
 
         return checkedItems
     }
+
+    /**
+     * 예약 신청을 실습실 별로 구분해주는 메소드
+     * @param originList:ReservResponseDto.ReservList - ReservViewModel에 있는 리스트 가져와야함
+     * @param labNumber:String
+     * 
+     * Adapter의 Reservations를 변경해서 실습실별 신청을 구분할거기 떄문에 전체 데이터를 갖고있는 리스트가 필요함
+     */
+    @SuppressLint("NotifyDataSetChanged")
+    @RequiresApi(Build.VERSION_CODES.N)
+    fun groupingDataList(originList:ReservResponseDto.ReservList, labNumber:String){
+        val listOfLab = ReservResponseDto.ReservList(arrayListOf())
+
+        originList.reservList.forEach { it ->
+            if(it.roomNumber == labNumber) listOfLab.reservList.add(it)
+        }
+
+        reservations = listOfLab
+        notifyDataSetChanged()
+        Log.i("예약 신청 리스트", reservations.reservList.toString())
+    }
+
 }
