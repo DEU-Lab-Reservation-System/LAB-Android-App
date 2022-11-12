@@ -27,6 +27,7 @@ import com.example.lab.data.requestDto.ReservRequestDto
 import com.example.lab.databinding.FragmentReservBinding
 import com.example.lab.databinding.SubSeatGridviewBinding
 import com.example.lab.utils.DensityManager
+import com.example.lab.view.viewinitializer.ViewInitializerFactory
 import com.example.lab.viewmodel.LabViewModel
 import com.example.lab.viewmodel.ReservViewModel
 import com.google.android.datatransport.runtime.backends.BackendResponse.ok
@@ -77,6 +78,8 @@ class ReservFragment : Fragment() {
         labVM = ViewModelProvider(requireActivity())[LabViewModel::class.java]
         reservVM = ViewModelProvider(requireActivity())[ReservViewModel::class.java]
 
+        ViewInitializerFactory().getInitializer("USER", "RESERVATION").init(this, bind)
+
         /** 데이터를 관리하는 뷰 모델을 bind에 연결해줘야 적용 됨 */
         bind.lifecycleOwner = requireActivity()
 
@@ -88,7 +91,7 @@ class ReservFragment : Fragment() {
         initGridView()
         initTeamSpinner()
         initLabSpinner()
-        addEventreservationBtn()
+//        addEventreservationBtn()
 
         setLabStatus()          // 실습실 상태 표시
 

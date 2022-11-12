@@ -1,11 +1,10 @@
-package com.example.lab.view.viewmanager
+package com.example.lab.view.viewinitializer
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -72,11 +71,6 @@ class ClassBottomSheetManager(
 
         // 인터페이스로 데이터 전달
         return lectureList
-//
-//            val result = dataReciever.setBottomSheetDatas(lectureList)
-//
-//            Log.i("인터페이스 반환 값", result.toString())
-//            //dismiss()
     }
 
 
@@ -101,7 +95,7 @@ class ClassBottomSheetManager(
         val classInfoLayout = bind.classInfoLayout
 
         // 뷰 생성
-        var classInfoView = inflater.inflate(R.layout.sub_add_classinfo, container, false)
+        val classInfoView = inflater.inflate(R.layout.sub_add_classinfo, container, false)
 
         // 스피너 생성
         val daySelector = classInfoView.findViewById<Spinner>(R.id.daySelector)
@@ -176,7 +170,7 @@ class ClassBottomSheetManager(
      * DatePicker 등록 메소드
      */
     fun addDatePicker(){
-        var cal = Calendar.getInstance()
+        val cal = Calendar.getInstance()
         val year = cal.get(Calendar.YEAR)
         val month = cal.get(Calendar.MONTH)
         val day = cal.get(Calendar.DAY_OF_MONTH)

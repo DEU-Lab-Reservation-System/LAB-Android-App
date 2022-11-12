@@ -1,25 +1,20 @@
 package com.example.lab.view.bottomsheet
 
-import android.app.Activity
 import android.app.AlertDialog
 import android.os.Build
 import android.os.Bundle
-import android.text.Layout
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.annotation.Nullable
 import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.lab.R
-import com.example.lab.application.MyApplication
 import com.example.lab.databinding.BottomsheetManageClassBinding
-import com.example.lab.view.activity.MainActivity
-import com.example.lab.view.viewmanager.ClassBottomSheetManager
+import com.example.lab.view.viewinitializer.ClassBottomSheetManager
 import com.example.lab.viewmodel.LectureViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import java.util.*

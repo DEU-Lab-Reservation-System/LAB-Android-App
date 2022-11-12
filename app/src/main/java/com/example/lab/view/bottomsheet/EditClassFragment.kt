@@ -3,7 +3,6 @@ import android.app.AlertDialog
 
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +14,7 @@ import com.example.lab.R
 import com.example.lab.custom.timetableview.Schedule
 import com.example.lab.databinding.BottomsheetManageClassBinding
 import com.example.lab.utils.DateManager
-import com.example.lab.view.viewmanager.ClassBottomSheetManager
+import com.example.lab.view.viewinitializer.ClassBottomSheetManager
 import com.example.lab.viewmodel.LectureViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.json.JSONObject

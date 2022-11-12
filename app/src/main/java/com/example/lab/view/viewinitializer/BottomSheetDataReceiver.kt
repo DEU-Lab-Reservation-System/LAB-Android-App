@@ -1,4 +1,4 @@
-package com.example.lab.view.viewmanager
+package com.example.lab.view.viewinitializer
 
 import java.util.ArrayList
 
