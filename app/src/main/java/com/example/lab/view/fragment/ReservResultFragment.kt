@@ -157,6 +157,7 @@ class ReservResultFragment : Fragment() {
         })
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onPause() {
         super.onPause()
 
