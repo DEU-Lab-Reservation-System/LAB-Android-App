@@ -1,12 +1,18 @@
 package com.example.lab.utils
 
+import android.annotation.SuppressLint
 import android.os.Build
 import androidx.annotation.RequiresApi
+import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 @RequiresApi(Build.VERSION_CODES.O)
 object DateManager {
+    @SuppressLint("SimpleDateFormat")
+    private val dateFormat = SimpleDateFormat("yyyy-MM-dd")
+    @SuppressLint("SimpleDateFormat")
+    private val dateTimeFormat = SimpleDateFormat("yyyy-MM-dd HH : mm")
     private val daylist = arrayOf("월", "화", "수", "목", "금", "토", "일")
 
     fun day(dayCode:Int):String{
@@ -30,5 +36,28 @@ object DateManager {
      */
     fun dateParse(date:String):String{
         return DateTimeFormatter.ofPattern("HH:mm").format(LocalDateTime.parse(date))
+    }
+
+    /**
+     * yyyy-MM-dd
+     * 년도부터 일 수까지 날짜로 파싱
+     */
+    fun getDateUntilDate(date: String):String{
+        return dateFormat.format(date)
+    }
+
+    fun getDateUntilDate(date: Long):String{
+        return dateFormat.format(date)
+    }
+
+    /**
+     * yyyy-MM-dd HH:mm
+     * 년도부터 분까지 날짜로 파싱
+     */
+    fun getDateUntilMinute(date: String): String{
+        return dateFormat.format(date)
+    }
+    fun getDateUntilMinute(date: Long): String{
+        return dateFormat.format(date)
     }
 }
