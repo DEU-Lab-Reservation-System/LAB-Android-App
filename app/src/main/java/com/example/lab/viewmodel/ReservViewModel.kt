@@ -1,9 +1,12 @@
 package com.example.lab.viewmodel
 
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.lab.data.requestDto.ReservRequestDto
+import com.example.lab.data.responseDto.MessageDto
 import com.example.lab.data.responseDto.ReservResponseDto
 import com.example.lab.remote.repository.ReservRepository
 import com.example.lab.utils.Event
@@ -12,6 +15,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.json.JSONObject
+import kotlin.streams.toList
 
 @OptIn(DelicateCoroutinesApi::class)
 class ReservViewModel : ViewModel(){
@@ -19,8 +23,13 @@ class ReservViewModel : ViewModel(){
     var reservList = MutableLiveData<ReservResponseDto.ReservList>()        // 예약 조회
     var unauthReservList = MutableLiveData<ReservResponseDto.ReservList>()  // 예약 신청 내역 조회
 
+    var authResult = MutableLiveData<MessageDto>()
+    var rejectResult = MutableLiveData<MessageDto>()
     var reservError = MutableLiveData<Event<String>>() // 예약 신청 에러
 
+    /**
+     * 예약 신청 메소드
+     */
     fun addReservation(reservInfo:ReservRequestDto.Create){
         GlobalScope.launch(Dispatchers.IO){
             val response = ReservRepository.addReservation(reservInfo)
@@ -51,7 +60,7 @@ class ReservViewModel : ViewModel(){
                     reservList.postValue(it.body())
                     Log.i("예약 조회 완료", it.body().toString())
                 }else{
-                    val errorMessage = response.errorBody()?.string()?.let { res -> JSONObject(res) }
+                    val errorMessage = it.errorBody()?.string()?.let { res -> JSONObject(res) }
 
                     Log.i("예약 조회 실패", "${it.code()}, ${errorMessage?.getString("message")?:""} ")
                 }
@@ -71,11 +80,38 @@ class ReservViewModel : ViewModel(){
                     unauthReservList.postValue(it.body())
                     Log.i("예약 신청 리스트 조회 완료", it.body().toString())
                 } else {
-                    val errorMessage = response.errorBody()?.string()?.let { res -> JSONObject(res) }
+                    val errorMessage = it.errorBody()?.string()?.let { res -> JSONObject(res) }
 
                     Log.i("예약 신청 리스트 조회 실패", "${it.code()}, ${errorMessage?.getString("message")?:""} ")
                 }
             }
         }
     }
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    fun authReservs(reservs:ArrayList<ReservResponseDto.Reserv>, authFlag:Boolean){
+        if(reservs.isEmpty()) return
+
+        val auth = ReservRequestDto.Auth(
+            reservs.stream().map { it.id }.toList() as ArrayList<Int>,
+            reservs[0].roomNumber,
+            authFlag
+        )
+
+        GlobalScope.launch(Dispatchers.IO){
+            val response = ReservRepository.authReservs(auth)
+
+            response?.let {
+                if(it.isSuccessful){
+                    authResult.postValue(it.body())
+                    Log.i("예약 승인 or 거절 완료", it.body().toString())
+                } else {
+                    val errorMessage = it.errorBody()?.string()?.let { res -> JSONObject(res) }
+
+                    Log.i("예약 승인 or 거절 오류", "${it.code()}, ${errorMessage?.getString("message")?:""} ")
+                }
+            }
+        }
+    }
+
 }

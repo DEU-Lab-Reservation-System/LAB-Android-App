@@ -1,6 +1,8 @@
 package com.example.lab.remote.repository
 
+import android.os.Message
 import com.example.lab.data.requestDto.ReservRequestDto
+import com.example.lab.data.responseDto.MessageDto
 import com.example.lab.data.responseDto.ReservResponseDto
 import com.example.lab.remote.RetrofitClient
 import com.example.lab.remote.service.ReservService
@@ -44,6 +46,20 @@ object ReservRepository {
      */
     fun getUnauthReserv():Response<ReservResponseDto.ReservList>? {
         val reservCall: Call<ReservResponseDto.ReservList> = reservService.getUnauthReservs()
+
+        return try{
+            reservCall.execute()
+        } catch (e: IOException){
+            e.printStackTrace()
+            null
+        }
+    }
+
+    /**
+     * 예약 승인 or 거절 요청 메소드
+     */
+    fun authReservs(auth:ReservRequestDto.Auth):Response<MessageDto>? {
+        val reservCall:Call<MessageDto> = reservService.authReservs(auth)
 
         return try{
             reservCall.execute()
