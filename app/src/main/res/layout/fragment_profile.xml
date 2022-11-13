@@ -214,6 +214,7 @@
 
             <!-- LAYOUT 메뉴 레이아웃 (사용자 신고) -->
             <LinearLayout
+                android:id="@+id/reportMenuLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="25dp"
@@ -226,7 +227,7 @@
                     android:layout_height="48dp"
                     android:layout_marginEnd="10dp"
                     android:adjustViewBounds="true"
-                    android:src="@drawable/report_user_icon" />
+                    android:src="@drawable/report_menu_icon" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -234,7 +235,7 @@
                     android:layout_gravity="center_vertical"
                     android:fontFamily="@font/poppins_medium"
                     android:includeFontPadding="false"
-                    android:text="사용자 신고"
+                    android:text="불편사항 접수"
                     android:textColor="@drawable/selector_profile_menu_onclick"
                     android:textSize="14dp" />
 
