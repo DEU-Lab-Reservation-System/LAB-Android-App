@@ -59,7 +59,7 @@ class NotificationFragment : Fragment() {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         // Inflate the layout for this fragment
         bind = DataBindingUtil.inflate(inflater, R.layout.fragment_notification, container, false)
         reservVM = ViewModelProvider(requireActivity())[ReservViewModel::class.java]

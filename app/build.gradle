@@ -60,6 +60,7 @@ dependencies {
     /** Firebase SDK */
     implementation 'com.google.firebase:firebase-core:21.1.1'
     implementation 'com.google.firebase:firebase-messaging:23.1.0'
+    implementation 'androidx.work:work-runtime-ktx:2.7.1'
 
     /** Retrofit2 */
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
