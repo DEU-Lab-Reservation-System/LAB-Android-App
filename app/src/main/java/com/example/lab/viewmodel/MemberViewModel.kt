@@ -21,12 +21,12 @@ class MemberViewModel: ViewModel() {
     val loginFlag = MutableLiveData<Boolean>(false)
     val signUpFlag = MutableLiveData<Boolean>(false)
     val idCheckFlag = MutableLiveData<Boolean>(false)
-    val updateFlag = MutableLiveData<Boolean>(false)
+    val updateFlag = MutableLiveData<Event<Boolean>>()
 
     val loginError = MutableLiveData<Event<String>>()
     val signUpError = MutableLiveData<Event<String>>()
     val idCheckError = MutableLiveData<Event<String>>()
-    val updateError = MutableLiveData<Event<String>>()
+    var updateError:String?=null
 
     /**
      * 로그인 메소드
@@ -64,7 +64,7 @@ class MemberViewModel: ViewModel() {
             response?.let {
                 if(it.isSuccessful){
                     signUpFlag.postValue(true)
-                    Log.i("회원 가입 완료", response.body().toString())
+                    Log.i("회원 가입 완료", it.body().toString())
                 } else {
                     val errorMessage = it.errorBody()?.string()?.let { res -> JSONObject(res) }
 
@@ -107,14 +107,15 @@ class MemberViewModel: ViewModel() {
             response?.let {
                 if(it.isSuccessful){
                     it.body()?.let { body -> MyApplication.member?.update(body) }
-                    updateFlag.postValue(true)
+                    updateFlag.postValue(Event(true))
 
                     Log.i("회원 정보 수정 성공", it.body().toString())
                 } else {
-                    val errorMessage = JSONObject(it.errorBody()?.string()!!)
-                    updateError.postValue(Event(errorMessage.getString("message")?:""))
+                    updateFlag.postValue(Event(false))
+                    val errorMessage = it.errorBody()?.string()?.let { res -> JSONObject(res) }
+                    updateError = errorMessage?.getString("message")?:"오류가 발생했습니다."
 
-                    Log.i("회원 정보 수정 실패", "${it.code()}, ${errorMessage.getString("message") ?:""}")
+                    Log.i("회원 정보 수정 실패", "${it.code()}, $updateError")
                 }
             }
         }

@@ -1,6 +1,8 @@
 package com.example.lab.view.viewinitializer
 
 import com.example.lab.data.enum.Role
+import com.example.lab.view.viewinitializer.notify.AdminNotifyViewInitializer
+import com.example.lab.view.viewinitializer.notify.ProfNotifyViewInitializer
 import com.example.lab.view.viewinitializer.notify.StudentNotifyViewInitializer
 import com.example.lab.view.viewinitializer.reserv.AdminReservViewInitializer
 import com.example.lab.view.viewinitializer.reserv.ProfReservViewInitializer
@@ -34,8 +36,8 @@ class ViewInitializerFactory {
         map[Key("ADMIN", "RESERVATION")]     = AdminReservViewInitializer()
 
         map[Key("USER", "NOTIFICATION")]     = StudentNotifyViewInitializer()
-        map[Key("PROF", "NOTIFICATION")]     = AdminReservViewInitializer()
-        map[Key("ADMIN", "NOTIFICATION")]    = AdminReservViewInitializer()
+        map[Key("PROF", "NOTIFICATION")]     = ProfNotifyViewInitializer()
+        map[Key("ADMIN", "NOTIFICATION")]    = AdminNotifyViewInitializer()
     }
 
     /**

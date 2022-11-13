@@ -20,6 +20,7 @@ import com.example.lab.data.enum.Role
 import com.example.lab.data.requestDto.MemberRequestDto
 import com.example.lab.databinding.FragmentEditProfileBinding
 import com.example.lab.view.activity.MainActivity
+import com.example.lab.viewmodel.LabViewModel
 import com.example.lab.viewmodel.MemberViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -56,7 +57,7 @@ class EditProfileFragment : Fragment() {
         // Inflate the layout for this fragment
 
         bind = DataBindingUtil.inflate(inflater, R.layout.fragment_edit_profile, container, false)
-        memberVM = ViewModelProvider(requireActivity())[MemberViewModel::class.java]
+        memberVM = ViewModelProvider(this)[MemberViewModel::class.java]
 
         activity?.let {
             (it as MainActivity).apply {
@@ -87,43 +88,36 @@ class EditProfileFragment : Fragment() {
 
                     memberVM.updateMember(updateMember)
                 }
-                // 회원 정보 수정 성공시
-                memberVM.updateFlag.observe(viewLifecycleOwner){
-                    setProfileData() // 수정된 정보로 변경
-                    val alertDialog: AlertDialog? = activity?.let {
-                        val builder = AlertDialog.Builder(it)
-                        builder.apply {
-                            setTitle("회원 정보 수정 완료")
-                            setMessage("회원 정보 수정이 완료 되었습니다.")
-                            setPositiveButton("확인") { dialog, _ ->
-                                dialog.dismiss()
-
-                            }
-                        }
-                        builder.create()
-                    }
-                    alertDialog?.show()
-                    memberVM.updateFlag.removeObservers(this@EditProfileFragment)
-                }
-
-                // 회원 정보 수정 실패시
-                memberVM.updateError.observe(viewLifecycleOwner){error->
-                    val alertDialog: AlertDialog? = activity?.let {
-                        val builder = AlertDialog.Builder(it)
-                        builder.apply {
-                            setTitle("회원 정보 수정 실패")
-                            setMessage(error.contentIfNotHandled()?:"입력 값을 확인해주세요.")
-                            setPositiveButton("확인") { dialog, _ -> dialog.dismiss()}
-                        }
-                        builder.create()
-                    }
-                    alertDialog?.show()
-                    memberVM.updateError.removeObservers(this@EditProfileFragment)
-                }
             }
         }
+
+        addObserver()
     }
 
+    private fun addObserver(){
+        // 회원 정보 수정 성공시
+        memberVM.updateFlag.observe(viewLifecycleOwner){ flag->
+            val alertDialog: AlertDialog? = activity?.let {
+                val builder = AlertDialog.Builder(it)
+                builder.apply {
+                    if(flag.contentIfNotHandled() == true){
+                        setTitle("회원 정보 수정 완료")
+                        setMessage("회원 정보 수정이 완료 되었습니다.")
+                        setPositiveButton("확인") { dialog, _ ->
+                            dialog.dismiss()
+                            setProfileData() // 수정된 정보로 변경
+                        }
+                    } else {
+                        setTitle("회원 정보 수정 실패")
+                        setMessage(memberVM.updateError?:"오류가 발생했습니다.")
+                        setPositiveButton("확인") { dialog, _ -> dialog.dismiss()}
+                    }
+                }
+                builder.create()
+            }
+            alertDialog?.show()
+        }
+    }
     /**
      * 프로필 데이터 세팅 메소드
      */
@@ -149,7 +143,7 @@ class EditProfileFragment : Fragment() {
                 phoneEditText.editText?.setText(it.phoneNumber)
                 emailEditText.editText?.setText(it.email)
 
-                it.role?.let { role -> setRoleRadioButton(role) }
+                setRoleRadioButton(it.role)
             }
         }
     }

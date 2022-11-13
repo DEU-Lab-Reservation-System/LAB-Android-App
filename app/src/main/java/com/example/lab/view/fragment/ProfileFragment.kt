@@ -99,6 +99,14 @@ class ProfileFragment : Fragment() {
             
         }
 
+        bind.reportMenuLayout.setOnClickListener {
+            requireActivity().supportFragmentManager
+                .beginTransaction()
+                .add(R.id.frameLayout, ReportFragment())
+                .addToBackStack(null)
+                .commit()
+        }
+
         // 로그아웃 버튼 클릭 이벤트
         bind.logoutMenuLayout.setOnClickListener {
             activity?.let {

@@ -39,7 +39,8 @@ class ReservCompleteFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,savedInstanceState: Bundle?): View? {
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         // 데이터 바인딩
         bind = DataBindingUtil.inflate(inflater, R.layout.fragment_reserv_complete, container, false)
