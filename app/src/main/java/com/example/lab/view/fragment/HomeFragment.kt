@@ -1,13 +1,9 @@
 package com.example.lab.view.fragment
 
 import android.annotation.SuppressLint
-import android.app.TimePickerDialog
 import android.content.Context
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,9 +24,7 @@ import com.example.lab.data.entity.Reservation
 import com.example.lab.databinding.FragmentHomeBinding
 import com.example.lab.databinding.SubSeatGridviewBinding
 import com.example.lab.utils.DateManager
-import com.example.lab.utils.DensityManager
 import com.example.lab.viewmodel.LabViewModel
-import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -67,6 +61,11 @@ class HomeFragment : Fragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+
+        /**
+         * 뷰 모델은 onCreate에서 생성
+         */
+        labVM = ViewModelProvider(requireActivity())[LabViewModel::class.java]
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -74,7 +73,7 @@ class HomeFragment : Fragment() {
 
         // 데이터 바인딩
         bind = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
-        labVM = ViewModelProvider(requireActivity())[LabViewModel::class.java]
+
 
         /** 데이터를 관리하는 뷰 모델을 bind에 연결해줘야 적용 됨 */
         bind.lifecycleOwner = requireActivity()
@@ -83,7 +82,7 @@ class HomeFragment : Fragment() {
         leftGridView = bind.seatGridView.leftSeatGridView
         rightGridView = bind.seatGridView.rightSeatGridView
 
-        initView()
+        settingViewData()
         initGridView()          // 그리드뷰(좌석 배치도) 초기화
         initLabSpinner()        // 실습실 선택 스피너 초기화
         setLabStatus()          // 실습실 상태 표시
@@ -113,7 +112,10 @@ class HomeFragment : Fragment() {
         bind.todayReservSeatTv.text = "${reserv.seatNum}번 좌석"
     }
 
-    private fun initView(){
+    /**
+     * 뷰에 보여줘야할 데이터들을 셋팅하는 메소드
+     */
+    private fun settingViewData(){
         bind.todayTV.text = DateManager.getDateUntilDate(Calendar.getInstance().timeInMillis)
     }
 
@@ -144,9 +146,10 @@ class HomeFragment : Fragment() {
      * 실습실의 이용중인 좌석 표시 or 수업 중인지 표시
      */
     private fun setLabStatus(){
+        // ViewModel이 초기화 되지 않았으면 return
         // 처음 선택되어 있는 실습실의 현황을 조회
-        labVM.getLabStatus(bind.labSelector.selectedItemPosition)
-        labVM.labStatus.observe(viewLifecycleOwner){
+        labVM.getLabStatus(lablist[bind.labSelector.selectedItemPosition].toInt())
+        labVM.labStatus.observe(viewLifecycleOwner) {
             /**
              * 0부터 실습실 좌석 수까지 순회 (그리드뷰 반반씩 나눠져 있으니 / 2 )
              * 인덱스에 해당하는 gridView의 item(실제 좌석 번호)을 가져옴
@@ -155,18 +158,19 @@ class HomeFragment : Fragment() {
              */
 
             // 수업 중이면 수업 중임을 표시
-            if(it.inClass){
+            if (it.inClass) {
                 bind.seatGridView.blurFrameLayout.visibility = View.VISIBLE
                 return@observe
             }
 
-            val seatlist:ArrayList<Int> = (it.seatList?:arrayListOf()).map {seat -> seat.toInt() } as ArrayList<Int>
+            val seatlist: ArrayList<Int> =
+                (it.seatList ?: arrayListOf()).map { seat -> seat.toInt() } as ArrayList<Int>
 
             bind.seatGridView.apply {
                 blurFrameLayout.visibility = View.GONE
                 peopleTv.text = "${seatlist.size} / 32"
                 managerTv.text =
-                    if(it.manager == null) "방장이 없습니다."
+                    if (it.manager == null) "방장이 없습니다."
                     else "${it.manager.name}(${it.manager.id})"
             }
 
@@ -177,6 +181,9 @@ class HomeFragment : Fragment() {
         }
     }
 
+    /**
+     * 그리드뷰 생성 메소드
+     */
     private fun initGridView(){
         // 그리드뷰를 include로 불러왔으므로 include한 레이아웃을 먼저 가져옴
         val seatGridView: SubSeatGridviewBinding = bind.seatGridView
@@ -211,6 +218,22 @@ class HomeFragment : Fragment() {
         })
     }
 
+
+    /**
+     * 프래그먼트가 show/hide 될 때 실행되는 메소드
+     */
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        if(::bind.isInitialized && ::labVM.isInitialized){
+            if (hidden){
+
+            }else{
+                settingViewData()
+                setLabStatus()
+                setTodayReservation()
+            }
+        }
+    }
 
     /**
      * 그리드뷰 확장 함수
