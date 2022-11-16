@@ -13,10 +13,10 @@ import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.example.lab.R
 import com.example.lab.application.MyApplication
-import com.example.lab.data.responseDto.MemberResponseDto
+import com.example.lab.data.responseDto.ReservResponseDto
 import com.example.lab.utils.DateManager
 
-class UserListAdapter(private var members: MemberResponseDto.Members) : RecyclerView.Adapter<UserListAdapter.ViewHolder>() {
+class UserListInLabAdapter(private var reservList: ArrayList<ReservResponseDto.Reserv>) : RecyclerView.Adapter<UserListInLabAdapter.ViewHolder>() {
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val parentLayout: LinearLayout = itemView.findViewById(R.id.parentLayout)
         val checkbox: CheckBox = itemView.findViewById(R.id.checkbox)
@@ -40,14 +40,15 @@ class UserListAdapter(private var members: MemberResponseDto.Members) : Recycler
     @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val member = members.memberList[position]
-
-        holder.checkbox.visibility     = View.GONE // 체크박스 숨기기
-        holder.seatNumTv.visibility    = View.GONE // 좌석 텍스트뷰 숨기기
-        holder.reservTimeTv.visibility = View.GONE // 예약 시간 텍스트뷰 숨기기
+        val reserv = reservList[position]
         
-        holder.studentTv.text = "${member.name}(${member.userId})"
-        holder.majorTv.text = "컴퓨터소프트웨어공학과"
+        holder.checkbox.visibility = View.GONE // 체크박스 숨기기
+        holder.studentTv.text = "${reserv.name}(${reserv.userId})"
+        holder.majorTv.text = reserv.major
+        holder.seatNumTv.text = "${reserv.seatNum}번 좌석"
+        holder.reservTimeTv.text = reserv.run {
+            "${DateManager.dateParse(this.startTime)}-${DateManager.dateParse((this.endTime))}"
+        }
 
         holder.parentLayout.setOnClickListener {
             Toast.makeText(
@@ -59,7 +60,7 @@ class UserListAdapter(private var members: MemberResponseDto.Members) : Recycler
     }
 
     override fun getItemCount(): Int {
-        return members.memberList.size
+        return reservList.size
     }
 
 }

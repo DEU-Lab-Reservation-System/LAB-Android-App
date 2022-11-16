@@ -22,11 +22,13 @@ class MemberViewModel: ViewModel() {
     val signUpFlag = MutableLiveData<Boolean>(false)
     val idCheckFlag = MutableLiveData<Boolean>(false)
     val updateFlag = MutableLiveData<Event<Boolean>>()
+    val memberList = MutableLiveData<MemberResponseDto.Members>()
 
     val loginError = MutableLiveData<Event<String>>()
     val signUpError = MutableLiveData<Event<String>>()
     val idCheckError = MutableLiveData<Event<String>>()
     var updateError:String?=null
+    val membersError = MutableLiveData<String>()
 
     /**
      * 로그인 메소드
@@ -116,6 +118,28 @@ class MemberViewModel: ViewModel() {
                     updateError = errorMessage?.getString("message")?:"오류가 발생했습니다."
 
                     Log.i("회원 정보 수정 실패", "${it.code()}, $updateError")
+                }
+            }
+        }
+    }
+
+    /**
+     * 전체 사용자 정보 조회 메소드(USER만)
+     */
+    fun getAllMembers(){
+        GlobalScope.launch(Dispatchers.IO){
+            val response = MemberRepository.getAllMembers()
+
+            response?.let {
+                if(it.isSuccessful){
+                    memberList.postValue(it.body())
+
+                    Log.i("전체 회원 정보 조회 성공", it.body().toString())
+                } else {
+                    val errorMessage = it.errorBody()?.string()?.let { res -> JSONObject(res) }
+                    membersError.postValue(errorMessage?.getString("message")?:"")
+
+                    Log.i("회원 정보 수정 실패", "${it.code()}, ${errorMessage?.getString("message")?:""}")
                 }
             }
         }

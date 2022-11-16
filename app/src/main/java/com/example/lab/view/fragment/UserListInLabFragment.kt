@@ -11,12 +11,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.lab.R
-import com.example.lab.adapter.UserListAdapter
 import com.example.lab.adapter.UserListInLabAdapter
-import com.example.lab.databinding.FragmentUserListBinding
-import com.example.lab.utils.DateManager
+import com.example.lab.data.requestDto.ReservRequestDto
+import com.example.lab.databinding.FragmentUserListInLabBinding
 import com.example.lab.view.activity.MainActivity
-import com.example.lab.viewmodel.MemberViewModel
+import com.example.lab.viewmodel.ReservViewModel
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -25,34 +24,36 @@ private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [UserListFragment.newInstance] factory method to
+ * Use the [UserListInLabFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class UserListFragment : Fragment() {
+class UserListInLabFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
 
     // VARIABLE
-    private lateinit var bind:FragmentUserListBinding
-    private lateinit var memberVM:MemberViewModel
+    private lateinit var bind:FragmentUserListInLabBinding
+    private lateinit var reservVM:ReservViewModel
+    private var labInfo: ReservRequestDto.LabInfo? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+            labInfo = ReservRequestDto.LabInfo(
+                startTime = it.getString("startTime") ?: "",
+                endTime = it.getString("endTime") ?: "",
+                roomNum = it.getString("roomNum") ?: "",
+            )
         }
-        // Fragment에서 띄워진 Fragment이므로 owner는 this로 줌
-        // (requireActivity()로 주면 이 Fragment가 죽어도 뷰 모델은 살아있어서 옵저버 중복 등록됨)
-        memberVM = ViewModelProvider(this)[MemberViewModel::class.java]
+
+        reservVM = ViewModelProvider(this)[ReservViewModel::class.java]
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        bind = DataBindingUtil.inflate(inflater, R.layout.fragment_user_list, container, false)
-        bind.lifecycleOwner = viewLifecycleOwner
+        bind = DataBindingUtil.inflate(inflater, R.layout.fragment_user_list_in_lab, container, false)
 
         activity?.let {
             (it as MainActivity).apply {
@@ -61,28 +62,25 @@ class UserListFragment : Fragment() {
             }
         }
 
-        initView()
-        initMembersData()
-        addClickEventBackBtn()
+        initRecyclerView()
+        addBackBtnClickEvent()
 
         return bind.root
     }
 
-    private fun initView(){
-        bind.todayTV.text = DateManager.getTodayUntilDate()
-    }
-
     /**
-     * 리사이클러뷰에 Members 데이터 셋팅
+     * 리사이클러뷰 초기화
      */
-    private fun initMembersData(){
-        memberVM.getAllMembers()
+    @RequiresApi(Build.VERSION_CODES.N)
+    private fun initRecyclerView(){
+        labInfo?.let {
+            reservVM.getUserListInLab(it)
 
-        // 리사이클러뷰에 데이터 세팅
-        memberVM.memberList.observe(viewLifecycleOwner){
-            bind.userListRecyclerView.apply {
-                layoutManager = LinearLayoutManager(requireContext())
-                adapter = UserListAdapter(it)
+            reservVM.userListInLab.observe(viewLifecycleOwner){
+                bind.userListRecyclerView.apply {
+                    layoutManager = LinearLayoutManager(requireContext())
+                    adapter = UserListInLabAdapter(it.reservList)
+                }
             }
         }
     }
@@ -90,13 +88,14 @@ class UserListFragment : Fragment() {
     /**
      * 뒤로가기 버튼 이벤트
      */
-    private fun addClickEventBackBtn(){
-        bind.backBtn.setOnClickListener{
+    private fun addBackBtnClickEvent(){
+        bind.backBtn.setOnClickListener {
             requireActivity().supportFragmentManager
                 .beginTransaction()
-                .remove(this@UserListFragment)
-                .commit()
-            requireActivity().supportFragmentManager.popBackStack()
+                .remove(this@UserListInLabFragment)
+                .commit();
+            requireActivity().supportFragmentManager.popBackStack();
+
         }
     }
 
@@ -123,7 +122,7 @@ class UserListFragment : Fragment() {
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            UserListFragment().apply {
+            UserListInLabFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)

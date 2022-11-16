@@ -69,4 +69,18 @@ object MemberRepository {
             null
         }
     }
+
+    /**
+     * 전체 사용자의 정보를 가져오는 메소드(USER만)
+     */
+    fun getAllMembers(): Response<MemberResponseDto.Members>?{
+        val memberCall: Call<MemberResponseDto.Members> = memberService.getAllMembers()
+
+        return try{
+            memberCall.execute()
+        } catch (e: IOException){
+            e.printStackTrace()
+            null
+        }
+    }
 }

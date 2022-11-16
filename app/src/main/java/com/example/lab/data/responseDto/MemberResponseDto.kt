@@ -12,15 +12,28 @@ class MemberResponseDto {
     )
 
     data class Member(
-        @SerializedName("id") val id:Int,
-        @SerializedName("userId") val userId:String,
-        @SerializedName("password") val password:String,
-        @SerializedName("name") val name:String,
-        @SerializedName("major") val major:String,
-        @SerializedName("phoneNum") val phoneNumber: String,
-        @SerializedName("email") val email:String,
-        @SerializedName("role") val role: Role,
-        @SerializedName("deviceToken") val deviceToken: String,
-        @SerializedName("isAuth") val isAuth:Boolean,
+        @SerializedName("id")           val id          : Int,
+        @SerializedName("userId")       val userId      : String,
+        @SerializedName("password")     val password    : String,
+        @SerializedName("name")         val name        : String,
+        @SerializedName("major")        val major       : String,
+        @SerializedName("phoneNum")     val phoneNumber : String,
+        @SerializedName("email")        val email       : String,
+        @SerializedName("role")         val role        : Role,
+        @SerializedName("deviceToken")  val deviceToken : String,
+        @SerializedName("warningCount") val warningCnt  : Int,
+        @SerializedName("isAuth")       val isAuth      : Boolean,
     )
+
+    data class Members(
+        @SerializedName("members") val memberList:ArrayList<MemberInfo>
+    ){
+        class MemberInfo(
+            @SerializedName("id")       val id:Int,
+            @SerializedName("name")     val name:String,
+            @SerializedName("phoneNum") val phoneNumber: String,
+            @SerializedName("userId")   val userId: String,
+        )
+    }
+
 }

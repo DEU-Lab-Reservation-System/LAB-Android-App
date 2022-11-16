@@ -7,6 +7,7 @@ import com.example.lab.data.entity.Member
 import com.example.lab.data.responseDto.MemberResponseDto
 import com.example.lab.data.responseDto.MessageDto
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.PUT
 
@@ -22,4 +23,10 @@ interface MemberService {
 
     @PUT("api/member")
     fun updateMember(@Body updateDto:MemberRequestDto.Update): Call<MemberResponseDto.Member>
+
+    /**
+     * 전체 사용자의 정보를 가져오는 메소드 (USER만)
+     */
+    @GET("api/member")
+    fun getAllMembers():Call<MemberResponseDto.Members>
 }
