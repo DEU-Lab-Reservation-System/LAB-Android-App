@@ -4,6 +4,9 @@ import com.example.lab.data.enum.Role
 import com.example.lab.view.viewinitializer.notify.AdminNotifyViewInitializer
 import com.example.lab.view.viewinitializer.notify.ProfNotifyViewInitializer
 import com.example.lab.view.viewinitializer.notify.StudentNotifyViewInitializer
+import com.example.lab.view.viewinitializer.profile.AdminProfileViewInitializer
+import com.example.lab.view.viewinitializer.profile.ProfProfileViewInitializer
+import com.example.lab.view.viewinitializer.profile.StudentProfileViewInitializer
 import com.example.lab.view.viewinitializer.reserv.AdminReservViewInitializer
 import com.example.lab.view.viewinitializer.reserv.ProfReservViewInitializer
 import com.example.lab.view.viewinitializer.reserv.StuReservViewInitializer
@@ -31,13 +34,17 @@ class ViewInitializerFactory {
     private val map:MutableMap<Key, ViewInitializer> = mutableMapOf()
 
     init {
-        map[Key("USER", "RESERVATION")]      = StuReservViewInitializer()
-        map[Key("PROF", "RESERVATION")]      = ProfReservViewInitializer()
-        map[Key("ADMIN", "RESERVATION")]     = AdminReservViewInitializer()
+        map[Key("USER",  RESERV)]   = StuReservViewInitializer()
+        map[Key("PROF",  RESERV)]   = ProfReservViewInitializer()
+        map[Key("ADMIN", RESERV)]   = AdminReservViewInitializer()
 
-        map[Key("USER", "NOTIFICATION")]     = StudentNotifyViewInitializer()
-        map[Key("PROF", "NOTIFICATION")]     = ProfNotifyViewInitializer()
-        map[Key("ADMIN", "NOTIFICATION")]    = AdminNotifyViewInitializer()
+        map[Key("USER",  NOTIFY)]   = StudentNotifyViewInitializer()
+        map[Key("PROF",  NOTIFY)]   = ProfNotifyViewInitializer()
+        map[Key("ADMIN", NOTIFY)]   = AdminNotifyViewInitializer()
+
+        map[Key("USER",  PROFILE)]  = StudentProfileViewInitializer()
+        map[Key("PROF",  PROFILE)]  = ProfProfileViewInitializer()
+        map[Key("ADMIN", PROFILE)]  = AdminProfileViewInitializer()
     }
 
     /**
@@ -47,5 +54,11 @@ class ViewInitializerFactory {
      */
     fun getInitializer(role:Role, view:String): ViewInitializer {
         return this.map[Key(role.name.split("_")[0], view)]!!
+    }
+
+    companion object{
+        private const val RESERV    = "RESERVATION"
+        private const val NOTIFY    = "NOTIFICATION"
+        private const val PROFILE   = "PROFILE"
     }
 }
