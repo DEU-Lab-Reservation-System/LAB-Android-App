@@ -8,9 +8,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.lab.R
 import com.example.lab.databinding.FragmentReservBinding
-import com.example.lab.view.fragment.NotificationFragment
 import com.example.lab.view.fragment.ReservFragment
-import com.example.lab.view.fragment.UserListFragment
+import com.example.lab.view.fragment.UserListInLabFragment
 import com.example.lab.view.viewinitializer.ViewInitializer
 import com.example.lab.viewmodel.ReservViewModel
 
@@ -49,7 +48,7 @@ class AdminReservViewInitializer: ViewInitializer {
                 val lab = bind.labSelector.selectedItem as String
 
                 // 시간 선택이 다 안된 경우
-                if(startTime.isNullOrEmpty() || endTime.isNullOrEmpty()){
+                if(startTime.isEmpty() || endTime.isNullOrEmpty()){
                     val alertDialog: AlertDialog? = activity?.let {
                         val builder = AlertDialog.Builder(it)
                         builder.apply {
@@ -63,7 +62,7 @@ class AdminReservViewInitializer: ViewInitializer {
                     return@setOnClickListener
                 }
 
-                val userListFragment = UserListFragment()
+                val userListFragment = UserListInLabFragment()
                 userListFragment.arguments = Bundle().apply {
                     putString("startTime", startTime)
                     putString("endTime", endTime)
