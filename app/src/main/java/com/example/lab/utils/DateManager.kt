@@ -6,6 +6,7 @@ import androidx.annotation.RequiresApi
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.util.*
 
 @RequiresApi(Build.VERSION_CODES.O)
 object DateManager {
@@ -59,5 +60,17 @@ object DateManager {
     }
     fun getDateUntilMinute(date: Long): String{
         return dateFormat.format(date)
+    }
+
+    /**
+     * yyyy-MM-dd
+     * 현재 날짜를 가져오는 메소드
+     */
+    fun getTodayUntilDate():String {
+        return getDateUntilMinute(Calendar.getInstance().timeInMillis)
+    }
+
+    fun getTodayUntilMinute():String{
+        return getDateUntilMinute(Calendar.getInstance().timeInMillis)
     }
 }

@@ -1,10 +1,23 @@
-package com.example.lab
+package com.example.lab.view.fragment
 
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.lab.R
+import com.example.lab.adapter.UnAuthReservAdapter
+import com.example.lab.adapter.UserListAdapter
+import com.example.lab.data.requestDto.ReservRequestDto
+import com.example.lab.databinding.FragmentUserListBinding
+import com.example.lab.view.activity.MainActivity
+import com.example.lab.viewmodel.ReservViewModel
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -21,20 +34,82 @@ class UserListFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    // VARIABLE
+    private lateinit var bind:FragmentUserListBinding
+    private lateinit var reservVM:ReservViewModel
+    private var labInfo: ReservRequestDto.LabInfo? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+            labInfo = ReservRequestDto.LabInfo(
+                startTime = it.getString("startTime") ?: "",
+                endTime = it.getString("endTime") ?: "",
+                roomNum = it.getString("roomNum") ?: "",
+            )
+        }
+
+        reservVM = ViewModelProvider(this)[ReservViewModel::class.java]
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        // Inflate the layout for this fragment
+        bind = DataBindingUtil.inflate(inflater, R.layout.fragment_user_list, container, false)
+
+        activity?.let {
+            (it as MainActivity).apply {
+                hideTitleBar()
+                hideBottomNavBar()
+            }
+        }
+
+        initRecyclerView()
+        addBackBtnClickEvent()
+
+        return bind.root
+    }
+
+    /**
+     * 리사이클러뷰 초기화
+     */
+    @RequiresApi(Build.VERSION_CODES.N)
+    private fun initRecyclerView(){
+        labInfo?.let {
+            reservVM.getUserListInLab(it)
+
+            reservVM.userListInLab.observe(viewLifecycleOwner){
+                bind.userListRecyclerView.apply {
+                    layoutManager = LinearLayoutManager(requireContext())
+                    adapter = UserListAdapter(it.reservList)
+                }
+            }
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_user_list, container, false)
+    /**
+     * 뒤로가기 버튼 이벤트
+     */
+    private fun addBackBtnClickEvent(){
+        bind.backBtn.setOnClickListener {
+            requireActivity().supportFragmentManager
+                .beginTransaction()
+                .remove(this@UserListFragment)
+                .commit();
+            requireActivity().supportFragmentManager.popBackStack();
+
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun onPause() {
+        super.onPause()
+        activity?.let {
+            (it as MainActivity).apply {
+                showTitleBar()
+                showBottomNavBar()
+            }
+        }
     }
 
     companion object {

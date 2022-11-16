@@ -117,7 +117,7 @@ class HomeFragment : Fragment() {
      * 뷰에 보여줘야할 데이터들을 셋팅하는 메소드
      */
     private fun settingViewData(){
-        bind.todayTV.text = DateManager.getDateUntilDate(Calendar.getInstance().timeInMillis)
+        bind.todayTV.text = DateManager.getTodayUntilDate()
     }
 
     /** 실습실 선택 스피너 초기화 */
@@ -150,7 +150,7 @@ class HomeFragment : Fragment() {
         // ViewModel이 초기화 되지 않았으면 return
         // 처음 선택되어 있는 실습실의 현황을 조회
         labVM.getLabStatus(lablist[bind.labSelector.selectedItemPosition].toInt())
-        labVM.labStatus.observe(viewLifecycleOwner) {
+        labVM.labStatus.observe(requireActivity()) {
             /**
              * 0부터 실습실 좌석 수까지 순회 (그리드뷰 반반씩 나눠져 있으니 / 2 )
              * 인덱스에 해당하는 gridView의 item(실제 좌석 번호)을 가져옴
