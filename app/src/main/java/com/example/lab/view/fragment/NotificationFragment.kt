@@ -70,6 +70,9 @@ class NotificationFragment : Fragment() {
             }
         }
 
+        /**
+         * 알림 프래그먼트 초기화 팩토리
+         */
         MyApplication.member?.let {
             ViewInitializerFactory().getInitializer(it.role, "NOTIFICATION").init(this, bind)
         }

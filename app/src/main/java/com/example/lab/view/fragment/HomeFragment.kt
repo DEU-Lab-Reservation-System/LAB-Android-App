@@ -24,6 +24,7 @@ import com.example.lab.data.entity.Reservation
 import com.example.lab.databinding.FragmentHomeBinding
 import com.example.lab.databinding.SubSeatGridviewBinding
 import com.example.lab.utils.DateManager
+import com.example.lab.utils.DensityManager
 import com.example.lab.viewmodel.LabViewModel
 import java.util.*
 import kotlin.collections.ArrayList
@@ -166,6 +167,7 @@ class HomeFragment : Fragment() {
             val seatlist: ArrayList<Int> =
                 (it.seatList ?: arrayListOf()).map { seat -> seat.toInt() } as ArrayList<Int>
 
+            // 수업이 없는 경우
             bind.seatGridView.apply {
                 blurFrameLayout.visibility = View.GONE
                 peopleTv.text = "${seatlist.size} / 32"
@@ -210,7 +212,7 @@ class HomeFragment : Fragment() {
                 val params = seatGridView.blurView.layoutParams
 
                 seatGridView.blurView.layoutParams = params.apply {
-                    height = seatGridView.labSeatLayout.height
+                    height = seatGridView.labSeatLayout.height + DensityManager.convertDPtoPX(10)
                 }
 
                 seatGridView.labSeatLayout.viewTreeObserver.removeOnGlobalLayoutListener(this)
