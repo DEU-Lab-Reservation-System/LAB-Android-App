@@ -19,14 +19,15 @@ import kotlin.streams.toList
 
 @OptIn(DelicateCoroutinesApi::class)
 class ReservViewModel : ViewModel(){
-    var reserv = MutableLiveData<ReservResponseDto.Reserv>()                // 예약 신청
-    var reservList = MutableLiveData<ReservResponseDto.ReservList>()        // 예약 조회
-    var unauthReservList = MutableLiveData<ReservResponseDto.ReservList>()  // 예약 신청 내역 조회
+    var reserv              = MutableLiveData<ReservResponseDto.Reserv>()                // 예약 신청
+    var reservList          = MutableLiveData<ReservResponseDto.ReservList>()        // 예약 조회
+    var unauthReservList    = MutableLiveData<ReservResponseDto.ReservList>()  // 예약 신청 내역 조회
+    var userListInLab       = MutableLiveData<ReservResponseDto.LabUserList>()        // 실습실 이용자 리스트
 
-    var authResult = MutableLiveData<MessageDto>()
-    var rejectResult = MutableLiveData<MessageDto>()
-    var reservError = MutableLiveData<Event<String>>() // 예약 신청 에러
-
+    var authResult          = MutableLiveData<MessageDto>()
+    var rejectResult        = MutableLiveData<MessageDto>()
+    var reservError         = MutableLiveData<Event<String>>() // 예약 신청 에러
+    var userListError       = MutableLiveData<String>()
     /**
      * 예약 신청 메소드
      */
@@ -88,6 +89,9 @@ class ReservViewModel : ViewModel(){
         }
     }
 
+    /**
+     * 예약 승인 메소드
+     */
     @RequiresApi(Build.VERSION_CODES.N)
     fun authReservs(reservs:ArrayList<ReservResponseDto.Reserv>, authFlag:Boolean){
         if(reservs.isEmpty()) return
@@ -108,6 +112,27 @@ class ReservViewModel : ViewModel(){
                 } else {
                     val errorMessage = it.errorBody()?.string()?.let { res -> JSONObject(res) }
 
+                    Log.i("예약 승인 or 거절 오류", "${it.code()}, ${errorMessage?.getString("message")?:""} ")
+                }
+            }
+        }
+    }
+
+    /**
+     * 특정 시간대에 실습실을 이용 중인 사용자를 조회하는 메소드
+     */
+    fun getUserListInLab(labInfo:ReservRequestDto.LabInfo){
+        GlobalScope.launch(Dispatchers.IO){
+            val response = ReservRepository.getUserListInLabs(labInfo)
+
+            response?.let {
+                if(it.isSuccessful){
+                    userListInLab.postValue(it.body())
+                    Log.i("이용자 조회 성공", it.body().toString())
+                } else {
+                    val errorMessage = it.errorBody()?.string()?.let { res -> JSONObject(res) }
+                    userListError.postValue(errorMessage?.getString("message")?:"")
+                    
                     Log.i("예약 승인 or 거절 오류", "${it.code()}, ${errorMessage?.getString("message")?:""} ")
                 }
             }

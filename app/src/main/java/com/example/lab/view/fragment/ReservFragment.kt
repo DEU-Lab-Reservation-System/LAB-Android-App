@@ -27,6 +27,7 @@ import com.example.lab.data.requestDto.LabRequestDto
 import com.example.lab.data.requestDto.ReservRequestDto
 import com.example.lab.databinding.FragmentReservBinding
 import com.example.lab.databinding.SubSeatGridviewBinding
+import com.example.lab.utils.DateManager
 import com.example.lab.utils.DensityManager
 import com.example.lab.view.viewinitializer.ViewInitializerFactory
 import com.example.lab.viewmodel.LabViewModel
@@ -105,6 +106,7 @@ class ReservFragment : Fragment() {
     private fun initView(){
         // EditText에 TimePicker 등록
         bind.apply {
+            todayTV.text = DateManager.getDateUntilDate(Calendar.getInstance().timeInMillis)
             startTimeEditText.editText?.addTimePicker()
             endTimeEditText.editText?.addTimePicker()
         }
@@ -236,7 +238,7 @@ class ReservFragment : Fragment() {
                 val params = seatGridView.blurView.layoutParams
 
                 seatGridView.blurView.layoutParams = params.apply {
-                    height = seatGridView.labSeatLayout.height
+                    height = seatGridView.labSeatLayout.height + DensityManager.convertDPtoPX(10)
                 }
 
                 seatGridView.labSeatLayout.viewTreeObserver.removeOnGlobalLayoutListener(this)

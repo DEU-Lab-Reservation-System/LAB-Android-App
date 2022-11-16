@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -75,11 +76,17 @@ class ReservResultFragment : Fragment() {
         }
 
         /** 데이터를 관리하는 뷰 모델을 bind에 연결해줘야 적용 됨 */
+        initView()
         initGridView()
         addButtonEvent()
         initReservData()
 
         return bind.root
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun initView(){
+        bind.todayTV.text = DateManager.getDateUntilDate(Calendar.getInstance().timeInMillis)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -90,15 +97,18 @@ class ReservResultFragment : Fragment() {
         reservVM.reservList.observe(requireActivity()){
 
             if(it.reservList.isNotEmpty()){
+                bind.seatGridView.blurFrameLayout.visibility = View.GONE
                 it.reservList[0].let {
                     bind.apply {
                         studentNameTv.text = "${it.name}(${it.userId})"
                         majorTv.text = it.major
-                        replaceTv.text = "정보공학관 ${it.roomNumber}"
+                        replaceTv.text = "정보공학관 ${it.roomNumber}호"
                         timeTv.text = "${DateManager.dateParse(it.startTime)}-${DateManager.dateParse(it.endTime)}"
                         seatTv.text = "${it.seatNum}번 좌석"
                     }
                 }
+            } else{
+                bind.seatGridView.blurFrameLayout.visibility = View.VISIBLE
             }
         }
     }
@@ -112,7 +122,10 @@ class ReservResultFragment : Fragment() {
 
     private fun initGridView(){
         // 그리드뷰를 include로 불러왔으므로 include한 레이아웃을 먼저 가져옴
-        val seatGridView: SubSeatGridviewBinding = bind.seatGridView
+        val seatGridView: SubSeatGridviewBinding = bind.seatGridView.apply {
+            blurFrameLayout.visibility = View.VISIBLE // 블러뷰 처음엔 보이게 설정
+            blurViewText.text = "예약이 없습니다."
+        }
 
         bind.todayTimeTV.text = dateFormat.format(Calendar.getInstance().timeInMillis)
 
@@ -138,7 +151,7 @@ class ReservResultFragment : Fragment() {
                 val params = seatGridView.blurView.layoutParams
 
                 seatGridView.blurView.layoutParams = params.apply {
-                    height = seatGridView.labSeatLayout.height + DensityManager.convertDPtoPX(30)
+                    height = seatGridView.labSeatLayout.height + DensityManager.convertDPtoPX(10)
                 }
 
                 seatGridView.labSeatLayout.viewTreeObserver.removeOnGlobalLayoutListener(this)

@@ -68,4 +68,18 @@ object ReservRepository {
             null
         }
     }
+
+    /**
+     * 특정 시간대에 실습실을 이용 중인 사용자 목록을 가져오는 메소드
+     */
+    fun getUserListInLabs(labInfo:ReservRequestDto.LabInfo): Response<ReservResponseDto.LabUserList>?{
+        val reservCall:Call<ReservResponseDto.LabUserList> = reservService.getUserListInLab(labInfo)
+
+        return try{
+            reservCall.execute()
+        } catch (e: IOException){
+            e.printStackTrace()
+            null
+        }
+    }
 }

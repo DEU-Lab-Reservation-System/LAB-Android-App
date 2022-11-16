@@ -25,4 +25,8 @@ interface ReservService {
      */
     @POST("api/reservations/authorize")
     fun authReservs(@Body auth:ReservRequestDto.Auth):Call<MessageDto>
+
+    @GET("api/reservations/list")
+    fun getUserListInLab(@Body labInfo: ReservRequestDto.LabInfo): Call<ReservResponseDto.LabUserList>
+
 }

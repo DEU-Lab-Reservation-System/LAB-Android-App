@@ -21,4 +21,13 @@ class ReservRequestDto {
         @SerializedName("state")            var state           :Boolean // 승인할 정보는 True 거절할 정보는 false
     )
 
+    /**
+     * 실습실 정보를 요청으로 보낼 때 사용하는 Dto
+     */
+    data class LabInfo(
+        @SerializedName("startTime")    val startTime: String,
+        @SerializedName("endTime")      val endTime: String,
+        @SerializedName("roomNum")      val roomNum:String,
+    )
+
 }

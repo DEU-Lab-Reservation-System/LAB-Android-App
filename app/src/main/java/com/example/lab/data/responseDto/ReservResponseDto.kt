@@ -56,4 +56,9 @@ class ReservResponseDto {
             }
         }
     }
+
+    data class LabUserList(
+        @SerializedName("manager")      val manager     :MemberResponseDto.Member,
+        @SerializedName("reservations") val reservList  :ArrayList<Reserv>,
+    )
 }
