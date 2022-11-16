@@ -428,7 +428,7 @@
                 android:layout_marginBottom="25dp"
 
                 app:cardBackgroundColor="@color/semi_light_blue"
-                app:cardCornerRadius="10dp"
+                app:cardCornerRadius="0dp"
                 app:cardElevation="0dp"
 
                 app:layout_constraintBottom_toBottomOf="parent">
