@@ -4,7 +4,7 @@ import android.app.AlertDialog
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,19 +12,17 @@ import android.widget.RadioButton
 import androidx.activity.OnBackPressedCallback
 import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.lab.R
-import com.example.lab.application.MyApplication
+import com.example.lab.data.entity.Member
 import com.example.lab.data.enum.Role
 import com.example.lab.data.requestDto.MemberRequestDto
-import com.example.lab.databinding.FragmentEditProfileBinding
+import com.example.lab.data.responseDto.MemberResponseDto
+import com.example.lab.databinding.FragmentMemberManageBinding
 import com.example.lab.utils.extension.hideNavBar
 import com.example.lab.utils.extension.showNavBar
 import com.example.lab.view.activity.MainActivity
-import com.example.lab.viewmodel.LabViewModel
 import com.example.lab.viewmodel.MemberViewModel
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.json.JSONObject
 
 // TODO: Rename parameter arguments, choose names that match
@@ -34,31 +32,30 @@ private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [EditProfileFragment.newInstance] factory method to
+ * Use the [MemberManageFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class EditProfileFragment : Fragment() {
+class MemberManageFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-    private var memberJson: String? = null
-
-    // VARIABLE
-    private lateinit var bind: FragmentEditProfileBinding
-    private lateinit var memberVM: MemberViewModel
+    private lateinit var bind:FragmentMemberManageBinding
+    private lateinit var memberVM:MemberViewModel
+    private var member: MemberResponseDto.Member?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            memberJson = it.getString("MemberJson")
+            member = it.getString("MemberJson")
+                ?.let { it1 -> JSONObject(it1) }
+                ?.let { it2 -> MemberResponseDto.Member.parseJson(it2) }
         }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-
-        bind = DataBindingUtil.inflate(inflater, R.layout.fragment_edit_profile, container, false)
+        bind = DataBindingUtil.inflate(inflater, R.layout.fragment_member_manage, container, false)
         memberVM = ViewModelProvider(this)[MemberViewModel::class.java]
 
         this.hideNavBar()
@@ -72,7 +69,7 @@ class EditProfileFragment : Fragment() {
     private fun addCompleteBtnEvent(){
         bind.apply {
             completeBtn.setOnClickListener {
-                MyApplication.member?.let {
+                member?.let {
                     val updateMember = MemberRequestDto.Update.createDto(it)
 
                     updateMember.apply {
@@ -116,16 +113,17 @@ class EditProfileFragment : Fragment() {
             alertDialog?.show()
         }
     }
+
+
     /**
      * 프로필 데이터 세팅 메소드
      */
     private fun setProfileData(){
         bind.apply {
-            MyApplication.member?.let {
+            member?.let {
+                userIdTv.text   = it.userId
                 userNameTv.text = it.name
-                userIdTv.text = it.userId
-                majorTv.text = it.major
-                Log.i("Role = ${Role.USER}", "사용자 Role = ${it.role}")
+                majorTv.text    = it.major
                 userTypeTv.text = when(it.role){
                     Role.USER -> "재학생"
                     Role.USER_TAKEOFF -> "휴학생"
@@ -134,7 +132,6 @@ class EditProfileFragment : Fragment() {
                     Role.ADMIN -> "조교"
                     else -> "???"
                 }
-
                 nameEditText.editText?.setText(it.name)
                 numberEditText.editText?.setText(it.userId)
                 majorEditText.editText?.setText(it.major)
@@ -183,7 +180,7 @@ class EditProfileFragment : Fragment() {
          */
         requireActivity().onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true){
             override fun handleOnBackPressed() {
-                requireActivity().supportFragmentManager.beginTransaction().remove(this@EditProfileFragment).commit();
+                requireActivity().supportFragmentManager.beginTransaction().remove(this@MemberManageFragment).commit();
                 requireActivity().supportFragmentManager.popBackStack();
             }
         })
@@ -205,12 +202,12 @@ class EditProfileFragment : Fragment() {
          *
          * @param param1 Parameter 1.
          * @param param2 Parameter 2.
-         * @return A new instance of fragment EditProfileFragment.
+         * @return A new instance of fragment MemberManageFragment.
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            EditProfileFragment().apply {
+            MemberManageFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)

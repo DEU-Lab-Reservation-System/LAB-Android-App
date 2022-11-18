@@ -19,15 +19,19 @@ import kotlin.streams.toList
 
 @OptIn(DelicateCoroutinesApi::class)
 class ReservViewModel : ViewModel(){
-    var reserv              = MutableLiveData<ReservResponseDto.Reserv>()                // 예약 신청
-    var reservList          = MutableLiveData<ReservResponseDto.ReservList>()        // 예약 조회
-    var unauthReservList    = MutableLiveData<ReservResponseDto.ReservList>()  // 예약 신청 내역 조회
-    var userListInLab       = MutableLiveData<ReservResponseDto.LabUserList>()        // 실습실 이용자 리스트
+    var reserv              = MutableLiveData<ReservResponseDto.Reserv>()           // 예약 신청
+    var reservList          = MutableLiveData<ReservResponseDto.ReservList>()       // 예약 조회
+    var unauthReservList    = MutableLiveData<ReservResponseDto.ReservList>()       // 예약 신청 내역 조회
+    var userListInLab       = MutableLiveData<ReservResponseDto.LabUserList>()      // 실습실 이용자 리스트
+    var extendResult        = MutableLiveData<ReservResponseDto.Reserv>()           // 예약 연장
 
     var authResult          = MutableLiveData<MessageDto>()
     var rejectResult        = MutableLiveData<MessageDto>()
+    var cancleResult        = MutableLiveData<MessageDto>()
+    var cancleError         = MutableLiveData<String>()
     var reservError         = MutableLiveData<Event<String>>() // 예약 신청 에러
     var userListError       = MutableLiveData<String>()
+    var extendError         = MutableLiveData<String>()
     /**
      * 예약 신청 메소드
      */
@@ -139,4 +143,45 @@ class ReservViewModel : ViewModel(){
         }
     }
 
+    /**
+     * 얘약 취소 메소드
+     */
+    fun cancleReserv(reservId:Int){
+        GlobalScope.launch(Dispatchers.IO){
+            val response = ReservRepository.cancleReserv(reservId)
+
+            response?.let {
+                if(it.isSuccessful){
+                    cancleResult.postValue(it.body())
+                    Log.i("예약 취소 성공", it.body().toString())
+                } else {
+                    val errorMessage = it.errorBody()?.string()?.let { res -> JSONObject(res) }
+                    cancleError.postValue(errorMessage?.getString("message")?:"")
+
+                    Log.e("예약 취소 실패", "")
+                }
+            }
+        }
+    }
+
+    /**
+     * 예약 연장 메소드
+     */
+    fun extendReserv(reservId: Int){
+        GlobalScope.launch(Dispatchers.IO){
+            val response = ReservRepository.extendReserv(ReservRequestDto.Extend(reservId))
+
+            response?.let {
+                if(it.isSuccessful){
+                    extendResult.postValue(it.body())
+                    Log.i("예약 연장 성공", it.body().toString())
+                } else {
+                    val errorMessage = it.errorBody()?.string()?.let { res -> JSONObject(res) }
+                    extendError.postValue(errorMessage?.getString("message")?:"")
+
+                    Log.e("예약 연장 실패", "")
+                }
+            }
+        }
+    }
 }

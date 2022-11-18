@@ -10,8 +10,9 @@
     <color name="red">#FF3333</color>
     <color name="pink">#FF4BD7</color>
 
-    <color name="colorAccent">#00A8FF</color>
 
+    <color name="colorAccent">#00A8FF</color>
+    <color name="blue">#0266FF</color>
     <color name="light_blue">#E9F2FF</color>
 
     <color name="gray">#D9D9D9</color>

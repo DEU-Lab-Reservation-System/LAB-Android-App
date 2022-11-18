@@ -15,319 +15,425 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true"
-        >
+        android:layout_height="wrap_content"
+        android:fillViewport="true">
 
+        <!-- LAYOUT 전체 레이아웃 -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:orientation="vertical"
-            android:padding="30dp">
-
-            <!-- LAYOUT 타이틀 레이아웃 -->
+            android:orientation="vertical">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:padding="30dp">
 
-                <TextView
-                    android:id="@+id/todayTV"
-                    android:layout_width="wrap_content"
+                <!-- LAYOUT 타이틀 레이아웃 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppins_regular"
-                    android:includeFontPadding="false"
-                    android:text="2022-09-23"
-                    android:textColor="@color/colorAccent"
-                    android:textSize="12dp" />
+                    android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                    <TextView
+                        android:id="@+id/todayTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_regular"
+                        android:includeFontPadding="false"
+                        android:text="2022-09-23"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="12dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/noto_sans_kr_bold"
+
+                            android:includeFontPadding="false"
+                            android:text="예약 내역"
+                            android:textColor="@color/natural_navy"
+                            android:textSize="20dp" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"/>
+
+                        <!-- LAYOUT 승인 여부 레이아웃 -->
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/permissionLayout"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center|right"
+                            app:cardBackgroundColor="@color/light_blue"
+                            app:cardCornerRadius="2dp"
+                            app:cardElevation="0dp">
+
+                            <TextView
+                                android:id="@+id/permissionTv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginTop="1dp"
+                                android:layout_marginEnd="10dp"
+                                android:layout_marginBottom="1dp"
+                                android:text="승인 완료"
+                                android:textColor="@color/blue"
+                                android:textSize="12dp" />
+
+                        </androidx.cardview.widget.CardView>
+                        <!-- LAYOUT END 승인 여부 레이아웃 -->
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:layout_marginTop="15dp"
+                        android:background="@color/gray" />
+                </LinearLayout>
+                <!-- LAYOUT END 타이틀 레이아웃 -->
+
+                <!-- LAYOUT 좌석 그리드뷰 레이아웃 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/noto_sans_kr_bold"
+                    android:layout_marginTop="40dp"
+                    android:layout_marginBottom="70dp"
+                    android:orientation="vertical">
 
-                    android:includeFontPadding="false"
-                    android:text="예약 내역"
-                    android:textColor="@color/natural_navy"
-                    android:textSize="20dp" />
+                    <TextView
+                        android:id="@+id/todayTimeTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/noto_sans_kr_regular"
+                        android:includeFontPadding="false"
+                        android:text="2022-09-15"
+                        android:textColor="@color/black"
+                        android:textSize="10dp" />
+
+                    <TextView
+                        android:id="@+id/lab_number"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/noto_sans_kr_bold"
+                        android:includeFontPadding="false"
+                        android:text="-"
+                        android:textColor="@color/natural_navy"
+                        android:textSize="16dp" />
+
+                    <View
+                        android:layout_width="80dp"
+                        android:layout_height="1.5dp"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/shape_rounded_bar" />
+
+                    <include
+                        android:id="@+id/seatGridView"
+                        layout="@layout/sub_seat_gridview"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        />
+                </LinearLayout>
+                <!-- LAYOUT END 좌석 그리드뷰 레이아웃 -->
+
+                <!-- LAYOUT 사용자 이름 필드 레이아웃 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_regular"
+                        android:includeFontPadding="false"
+                        android:text="사용자 이름"
+                        android:textColor="@color/black"
+                        android:textSize="14dp" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:id="@+id/studentNameTv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right|center"
+                        android:fontFamily="@font/poppins_regular"
+                        android:includeFontPadding="false"
+                        android:text="-"
+                        android:textColor="@color/black_gray"
+                        android:textSize="12dp" />
+                </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
+                    android:layout_height="1dp"
                     android:layout_marginTop="15dp"
-                    android:background="@color/gray" />
-            </LinearLayout>
-            <!-- LAYOUT END 타이틀 레이아웃 -->
+                    android:background="#EFEFEF" />
+                <!-- LAYOUT END 사용자 이름 필드 레이아웃 -->
 
-            <!-- LAYOUT 좌석 그리드뷰 레이아웃 -->
+
+                <!-- LAYOUT 학과 필드 레이아웃 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_regular"
+                        android:includeFontPadding="false"
+                        android:text="학과"
+                        android:textColor="@color/black"
+                        android:textSize="14dp" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:id="@+id/majorTv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right|center"
+                        android:fontFamily="@font/poppins_regular"
+                        android:includeFontPadding="false"
+                        android:text="-"
+                        android:textColor="@color/black_gray"
+                        android:textSize="12dp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="15dp"
+                    android:background="#EFEFEF" />
+                <!-- LAYOUT END 학과 필드 레이아웃 -->
+
+                <!-- LAYOUT 예약 장소 필드 레이아웃 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_regular"
+                        android:includeFontPadding="false"
+                        android:text="예약 장소"
+                        android:textColor="@color/black"
+                        android:textSize="14dp" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:id="@+id/replaceTv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right|center"
+                        android:fontFamily="@font/poppins_regular"
+                        android:includeFontPadding="false"
+                        android:text="-"
+                        android:textColor="@color/black_gray"
+                        android:textSize="12dp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="15dp"
+                    android:background="#EFEFEF" />
+                <!-- LAYOUT END 예약 장소 필드 레이아웃 -->
+
+                <!-- LAYOUT 예약 좌석 필드 레이아웃 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_regular"
+                        android:includeFontPadding="false"
+                        android:text="예약 좌석"
+                        android:textColor="@color/black"
+                        android:textSize="14dp" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:id="@+id/seatTv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right|center"
+                        android:fontFamily="@font/poppins_regular"
+                        android:includeFontPadding="false"
+                        android:text="-"
+                        android:textColor="@color/black_gray"
+                        android:textSize="12dp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="15dp"
+                    android:background="#EFEFEF" />
+                <!-- LAYOUT END 예약 좌석 필드 레이아웃 -->
+
+
+                <!-- LAYOUT 예약 시간 필드 레이아웃 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_regular"
+                        android:includeFontPadding="false"
+                        android:text="예약 시간"
+                        android:textColor="@color/black"
+                        android:textSize="14dp" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:id="@+id/timeTv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right|center"
+                        android:fontFamily="@font/poppins_regular"
+                        android:includeFontPadding="false"
+                        android:text="-"
+                        android:textColor="@color/black_gray"
+                        android:textSize="12dp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="15dp"
+                    android:background="#EFEFEF" />
+
+                <!-- LAYOUT END 예약 시간 필드 레이아웃 -->
+
+                <!-- LAYOUT 연장 신청 가능 시간 필드 레이아웃 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_regular"
+                        android:includeFontPadding="false"
+                        android:text="연장 신청 가능 시간"
+                        android:textColor="@color/black"
+                        android:textSize="14dp" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:id="@+id/extendableTv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right|center"
+                        android:fontFamily="@font/poppins_regular"
+                        android:includeFontPadding="false"
+                        android:text="15:30"
+                        android:textColor="@color/black_gray"
+                        android:textSize="12dp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="15dp"
+                    android:background="#EFEFEF" />
+                <!-- LAYOUT END 예약 시간 필드 레이아웃 -->
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"/>
+            </LinearLayout>
+
+            <!-- LAYOUT 버튼 레이아웃 -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
-                android:layout_marginBottom="70dp"
-                android:orientation="vertical">
+                android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/todayTimeTV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:fontFamily="@font/noto_sans_kr_regular"
-                    android:includeFontPadding="false"
-                    android:text="2022-09-15"
-                    android:textColor="@color/black"
-                    android:textSize="10dp" />
+                <Button
+                    android:id="@+id/cancleBtn"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_gravity="right|bottom"
 
-                <TextView
-                    android:id="@+id/lab_number"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
+                    android:backgroundTint="@color/white"
                     android:fontFamily="@font/noto_sans_kr_bold"
                     android:includeFontPadding="false"
-                    android:text="-"
-                    android:textColor="@color/natural_navy"
-                    android:textSize="16dp" />
+                    android:text="연장"
+                    android:textColor="@color/semi_gray"
+                    android:textSize="18sp" />
 
-                <View
-                    android:layout_width="80dp"
-                    android:layout_height="1.5dp"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="5dp"
-                    android:background="@drawable/shape_rounded_bar" />
-
-                <include
-                    android:id="@+id/seatGridView"
-                    layout="@layout/sub_seat_gridview"
+                <Button
+                    android:id="@+id/okBtn"
+                    style="?android:attr/borderlessButtonStyle"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
-                    />
+                    android:layout_gravity="right|bottom"
+
+                    android:backgroundTint="@color/white"
+                    android:fontFamily="@font/noto_sans_kr_bold"
+                    android:includeFontPadding="false"
+                    android:text="확인"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="18sp" />
             </LinearLayout>
-            <!-- LAYOUT END 좌석 그리드뷰 레이아웃 -->
+            <!-- LAYOUT END 버튼 레이아웃 -->
 
-            <!-- LAYOUT 사용자 이름 필드 레이아웃 -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppins_regular"
-                    android:includeFontPadding="false"
-                    android:text="사용자 이름"
-                    android:textColor="@color/black"
-                    android:textSize="14dp" />
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1" />
-
-                <TextView
-                    android:id="@+id/studentNameTv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right|center"
-                    android:fontFamily="@font/poppins_regular"
-                    android:includeFontPadding="false"
-                    android:text="-"
-                    android:textColor="@color/black_gray"
-                    android:textSize="12dp" />
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="15dp"
-                android:background="#EFEFEF" />
-            <!-- LAYOUT END 사용자 이름 필드 레이아웃 -->
-
-
-            <!-- LAYOUT 학과 필드 레이아웃 -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppins_regular"
-                    android:includeFontPadding="false"
-                    android:text="학과"
-                    android:textColor="@color/black"
-                    android:textSize="14dp" />
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1" />
-
-                <TextView
-                    android:id="@+id/majorTv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right|center"
-                    android:fontFamily="@font/poppins_regular"
-                    android:includeFontPadding="false"
-                    android:text="-"
-                    android:textColor="@color/black_gray"
-                    android:textSize="12dp" />
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="15dp"
-                android:background="#EFEFEF" />
-            <!-- LAYOUT END 학과 필드 레이아웃 -->
-
-            <!-- LAYOUT 예약 장소 필드 레이아웃 -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppins_regular"
-                    android:includeFontPadding="false"
-                    android:text="예약 장소"
-                    android:textColor="@color/black"
-                    android:textSize="14dp" />
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1" />
-
-                <TextView
-                    android:id="@+id/replaceTv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right|center"
-                    android:fontFamily="@font/poppins_regular"
-                    android:includeFontPadding="false"
-                    android:text="-"
-                    android:textColor="@color/black_gray"
-                    android:textSize="12dp" />
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="15dp"
-                android:background="#EFEFEF" />
-            <!-- LAYOUT END 예약 장소 필드 레이아웃 -->
-
-            <!-- LAYOUT 예약 좌석 필드 레이아웃 -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppins_regular"
-                    android:includeFontPadding="false"
-                    android:text="예약 좌석"
-                    android:textColor="@color/black"
-                    android:textSize="14dp" />
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1" />
-
-                <TextView
-                    android:id="@+id/seatTv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right|center"
-                    android:fontFamily="@font/poppins_regular"
-                    android:includeFontPadding="false"
-                    android:text="-"
-                    android:textColor="@color/black_gray"
-                    android:textSize="12dp" />
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="15dp"
-                android:background="#EFEFEF" />
-            <!-- LAYOUT END 예약 좌석 필드 레이아웃 -->
-
-
-            <!-- LAYOUT 예약 시간 필드 레이아웃 -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppins_regular"
-                    android:includeFontPadding="false"
-                    android:text="예약 시간"
-                    android:textColor="@color/black"
-                    android:textSize="14dp" />
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1" />
-
-                <TextView
-                    android:id="@+id/timeTv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right|center"
-                    android:fontFamily="@font/poppins_regular"
-                    android:includeFontPadding="false"
-                    android:text="-"
-                    android:textColor="@color/black_gray"
-                    android:textSize="12dp" />
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="15dp"
-                android:background="#EFEFEF" />
-
-            <!-- LAYOUT END 예약 시간 필드 레이아웃 -->
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1"/>
-
-            <Button
-                android:id="@+id/okBtn"
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right|bottom"
-                android:layout_marginTop="20dp"
-
-                android:backgroundTint="@color/white"
-                android:fontFamily="@font/poppins_regular"
-                android:text="확인"
-                android:textColor="@color/colorAccent"
-                android:textSize="14dp" />
         </LinearLayout>
+        <!-- LAYOUT END 전체 레이아웃 -->
     </ScrollView>
 </layout>
 

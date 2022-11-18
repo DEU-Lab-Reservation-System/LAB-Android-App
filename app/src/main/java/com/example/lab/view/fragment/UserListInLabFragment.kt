@@ -14,6 +14,10 @@ import com.example.lab.R
 import com.example.lab.adapter.UserListInLabAdapter
 import com.example.lab.data.requestDto.ReservRequestDto
 import com.example.lab.databinding.FragmentUserListInLabBinding
+import com.example.lab.utils.extension.hideNavBar
+import com.example.lab.utils.extension.hideTitleBar
+import com.example.lab.utils.extension.showNavBar
+import com.example.lab.utils.extension.showTitleBar
 import com.example.lab.view.activity.MainActivity
 import com.example.lab.viewmodel.ReservViewModel
 
@@ -55,11 +59,9 @@ class UserListInLabFragment : Fragment() {
         // Inflate the layout for this fragment
         bind = DataBindingUtil.inflate(inflater, R.layout.fragment_user_list_in_lab, container, false)
 
-        activity?.let {
-            (it as MainActivity).apply {
-                hideTitleBar()
-                hideBottomNavBar()
-            }
+        this.apply {
+            hideTitleBar()
+            hideNavBar()
         }
 
         initRecyclerView()
@@ -102,11 +104,10 @@ class UserListInLabFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onPause() {
         super.onPause()
-        activity?.let {
-            (it as MainActivity).apply {
-                showTitleBar()
-                showBottomNavBar()
-            }
+
+        this.apply {
+            showTitleBar()
+            showNavBar()
         }
     }
 

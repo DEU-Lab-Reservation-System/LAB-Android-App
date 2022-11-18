@@ -4,6 +4,7 @@ import com.example.lab.data.enum.Role
 import com.example.lab.data.responseDto.MemberResponseDto
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import org.json.JSONObject
 
 
 data class Member(
@@ -102,5 +103,23 @@ data class Member(
             role = it.role
         }
 
+    }
+
+    fun parseJson(json: JSONObject): Member {
+        return json.let {
+            Member(
+                id = it.getLong("id"),
+                userId = it.getString("userId"),
+                password = it.getString("password"),
+                name = it.getString("name"),
+                major = it.getString("major"),
+                email = it.getString("email"),
+                phoneNumber = it.getString("phoneNum"),
+                role = Role.valueOf(it.getString("role")),
+                deviceToken = it.getString("deviceToken"),
+                isAuth = it.getBoolean("isAuth"),
+                warningCnt = it.getInt("warningCnt"),
+            )
+        }
     }
 }

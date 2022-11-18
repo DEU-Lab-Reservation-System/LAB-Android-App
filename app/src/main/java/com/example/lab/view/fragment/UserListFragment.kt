@@ -2,10 +2,12 @@ package com.example.lab.view.fragment
 
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
@@ -13,8 +15,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.lab.R
 import com.example.lab.adapter.UserListAdapter
 import com.example.lab.adapter.UserListInLabAdapter
+import com.example.lab.application.MyApplication
 import com.example.lab.databinding.FragmentUserListBinding
 import com.example.lab.utils.DateManager
+import com.example.lab.utils.extension.hideNavBar
+import com.example.lab.utils.extension.hideTitleBar
+import com.example.lab.utils.extension.showNavBar
+import com.example.lab.utils.extension.showTitleBar
 import com.example.lab.view.activity.MainActivity
 import com.example.lab.viewmodel.MemberViewModel
 
@@ -54,11 +61,9 @@ class UserListFragment : Fragment() {
         bind = DataBindingUtil.inflate(inflater, R.layout.fragment_user_list, container, false)
         bind.lifecycleOwner = viewLifecycleOwner
 
-        activity?.let {
-            (it as MainActivity).apply {
-                hideTitleBar()
-                hideBottomNavBar()
-            }
+        this.apply {
+            hideTitleBar()
+            hideNavBar()
         }
 
         initView()
@@ -68,6 +73,7 @@ class UserListFragment : Fragment() {
         return bind.root
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun initView(){
         bind.todayTV.text = DateManager.getTodayUntilDate()
     }
@@ -82,7 +88,29 @@ class UserListFragment : Fragment() {
         memberVM.memberList.observe(viewLifecycleOwner){
             bind.userListRecyclerView.apply {
                 layoutManager = LinearLayoutManager(requireContext())
-                adapter = UserListAdapter(it)
+                // 어댑터 연결 & 클릭 이벤트 리스너 추가
+                adapter = UserListAdapter(it).apply {
+                    setOnItemClickListener(object: UserListAdapter.OnItemClickListner{
+                        override fun onItemClick(view: View, position: Int) {
+                            Log.i("${position}번 째 클릭", "${getItem(position)}")
+                            val member = getItem(position).toJson()
+                            Log.d("Member Json", member.toString())
+
+                            val memberManageFragment = MemberManageFragment()
+                            memberManageFragment.arguments = Bundle().apply {
+                                putString("MemberJson", "$member")
+                            }
+
+                            requireActivity().supportFragmentManager
+                                .beginTransaction()
+                                .replace(R.id.frameLayout, memberManageFragment)
+                                .addToBackStack(null)
+                                .commit()
+                        }
+                    })
+
+                }
+
             }
         }
     }
@@ -103,11 +131,9 @@ class UserListFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onPause() {
         super.onPause()
-        activity?.let {
-            (it as MainActivity).apply {
-                showTitleBar()
-                showBottomNavBar()
-            }
+        this.apply {
+            showTitleBar()
+            showNavBar()
         }
     }
 

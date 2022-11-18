@@ -6,6 +6,8 @@ import com.example.lab.data.responseDto.MessageDto
 import com.example.lab.data.responseDto.ReservResponseDto
 import retrofit2.Call
 import retrofit2.http.Body
+import retrofit2.http.DELETE
+import retrofit2.http.Field
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
@@ -29,4 +31,9 @@ interface ReservService {
     @POST("api/reservations/list")
     fun getUserListInLab(@Body labInfo: ReservRequestDto.LabInfo): Call<ReservResponseDto.LabUserList>
 
+    @DELETE("api/reservations/{reservationId}")
+    fun cancleReserv(@Path("reservationId") reservId:Int): Call<MessageDto>
+
+    @POST("api/reservations/extend")
+    fun extendReserv(@Body extend: ReservRequestDto.Extend): Call<ReservResponseDto.Reserv>
 }

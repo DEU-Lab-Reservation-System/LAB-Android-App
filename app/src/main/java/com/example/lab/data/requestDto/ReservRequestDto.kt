@@ -30,4 +30,10 @@ class ReservRequestDto {
         @SerializedName("roomNum")      val roomNum:String,
     )
 
+    /**
+     * 예약 연장을 위한 Dto
+     */
+    data class Extend(
+        @SerializedName("reservationId")    val reservId:Int
+    )
 }

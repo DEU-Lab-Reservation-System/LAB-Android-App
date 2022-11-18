@@ -42,14 +42,31 @@ class MemberRequestDto(){
                 return member.let {
                     Update(
                         id = it.id.toInt(),
-                        userId = it.userId?:"",
-                        password = it.password?:"",
-                        name = it.name?:"",
-                        major = it.major?:"",
-                        phoneNumber = it.phoneNumber?:"",
-                        email = it.email?:"",
-                        role = it.role?:Role.USER,
-                        deviceToken = it.deviceToken?:"",
+                        userId = it.userId,
+                        password = it.password,
+                        name = it.name,
+                        major = it.major,
+                        phoneNumber = it.phoneNumber,
+                        email = it.email,
+                        role = it.role,
+                        deviceToken = it.deviceToken,
+                        isAuth = it.isAuth
+                    )
+                }
+            }
+
+            fun createDto(member:MemberResponseDto.Member):Update{
+                return member.let {
+                    Update(
+                        id = it.id,
+                        userId = it.userId,
+                        password = it.password,
+                        name = it.name,
+                        major = it.major,
+                        phoneNumber = it.phoneNumber,
+                        email = it.email,
+                        role = it.role,
+                        deviceToken = it.deviceToken,
                         isAuth = it.isAuth
                     )
                 }

@@ -82,4 +82,31 @@ object ReservRepository {
             null
         }
     }
+    /**
+     * 예약 취소 메소드
+     */
+    fun cancleReserv(reservId:Int): Response<MessageDto>? {
+        val reservCall: Call<MessageDto> = reservService.cancleReserv(reservId)
+
+        return try{
+            reservCall.execute()
+        } catch (e: IOException){
+            e.printStackTrace()
+            null
+        }
+    }
+
+    /**
+     * 예약 연장 메소드
+     */
+    fun extendReserv(extend:ReservRequestDto.Extend): Response<ReservResponseDto.Reserv>?{
+        val reservCall: Call<ReservResponseDto.Reserv> = reservService.extendReserv(extend)
+
+        return try{
+            reservCall.execute()
+        } catch (e: IOException){
+            e.printStackTrace()
+            null
+        }
+    }
 }

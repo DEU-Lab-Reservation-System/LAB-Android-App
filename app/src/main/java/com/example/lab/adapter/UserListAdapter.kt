@@ -17,6 +17,14 @@ import com.example.lab.data.responseDto.MemberResponseDto
 import com.example.lab.utils.DateManager
 
 class UserListAdapter(private var members: MemberResponseDto.Members) : RecyclerView.Adapter<UserListAdapter.ViewHolder>() {
+    interface OnItemClickListner{
+        fun onItemClick(view:View, position: Int)
+    }
+    private var mClickListener: OnItemClickListner?= null
+    fun setOnItemClickListener(listner: OnItemClickListner){
+        this.mClickListener = listner
+    }
+
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val parentLayout: LinearLayout = itemView.findViewById(R.id.parentLayout)
         val checkbox: CheckBox = itemView.findViewById(R.id.checkbox)
@@ -50,11 +58,7 @@ class UserListAdapter(private var members: MemberResponseDto.Members) : Recycler
         holder.majorTv.text = "컴퓨터소프트웨어공학과"
 
         holder.parentLayout.setOnClickListener {
-            Toast.makeText(
-                MyApplication.ApplicationContext(),
-                "${position}번 째 클릭, ${holder.studentTv.text}",
-                Toast.LENGTH_SHORT
-            ).show()
+            mClickListener?.onItemClick(it, position)
         }
     }
 
@@ -62,4 +66,7 @@ class UserListAdapter(private var members: MemberResponseDto.Members) : Recycler
         return members.memberList.size
     }
 
+    fun getItem(pos:Int):MemberResponseDto.Member{
+        return members.memberList[pos]
+    }
 }
