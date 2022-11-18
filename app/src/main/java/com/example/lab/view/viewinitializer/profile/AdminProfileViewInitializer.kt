@@ -8,6 +8,7 @@ import com.example.lab.databinding.FragmentNotificationBinding
 import com.example.lab.databinding.FragmentProfileBinding
 import com.example.lab.view.fragment.NotificationFragment
 import com.example.lab.view.fragment.ProfileFragment
+import com.example.lab.view.fragment.ReportListFragment
 import com.example.lab.view.fragment.UserListFragment
 import com.example.lab.view.viewinitializer.ViewInitializer
 
@@ -42,6 +43,15 @@ class AdminProfileViewInitializer:ViewInitializer {
                     requireActivity().supportFragmentManager
                         .beginTransaction()
                         .add(R.id.frameLayout, UserListFragment())
+                        .commit()
+                }
+            }
+
+            reportListMenuLayout.setOnClickListener{
+                fragment.apply {
+                    requireActivity().supportFragmentManager
+                        .beginTransaction()
+                        .add(R.id.frameLayout, ReportListFragment())
                         .commit()
                 }
             }

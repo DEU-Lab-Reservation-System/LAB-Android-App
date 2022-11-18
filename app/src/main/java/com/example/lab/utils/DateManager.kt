@@ -44,7 +44,7 @@ object DateManager {
      * 년도부터 일 수까지 날짜로 파싱
      */
     fun getDateUntilDate(date: String):String{
-        return dateFormat.format(date)
+        return DateTimeFormatter.ofPattern("yyyy-MM-dd").format(LocalDateTime.parse(date))
     }
 
     fun getDateUntilDate(date: Long):String{
