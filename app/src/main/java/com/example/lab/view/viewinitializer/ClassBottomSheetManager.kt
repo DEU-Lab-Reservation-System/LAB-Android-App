@@ -33,19 +33,19 @@ class ClassBottomSheetManager(
 
     /** 확인 버튼 이벤트 */
     fun getInputClassData(classCode:String): ArrayList<Lecture> {
-            /**
-             *  예외 처리 사항
-             *  1. 입력이 안된 항목이 있는 경우
-             *  2. 수업 시작 날짜가 끝 날짜보다 늦는 경우
-             *  3. 시긴 및 장소 정보가 하나도 없는 경우
-             *  4. 시간 및 장소가 중복되는 경우
-             *  5. 수업 시작 시간이 수업 끝 시간보다 늦는 경우
-             */
-            // UUID는 동일한 수업에 대해 한 번만 생성
-            var lectureList: ArrayList<Lecture> = arrayListOf()
+        /**
+         *  예외 처리 사항
+         *  1. 입력이 안된 항목이 있는 경우
+         *  2. 수업 시작 날짜가 끝 날짜보다 늦는 경우
+         *  3. 시긴 및 장소 정보가 하나도 없는 경우
+         *  4. 시간 및 장소가 중복되는 경우
+         *  5. 수업 시작 시간이 수업 끝 시간보다 늦는 경우
+         */
+        // UUID는 동일한 수업에 대해 한 번만 생성
+        val lectureList: ArrayList<Lecture> = arrayListOf()
 
         // 수업 생성
-        var lecture = Lecture(
+        val lecture = Lecture(
             code = classCode,
             title = bind.titleEditText.text.toString(),
             professor = bind.professorEditText.text.toString(),
@@ -100,6 +100,7 @@ class ClassBottomSheetManager(
         // 스피너 생성
         val daySelector = classInfoView.findViewById<Spinner>(R.id.daySelector)
         val placeSelector = classInfoView.findViewById<Spinner>(R.id.placeSelector)
+        val deleteBtn = classInfoView.findViewById<View>(R.id.deleteBtn)
 
         /**
          * 스피너 어댑터 생성 메소드
@@ -122,6 +123,10 @@ class ClassBottomSheetManager(
 
         // 타입 피커 등록
         addTimePicker(classInfoView, startTime, endTime)
+
+        deleteBtn.setOnClickListener {
+            classInfoLayout.removeView(classInfoView)
+        }
 
         classInfoLayout.addView(classInfoView)
     }

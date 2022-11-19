@@ -78,7 +78,8 @@ class ReservFragment : Fragment() {
         initTeamSpinner()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,savedInstanceState: Bundle?): View? {
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         // 데이터 바인딩
         bind = DataBindingUtil.inflate(inflater, R.layout.fragment_reserv, container, false)
@@ -274,6 +275,7 @@ class ReservFragment : Fragment() {
     private fun GridView.addSeatClickEvent(seatList:ArrayList<SeatStatus>){
         this.onItemClickListener = AdapterView.OnItemClickListener{ adapterView, view, position, l ->
             val seat = view.findViewById(R.id.seat) as View // 클릭한 좌석의 뷰
+            if(seat.isSelected) return@OnItemClickListener
 
             // 이전에 선택했던 자리는 다시 회색으로 돌림
             if (::prevSelectSeat.isInitialized) {

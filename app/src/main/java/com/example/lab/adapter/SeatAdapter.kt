@@ -24,6 +24,12 @@ class SeatAdapter(var context: Context, var seatList: ArrayList<SeatStatus>): Ba
         return 0
     }
 
+    fun isSelected(position: Int): Boolean = seatList[position].status
+
+    fun setSelected(position: Int): Unit{
+        seatList[position].status = true
+    }
+
     @SuppressLint("InflateParams")
     override fun getView(position: Int, view: View?, viewGroup: ViewGroup?): View {
         var gridView:View? = view

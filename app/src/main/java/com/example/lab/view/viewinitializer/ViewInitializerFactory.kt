@@ -10,6 +10,9 @@ import com.example.lab.view.viewinitializer.profile.StudentProfileViewInitialize
 import com.example.lab.view.viewinitializer.reserv.AdminReservViewInitializer
 import com.example.lab.view.viewinitializer.reserv.ProfReservViewInitializer
 import com.example.lab.view.viewinitializer.reserv.StuReservViewInitializer
+import com.example.lab.view.viewinitializer.timetable.AdminTimeTableViewInitializer
+import com.example.lab.view.viewinitializer.timetable.ProfTimeTableViewInitializer
+import com.example.lab.view.viewinitializer.timetable.StudentTimeTableViewInitializer
 
 class ViewInitializerFactory {
     private inner class Key(
@@ -45,6 +48,10 @@ class ViewInitializerFactory {
         map[Key("USER",  PROFILE)]  = StudentProfileViewInitializer()
         map[Key("PROF",  PROFILE)]  = ProfProfileViewInitializer()
         map[Key("ADMIN", PROFILE)]  = AdminProfileViewInitializer()
+
+        map[Key("USER",  TIMETABLE)]  = StudentTimeTableViewInitializer()
+        map[Key("PROF",  TIMETABLE)]  = ProfTimeTableViewInitializer()
+        map[Key("ADMIN", TIMETABLE)]  = AdminTimeTableViewInitializer()
     }
 
     /**
@@ -60,5 +67,6 @@ class ViewInitializerFactory {
         private const val RESERV    = "RESERVATION"
         private const val NOTIFY    = "NOTIFICATION"
         private const val PROFILE   = "PROFILE"
+        private const val TIMETABLE = "TIMETABLE"
     }
 }

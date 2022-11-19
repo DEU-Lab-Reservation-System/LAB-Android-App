@@ -73,7 +73,7 @@ class ProfileFragment : Fragment() {
         }
 
         /**
-         * 회원탈퇴 옵저버
+         * 회원 탈퇴 옵저버
          */
         memberVM.withdrawResult.observe(viewLifecycleOwner){ result->
             val alertDialog: AlertDialog? = activity?.let {

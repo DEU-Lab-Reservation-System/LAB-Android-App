@@ -12,6 +12,7 @@ import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import com.example.lab.R
 import com.example.lab.application.MyApplication
+import com.example.lab.data.enum.Role
 import com.example.lab.databinding.ActivityMainBinding
 import com.example.lab.view.fragment.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -38,8 +39,18 @@ class MainActivity : AppCompatActivity() {
         bind = ActivityMainBinding.inflate(layoutInflater)
         setContentView(bind.root)
 
+        initView()
         initBottomNavibar()
         eventAdder()
+    }
+
+    private fun initView(){
+        // 학생의 경우만 예약 내역 아이콘 보이도록
+        MyApplication.member?.let {
+            bind.reservResultBtn.visibility =
+            if(it.role == Role.PROF || it.role == Role.ADMIN) View.GONE
+            else View.VISIBLE
+        }
     }
 
     private fun eventAdder(){

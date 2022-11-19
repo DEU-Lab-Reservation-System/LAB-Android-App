@@ -1,4 +1,5 @@
 package com.example.lab.view.fragment
+import android.app.AlertDialog
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -135,6 +136,19 @@ class NotificationFragment : Fragment() {
                 Log.i("체크 됨 ${it.id}", it.toString())
             }
             reservVM.authReservs(list, true)
+        }
+        // 승인 결과 옵저버
+        reservVM.authResult.observe(viewLifecycleOwner){ result ->
+            val alertDialog: AlertDialog? = activity?.let {
+                val builder = AlertDialog.Builder(it)
+                builder.apply {
+                    setTitle("승인 완료")
+                    setMessage(result.message?:"오류가 발생했습니다.")
+                    setPositiveButton("확인") { dialog, _ -> dialog.dismiss()}
+                }
+                builder.create()
+            }
+            alertDialog?.show()
         }
     }
 

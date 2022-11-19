@@ -23,9 +23,9 @@ class ProfProfileViewInitializer:ViewInitializer {
             userListMenuLayout.visibility   = View.GONE // 회원 목록 조회
             reportListMenuLayout.visibility = View.GONE // 불편사항 접수
             tokenMenuLayout.visibility      = View.GONE // 토큰 발급
+            reservHistoryMenuLayout.visibility  = View.GONE // 예약 내역 조회
 
             // 보여지는 레이아웃
-            reservHistoryMenuLayout.visibility  = View.VISIBLE
             reportMenuLayout.visibility = View.VISIBLE
         }
     }
