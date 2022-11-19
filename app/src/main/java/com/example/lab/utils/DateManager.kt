@@ -35,17 +35,15 @@ object DateManager {
     /**
      * "yyyy-MM-dd'T'HH:mm:ss" 형식의 날짜 데이터를 HH:mm 형식으로 변환하는 메소드
      */
-    fun dateParse(date:String):String{
-        return DateTimeFormatter.ofPattern("HH:mm").format(LocalDateTime.parse(date))
-    }
+    fun dateParse(date:String):String
+    = DateTimeFormatter.ofPattern("HH:mm").format(LocalDateTime.parse(date))
 
     /**
      * yyyy-MM-dd
      * 년도부터 일 수까지 날짜로 파싱
      */
-    fun getDateUntilDate(date: String):String{
-        return DateTimeFormatter.ofPattern("yyyy-MM-dd").format(LocalDateTime.parse(date))
-    }
+    fun getDateUntilDate(date: String):String
+    = DateTimeFormatter.ofPattern("yyyy-MM-dd").format(LocalDateTime.parse(date))
 
     fun getDateUntilDate(date: Long):String{
         return dateFormat.format(date)

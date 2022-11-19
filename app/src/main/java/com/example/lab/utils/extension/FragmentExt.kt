@@ -45,6 +45,16 @@ fun Fragment.showTitleBar(){
     }
 }
 
+/**
+ * 이전 프래그먼트로 돌아가는 메소드
+ */
+fun Fragment.backToPrevious(){
+    requireActivity().supportFragmentManager
+        .beginTransaction()
+        .remove(this)
+        .commit()
+    requireActivity().supportFragmentManager.popBackStack();
+}
 
 fun Fragment.dismiss(){
     requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
