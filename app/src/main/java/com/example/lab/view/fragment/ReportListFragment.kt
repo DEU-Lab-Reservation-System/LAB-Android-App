@@ -3,24 +3,19 @@ package com.example.lab.view.fragment
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModel
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.lab.R
 import com.example.lab.adapter.ReportListAdapter
-import com.example.lab.adapter.UserListAdapter
 import com.example.lab.databinding.FragmentReportListBinding
 import com.example.lab.utils.DateManager
-import com.example.lab.utils.extension.hideNavBar
-import com.example.lab.utils.extension.hideTitleBar
-import com.example.lab.utils.extension.showNavBar
-import com.example.lab.utils.extension.showTitleBar
+import com.example.lab.utils.extension.*
 import com.example.lab.viewmodel.ReportViewModel
 
 // TODO: Rename parameter arguments, choose names that match
@@ -63,6 +58,7 @@ class ReportListFragment : Fragment() {
 
         initView()
         initReportData()
+        addBackBtnClickEvent()
 
         return bind.root
     }
@@ -87,23 +83,32 @@ class ReportListFragment : Fragment() {
                     setOnItemClickListener(object: ReportListAdapter.OnItemClickListner{
                         override fun onItemClick(view: View, position: Int) {
                             Log.i("${position}번 째 클릭", "${getItem(position)}")
-//
-//                            val memberManageFragment = MemberManageFragment()
-//                            memberManageFragment.arguments = Bundle().apply {
-//                                putString("MemberJson", "$member")
-//                            }
-//
-//                            requireActivity().supportFragmentManager
-//                                .beginTransaction()
-//                                .replace(R.id.frameLayout, memberManageFragment)
-//                                .addToBackStack(null)
-//                                .commit()
+
+                            val reportInfoFragment = ReportInfoFragment()
+                            reportInfoFragment.arguments = Bundle().apply {
+                                putString("ReportJson", "${getItem(position).toJson()}")
+                            }
+
+                            requireActivity().supportFragmentManager
+                                .beginTransaction()
+                                .add(R.id.frameLayout, reportInfoFragment)
+                                .addToBackStack(null)
+                                .commit()
                         }
                     })
 
                 }
 
             }
+        }
+    }
+
+    /**
+     * 뒤로가기 버튼 이벤트
+     */
+    private fun addBackBtnClickEvent(){
+        bind.backBtn.setOnClickListener {
+            this.backToPrevious()
         }
     }
 

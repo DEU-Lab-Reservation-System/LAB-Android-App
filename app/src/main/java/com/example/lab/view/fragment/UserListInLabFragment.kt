@@ -14,10 +14,7 @@ import com.example.lab.R
 import com.example.lab.adapter.UserListInLabAdapter
 import com.example.lab.data.requestDto.ReservRequestDto
 import com.example.lab.databinding.FragmentUserListInLabBinding
-import com.example.lab.utils.extension.hideNavBar
-import com.example.lab.utils.extension.hideTitleBar
-import com.example.lab.utils.extension.showNavBar
-import com.example.lab.utils.extension.showTitleBar
+import com.example.lab.utils.extension.*
 import com.example.lab.view.activity.MainActivity
 import com.example.lab.viewmodel.ReservViewModel
 
@@ -92,12 +89,7 @@ class UserListInLabFragment : Fragment() {
      */
     private fun addBackBtnClickEvent(){
         bind.backBtn.setOnClickListener {
-            requireActivity().supportFragmentManager
-                .beginTransaction()
-                .remove(this@UserListInLabFragment)
-                .commit();
-            requireActivity().supportFragmentManager.popBackStack();
-
+            this.backToPrevious()
         }
     }
 
