@@ -74,8 +74,8 @@ class AddClassFragment : BottomSheetDialogFragment() {
                     }
                 } else {
                     bind.apply {
-                        startDateEditText.setText("${year}-09-01")
-                        endDateEditText.setText("${year}-12-31")
+                        startDateEditText.setText("${year}-03-01")
+                        endDateEditText.setText("${year}-06-31")
                     }
                 }
             } else { // 교수인 경우 날짜 선택 가능하게
@@ -83,6 +83,7 @@ class AddClassFragment : BottomSheetDialogFragment() {
             }
         }
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val metrics = resources.displayMetrics
