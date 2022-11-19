@@ -15,7 +15,9 @@ import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.example.lab.R
+import com.example.lab.application.MyApplication
 import com.example.lab.custom.timetableview.Schedule
+import com.example.lab.data.enum.Role
 import com.example.lab.databinding.BottomsheetClassInfoBinding
 import com.example.lab.utils.DateManager
 import com.example.lab.viewmodel.LectureViewModel
@@ -46,6 +48,16 @@ class ClassInfoFragment : BottomSheetDialogFragment() {
         bind = DataBindingUtil.inflate(inflater, R.layout.bottomsheet_class_info, container, false)
         lectureVm = ViewModelProvider(requireActivity())[LectureViewModel::class.java]
 
+        MyApplication.member?.let {
+            // 조교가 아니면 수업 수정, 삭제 못하게
+            if(Role.ADMIN != it.role){
+                bind.apply {
+                    editBtnLayout.visibility = View.GONE
+                    deleteBtnLayout.visibility  = View.GONE
+                }
+            }
+        }
+
         // 이전 프래그먼트에서 넘어온 Bundle 데이터가 있는 경우에만 실행
         arguments?.getString("classInfoJson")?.let {
             Log.i("수업 JSON", it)
@@ -65,6 +77,17 @@ class ClassInfoFragment : BottomSheetDialogFragment() {
     private fun setClassInfo(){
         val classPlaceInfo = StringJoiner(", ")
         val classTimeInfo = StringBuilder()
+
+        // userId와 과목 코드가 똑같은 경우
+        // 교수의 세미나라는 뜻이므로 수정, 삭제가 가능하도록 함
+        MyApplication.member?.let {
+            if(it.userId == schedules[0].code){
+                bind.apply {
+                    editBtnLayout.visibility = View.VISIBLE
+                    deleteBtnLayout.visibility  = View.VISIBLE
+                }
+            }
+        }
 
         schedules.forEach{
             classTimeInfo.append(
