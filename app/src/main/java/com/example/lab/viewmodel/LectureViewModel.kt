@@ -41,7 +41,7 @@ class LectureViewModel : ViewModel() {
             if(response!!.isSuccessful){
                 response.body()?.let{
                     // 새로 추가한 수업을 해시에 추가
-                    hashingLectures(it)
+                    addLectureInHash(it)
                     addLectureFlag.postValue(true)
 
                     Log.i("수업 추가 완료", response.body().toString())
@@ -150,12 +150,35 @@ class LectureViewModel : ViewModel() {
     }
 
     /**
-     * 시간표를 해시에 추가
+     * 가져온 시간표 리스트를 해시로 변경
      *
      * code (강의 코드)를 Key, ArrayList<Lecture>를 Value로 가짐
      * @param lectureList ArrayList<Lecture>
      */
     private fun hashingLectures(lectureList: ArrayList<Lecture>) {
+        // lectureHash.value를 그대로 가져온다고해서 lectureHash의 value가 갱신되지 않음
+        val hash = HashMap<String, ArrayList<Lecture>>()
+
+        lectureList.forEach { it ->
+            if(hash.containsKey(it.code)) hash[it.code]?.add(it)
+            else {
+                it.code.let { code ->
+                    hash[code] = arrayListOf(it)
+                }
+            }
+        }
+
+        lectureHash.postValue(hash)
+    }
+
+
+    /**
+     * 시간표를 해시에 추가
+     *
+     * code (강의 코드)를 Key, ArrayList<Lecture>를 Value로 가짐
+     * @param lectureList ArrayList<Lecture>
+     */
+    private fun addLectureInHash(lectureList: ArrayList<Lecture>) {
         // lectureHash.value를 그대로 가져온다고해서 lectureHash의 value가 갱신되지 않음
         val hash = lectureHash.value?:HashMap<String, ArrayList<Lecture>>()
 
@@ -170,6 +193,8 @@ class LectureViewModel : ViewModel() {
 
         lectureHash.postValue(hash)
     }
+
+
 
     /**
      * 해시에서 시간표 삭제
