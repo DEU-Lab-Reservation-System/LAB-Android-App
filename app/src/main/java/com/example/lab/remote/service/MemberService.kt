@@ -6,10 +6,7 @@ import retrofit2.Call
 import com.example.lab.data.entity.Member
 import com.example.lab.data.responseDto.MemberResponseDto
 import com.example.lab.data.responseDto.MessageDto
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.PUT
+import retrofit2.http.*
 
 interface MemberService {
     @POST("api/member/login")
@@ -29,4 +26,10 @@ interface MemberService {
      */
     @GET("api/member")
     fun getAllMembers():Call<MemberResponseDto.Members>
+
+    /**
+     * 회원 탈퇴
+     */
+    @DELETE("api/member/{userId}")
+    fun withdrawal(@Path("userId") userId:String):Call<MessageDto>
 }

@@ -1,4 +1,5 @@
 package com.example.lab.view.fragment
+import android.app.AlertDialog
 
 import android.content.Intent
 import android.os.Build
@@ -15,6 +16,7 @@ import com.example.lab.R
 import com.example.lab.application.MyApplication
 import com.example.lab.data.enum.Role
 import com.example.lab.databinding.FragmentProfileBinding
+import com.example.lab.utils.extension.backToLogin
 import com.example.lab.view.activity.LoginActivity
 import com.example.lab.view.activity.MainActivity
 import com.example.lab.view.viewinitializer.ViewInitializer
@@ -69,6 +71,38 @@ class ProfileFragment : Fragment() {
         memberVM.updateFlag.observe(viewLifecycleOwner){
             setProfileData()
         }
+
+        /**
+         * 회원탈퇴 옵저버
+         */
+        memberVM.withdrawResult.observe(viewLifecycleOwner){ result->
+            val alertDialog: AlertDialog? = activity?.let {
+                val builder = AlertDialog.Builder(it)
+                builder.apply {
+                    setTitle("회원 탈퇴 완료")
+                    setMessage(result.message)
+                    setPositiveButton("확인") {
+                        dialog, _ -> dialog.dismiss()
+                        this@ProfileFragment.backToLogin()
+                    }
+                }
+                builder.create()
+            }
+            alertDialog?.show()
+        }
+        
+        memberVM.withdrawError.observe(viewLifecycleOwner){ result ->
+            val alertDialog: AlertDialog? = activity?.let {
+                val builder = AlertDialog.Builder(it)
+                builder.apply {
+                    setTitle("회원 탈퇴 실패")
+                    setMessage(result?:"오류가 발생하였습니다.")
+                    setPositiveButton("확인") { dialog, _ -> dialog.dismiss()}
+                }
+                builder.create()
+            }
+            alertDialog?.show()
+        }
     }
 
     /**
@@ -105,7 +139,20 @@ class ProfileFragment : Fragment() {
 
         // 회원 탈퇴 버튼 클릭 이벤트
         bind.withdrawMenuLayout.setOnClickListener{
-            
+            val alertDialog: AlertDialog? = activity?.let {
+                val builder = AlertDialog.Builder(it)
+                builder.apply {
+                    setTitle("회원 탈퇴")
+                    setMessage("탈퇴 하시겠습니까 ?")
+                    setPositiveButton("확인") { dialog, _ ->
+                        dialog.dismiss()
+                        MyApplication.member?.let { memberVM.withdrawal(it.userId) }
+                    }
+                    setNegativeButton("취소") { dialog, _ -> dialog.dismiss() }
+                }
+                builder.create()
+            }
+            alertDialog?.show()
         }
 
         bind.reportMenuLayout.setOnClickListener {
@@ -118,24 +165,10 @@ class ProfileFragment : Fragment() {
 
         // 로그아웃 버튼 클릭 이벤트
         bind.logoutMenuLayout.setOnClickListener {
-            activity?.let {
-                val intent = Intent(it.applicationContext, LoginActivity::class.java).apply {
-                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                    addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                    addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                }
-                /**
-                 * LoginActivity가 실행될 때 loginFlag 옵저버가 실행 됨
-                 * 그 때 MyApplication에 Member 데이터가 있으면 바로 가져가서 로그인해버림
-                 * 로그아웃 할 때 null로 설정해서 자동 로그인되는 것을 방지
-                 */
-                MyApplication.member = null
-                
-                startActivity(intent) //intent 에 명시된 액티비티로 이동
-                it.finish() //현재 액티비티 종료
-            }
+            this.backToLogin()
         }
     }
+
 
     companion object {
         /**

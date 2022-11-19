@@ -1,5 +1,6 @@
 package com.example.lab.remote.repository
 
+import android.os.Message
 import com.example.lab.data.entity.Member
 import com.example.lab.remote.RetrofitClient
 import com.example.lab.remote.service.MemberService
@@ -65,6 +66,20 @@ object MemberRepository {
         return try{
             memberCall.execute()
         } catch (e: IOException){
+            e.printStackTrace()
+            null
+        }
+    }
+
+    /**
+     * 회원 탈퇴 메소드
+     */
+    fun withdrawal(userId:String): Response<MessageDto>?{
+        val memberCall: Call<MessageDto> = memberService.withdrawal(userId)
+
+        return try{
+            memberCall.execute()
+        } catch (e : IOException){
             e.printStackTrace()
             null
         }

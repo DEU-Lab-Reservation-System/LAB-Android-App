@@ -28,10 +28,12 @@ class AdminProfileViewInitializer:ViewInitializer {
             // 숨겨지는 레이아웃
             reservHistoryMenuLayout.visibility  = View.GONE
             reportMenuLayout.visibility         = View.GONE
+            
 
             // 보여지는 레이아웃
             userListMenuLayout.visibility       = View.VISIBLE   // 회원 목록 조회
             reportListMenuLayout.visibility     = View.VISIBLE   // 불편사항 접수
+            tokenMenuLayout.visibility          = View.VISIBLE   // 토큰 발급
         }
     }
 

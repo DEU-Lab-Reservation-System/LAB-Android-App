@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.example.lab.application.MyApplication
 import com.example.lab.data.requestDto.MemberRequestDto
 import com.example.lab.data.responseDto.MemberResponseDto
+import com.example.lab.data.responseDto.MessageDto
 import com.example.lab.remote.repository.MemberRepository
 import com.example.lab.utils.Event
 import com.example.lab.utils.ResponseLogger
@@ -23,12 +24,14 @@ class MemberViewModel: ViewModel() {
     val idCheckFlag = MutableLiveData<Boolean>(false)
     val updateFlag = MutableLiveData<Event<Boolean>>()
     val memberList = MutableLiveData<MemberResponseDto.Members>()
+    val withdrawResult = MutableLiveData<MessageDto>()
 
     val loginError = MutableLiveData<Event<String>>()
     val signUpError = MutableLiveData<Event<String>>()
     val idCheckError = MutableLiveData<Event<String>>()
     var updateError:String?=null
     val membersError = MutableLiveData<String>()
+    val withdrawError = MutableLiveData<String>()
 
     /**
      * 로그인 메소드
@@ -140,6 +143,27 @@ class MemberViewModel: ViewModel() {
                     membersError.postValue(errorMessage?.getString("message")?:"")
 
                     Log.i("회원 정보 수정 실패", "${it.code()}, ${errorMessage?.getString("message")?:""}")
+                }
+            }
+        }
+    }
+
+    /**
+     * 회원 탈퇴 메소드
+     */
+    fun withdrawal(userId:String){
+        GlobalScope.launch(Dispatchers.IO){
+            val response = MemberRepository.withdrawal(userId)
+
+            response?.let {
+                if(it.isSuccessful){
+                    withdrawResult.postValue(it.body())
+                    Log.i("회원 탈퇴 완료", it.body().toString())
+                } else {
+                    val errorMessage = it.errorBody()?.string()?.let { res -> JSONObject(res) }
+                    withdrawError.postValue(errorMessage?.getString("message")?:"")
+
+                    Log.i("회원 탈퇴 실패", "${it.code()}, ${errorMessage?.getString("message")?:""}")
                 }
             }
         }
