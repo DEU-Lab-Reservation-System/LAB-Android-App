@@ -111,11 +111,12 @@
             android:layout_weight="1" />
 
         <View
+            android:id="@+id/deleteBtn"
             android:layout_width="12dp"
             android:layout_height="12dp"
             android:layout_gravity="center|right"
             android:layout_marginRight="10dp"
-            android:background="@drawable/ic_close" />
+            android:background="@drawable/ic_close_full" />
     </LinearLayout>
     <!-- LAYOUT END 요일 & 장소 선택 레이아웃 -->
 

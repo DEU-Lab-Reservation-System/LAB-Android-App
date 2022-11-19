@@ -13,12 +13,15 @@ import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.example.lab.R
+import com.example.lab.application.MyApplication
 import com.example.lab.data.entity.Lecture
 import com.example.lab.databinding.FragmentTimeTableBinding
 import com.example.lab.custom.timetableview.CustomTimeTableView
 import com.example.lab.custom.timetableview.Schedule
 import com.example.lab.view.bottomsheet.AddClassFragment
 import com.example.lab.view.bottomsheet.ClassInfoFragment
+import com.example.lab.view.viewinitializer.ViewInitializer
+import com.example.lab.view.viewinitializer.ViewInitializerFactory
 import com.example.lab.viewmodel.LectureViewModel
 import kotlin.collections.ArrayList
 import kotlin.streams.toList
@@ -57,8 +60,11 @@ class TimeTableFragment : Fragment(){
         // Inflate the layout for this fragment
 
         bind = DataBindingUtil.inflate(inflater, R.layout.fragment_time_table, container, false)
-
         lectureVM = ViewModelProvider(requireActivity())[LectureViewModel::class.java]
+
+        MyApplication.member?.let {
+            ViewInitializerFactory().getInitializer(it.role, "TIMETABLE").init(this, bind)
+        }
 
         initTimeTable()
         initLabSpinner()
