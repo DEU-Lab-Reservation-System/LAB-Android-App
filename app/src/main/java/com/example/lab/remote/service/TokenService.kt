@@ -9,7 +9,7 @@ import retrofit2.http.POST
 interface TokenService {
 
     @POST("api/token")
-    fun createToken(): Call<String>
+    fun createToken(@Body expireDate:TokenRequestDto.Create): Call<TokenResponseDto.Token>
 
     @POST("api/token/check")
     fun checkToken(@Body tokenCheckDto: TokenRequestDto.Check): Call<TokenResponseDto.Check>

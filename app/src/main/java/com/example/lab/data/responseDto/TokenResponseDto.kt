@@ -12,4 +12,8 @@ class TokenResponseDto {
         @SerializedName("auth")
         var auth:Boolean
     )
+
+    data class Token(
+        @SerializedName("token") var token:String
+    )
 }

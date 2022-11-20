@@ -71,7 +71,7 @@ class ReservCompleteFragment : Fragment() {
                 placeTv.text = "정보공학관 $roomNumber"
                 seatTv.text = "${seatNum}번 좌석"
                 timeTv.text = "${DateManager.dateParse(startTime)}-${DateManager.dateParse(endTime)}"
-                extendableTv.text = DateManager.getDateUntilDate(extendableTime)
+                extendableTv.text = DateManager.dateParse(extendableTime)
             }
         }
     }

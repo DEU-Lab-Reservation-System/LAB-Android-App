@@ -7,4 +7,8 @@ class TokenRequestDto{
         @SerializedName("userId") val userId:String,
         @SerializedName("token")  val inputToken:String
     )
+
+    data class Create(
+        @SerializedName("expireDate") val expireDate: String
+    )
 }

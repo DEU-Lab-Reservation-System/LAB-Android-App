@@ -9,13 +9,11 @@ import com.example.lab.data.responseDto.MemberResponseDto
 import com.example.lab.data.responseDto.MessageDto
 import com.example.lab.remote.repository.MemberRepository
 import com.example.lab.utils.Event
-import com.example.lab.utils.ResponseLogger
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.json.JSONObject
-import java.util.concurrent.Executors
 
 @OptIn(DelicateCoroutinesApi::class)
 class MemberViewModel: ViewModel() {

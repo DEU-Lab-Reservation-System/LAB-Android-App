@@ -165,7 +165,20 @@ class ProfileFragment : Fragment() {
 
         // 로그아웃 버튼 클릭 이벤트
         bind.logoutMenuLayout.setOnClickListener {
-            this.backToLogin()
+            val alertDialog: AlertDialog? = activity?.let {
+                val builder = AlertDialog.Builder(it)
+                builder.apply {
+                    setTitle("시스템 알림")
+                    setMessage("로그아웃 하시겠습니까 ?")
+                    setPositiveButton("확인") { dialog, _ ->
+                        dialog.dismiss()
+                        this@ProfileFragment.backToLogin()
+                    }
+                    setNegativeButton("취소") {dialog, _ -> dialog.dismiss()}
+                }
+                builder.create()
+            }
+            alertDialog?.show()
         }
     }
 

@@ -63,7 +63,7 @@ class NotificationFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         // Inflate the layout for this fragment
         bind = DataBindingUtil.inflate(inflater, R.layout.fragment_notification, container, false)
-        reservVM = ViewModelProvider(requireActivity())[ReservViewModel::class.java]
+        reservVM = ViewModelProvider(this)[ReservViewModel::class.java]
         activity?.let {
             (it as MainActivity).apply {
                 hideTitleBar()
@@ -132,9 +132,7 @@ class NotificationFragment : Fragment() {
         // 승인 버튼 클릭 이벤트
         bind.approvalBtn.setOnClickListener {
             val list = (bind.notifyRecyclerView.adapter as UnAuthReservAdapter).getSelectedItem()
-            list.forEach {
-                Log.i("체크 됨 ${it.id}", it.toString())
-            }
+
             reservVM.authReservs(list, true)
         }
         // 승인 결과 옵저버
@@ -142,13 +140,20 @@ class NotificationFragment : Fragment() {
             val alertDialog: AlertDialog? = activity?.let {
                 val builder = AlertDialog.Builder(it)
                 builder.apply {
-                    setTitle("승인 완료")
+                    setTitle("처리 완료")
                     setMessage(result.message?:"오류가 발생했습니다.")
                     setPositiveButton("확인") { dialog, _ -> dialog.dismiss()}
                 }
                 builder.create()
             }
             alertDialog?.show()
+        }
+
+        // 거절 버튼 클릭 이벤트
+        bind.rejectBtn.setOnClickListener {
+            val list = (bind.notifyRecyclerView.adapter as UnAuthReservAdapter).getSelectedItem()
+
+            reservVM.authReservs(list, false)
         }
     }
 
