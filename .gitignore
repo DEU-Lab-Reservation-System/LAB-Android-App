@@ -13,3 +13,5 @@
 .externalNativeBuild
 .cxx
 local.properties
+lab_keystore.jks
+/app/release/

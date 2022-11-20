@@ -20,7 +20,9 @@ import com.example.lab.data.enum.Role
 import com.example.lab.data.requestDto.MemberRequestDto
 import com.example.lab.databinding.FragmentEditProfileBinding
 import com.example.lab.utils.extension.hideNavBar
+import com.example.lab.utils.extension.hideTitleBar
 import com.example.lab.utils.extension.showNavBar
+import com.example.lab.utils.extension.showTitleBar
 import com.example.lab.view.activity.MainActivity
 import com.example.lab.viewmodel.LabViewModel
 import com.example.lab.viewmodel.MemberViewModel
@@ -61,6 +63,7 @@ class EditProfileFragment : Fragment() {
         bind = DataBindingUtil.inflate(inflater, R.layout.fragment_edit_profile, container, false)
         memberVM = ViewModelProvider(this)[MemberViewModel::class.java]
 
+        this.hideTitleBar()
         this.hideNavBar()
 
         setProfileData()
@@ -195,6 +198,7 @@ class EditProfileFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onPause() {
         super.onPause()
+        this.showTitleBar()
         this.showNavBar()
     }
 

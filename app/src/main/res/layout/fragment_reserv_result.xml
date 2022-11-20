@@ -5,6 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:bind="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/white"
     tools:context=".view.fragment.ReservResultFragment">
 
     <data>
@@ -376,7 +377,7 @@
                         android:layout_gravity="right|center"
                         android:fontFamily="@font/poppins_regular"
                         android:includeFontPadding="false"
-                        android:text="15:30"
+                        android:text="-"
                         android:textColor="@color/black_gray"
                         android:textSize="12dp" />
                 </LinearLayout>

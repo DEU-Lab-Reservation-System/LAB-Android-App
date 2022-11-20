@@ -380,6 +380,7 @@
                         app:layout_constraintTop_toBottomOf="@id/signup3_text8" />
 
                     <HorizontalScrollView
+                        android:id="@+id/userTypeScrollView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
@@ -510,6 +511,48 @@
                         </RadioGroup>
                         <!-- 회원 유형 라디오 버튼 그룹 -->
                     </HorizontalScrollView>
+
+                    <!-- LAYOUT 버튼 레이아웃 -->
+                    <LinearLayout
+                        android:id="@+id/warningBtnLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:orientation="horizontal"
+                        app:layout_constraintTop_toBottomOf="@+id/userTypeScrollView"
+                        >
+
+                        <Button
+                            android:id="@+id/warningBtn"
+                            style="?android:attr/borderlessButtonStyle"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:layout_gravity="right|bottom"
+
+                            android:backgroundTint="@color/white"
+                            android:fontFamily="@font/noto_sans_kr_bold"
+                            android:includeFontPadding="false"
+                            android:text="경고 부여"
+                            android:textColor="@color/semi_gray"
+                            android:textSize="18sp" />
+
+                        <Button
+                            android:id="@+id/resetBtn"
+                            style="?android:attr/borderlessButtonStyle"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:layout_gravity="right|bottom"
+
+                            android:backgroundTint="@color/white"
+                            android:fontFamily="@font/noto_sans_kr_bold"
+                            android:includeFontPadding="false"
+                            android:text="초기화"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="18sp" />
+                    </LinearLayout>
+                    <!-- LAYOUT END 버튼 레이아웃 -->
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -380,6 +380,7 @@
                         app:layout_constraintTop_toBottomOf="@id/signup3_text8" />
 
                     <HorizontalScrollView
+                        android:id="@+id/userTypeScrollView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
@@ -514,9 +515,9 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
                 <!-- LAYOUT END 회원가입 3 -->
-
             </ScrollView>
         </LinearLayout>
+
 
         <Button
             android:id="@id/completeBtn"

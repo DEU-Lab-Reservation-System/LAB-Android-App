@@ -1,4 +1,5 @@
 package com.example.lab.view.activity
+import android.app.AlertDialog
 
 import android.content.Intent
 import android.os.Build
@@ -70,6 +71,18 @@ class LoginActivity : AppCompatActivity() {
         memberVM.loginFlag.observe(this, Observer{
             // 인증이 되지 않은 사용자면 토큰 입력 화면으로 이동
             MyApplication.member?.let {
+                if(it.warningCnt >= 3){
+                    val alertDialog: AlertDialog = AlertDialog.Builder(this).apply {
+                        setTitle("로그인 실패")
+                            .setMessage("경고 3회를 받아 이용이 제한된 회원입니다.")
+                            .setPositiveButton("확인") {
+                                    dialog, _ -> dialog.dismiss()
+                            }
+                    }.create()
+                    alertDialog.show()
+                    return@Observer
+                }
+
                 val intent = if(!it.isAuth){
                     Intent(applicationContext, TokenActivity::class.java)
                 } else {

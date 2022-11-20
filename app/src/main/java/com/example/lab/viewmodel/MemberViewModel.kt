@@ -25,6 +25,7 @@ class MemberViewModel: ViewModel() {
     val updateFlag = MutableLiveData<Event<Boolean>>()
     val memberList = MutableLiveData<MemberResponseDto.Members>()
     val withdrawResult = MutableLiveData<MessageDto>()
+    val updateUser = MutableLiveData<MemberResponseDto.Member>()
 
     val loginError = MutableLiveData<Event<String>>()
     val signUpError = MutableLiveData<Event<String>>()
@@ -114,6 +115,28 @@ class MemberViewModel: ViewModel() {
                     it.body()?.let { body -> MyApplication.member?.update(body) }
                     updateFlag.postValue(Event(true))
 
+                    Log.i("회원 정보 수정 성공", it.body().toString())
+                } else {
+                    updateFlag.postValue(Event(false))
+                    val errorMessage = it.errorBody()?.string()?.let { res -> JSONObject(res) }
+                    updateError = errorMessage?.getString("message")?:"오류가 발생했습니다."
+
+                    Log.i("회원 정보 수정 실패", "${it.code()}, $updateError")
+                }
+            }
+        }
+    }
+
+    /**
+     * 회원 정보 수정(조교) 메소드
+     */
+    fun updateMemberOfAdmin(member:MemberRequestDto.Update){
+        GlobalScope.launch(Dispatchers.IO){
+            val response = MemberRepository.updateMember(member)
+
+            response?.let {
+                if(it.isSuccessful){
+                    updateUser.postValue(it.body())
                     Log.i("회원 정보 수정 성공", it.body().toString())
                 } else {
                     updateFlag.postValue(Event(false))
