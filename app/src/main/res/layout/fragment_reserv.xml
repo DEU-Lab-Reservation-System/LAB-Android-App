@@ -176,8 +176,7 @@
                 <!-- LAYOUT 좌석 그리드뷰 레이아웃 -->
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:layout_marginBottom="40dp"
                     android:orientation="vertical">
@@ -224,9 +223,9 @@
                     <include
                         android:id="@+id/seatGridView"
                         android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        layout="@layout/sub_seat_gridview"/>
+                        android:layout_height="wrap_content"
+                        layout="@layout/sub_seat_gridview"
+                        tools:ignore="NestedWeights" />
                 </LinearLayout>
                 <!-- LAYOUT END 좌석 그리드뷰 레이아웃 -->
 

@@ -4,13 +4,14 @@
     xmlns:bind="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_weight="1">
 
     <!-- LAYOUT 실습실 좌석 현황 레이아웃 -->
     <LinearLayout
         android:id="@+id/labSeatLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="225dp"
         android:layout_gravity="center"
         android:orientation="vertical">
 
@@ -58,7 +59,8 @@
         <!-- LAYOUT 실습실 좌석 그리드 레이아웃 -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:layout_marginTop="20dp"
             android:orientation="horizontal"
             android:paddingLeft="50dp"
@@ -66,10 +68,10 @@
 
             <GridView
                 android:id="@+id/leftSeatGridView"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
                 android:layout_weight="1"
+                android:layout_marginEnd="10dp"
                 android:horizontalSpacing="1dp"
                 android:listSelector="#00000000"
                 android:numColumns="4"
@@ -79,10 +81,10 @@
 
             <GridView
                 android:id="@+id/rightSeatGridView"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
                 android:layout_weight="1"
+                android:layout_marginStart="10dp"
                 android:horizontalSpacing="1dp"
                 android:numColumns="4"
                 android:verticalSpacing="15dp"

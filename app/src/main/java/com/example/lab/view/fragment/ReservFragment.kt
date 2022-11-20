@@ -1,24 +1,17 @@
 package com.example.lab.view.fragment
 
 import android.annotation.SuppressLint
-import android.app.AlertDialog
 import android.app.TimePickerDialog
-import android.content.DialogInterface
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.widget.*
 import androidx.annotation.RequiresApi
-import androidx.core.view.get
-import androidx.core.view.isEmpty
-import androidx.core.view.isNotEmpty
-import androidx.core.view.size
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -27,7 +20,6 @@ import com.example.lab.adapter.SeatAdapter
 import com.example.lab.adapter.data.SeatStatus
 import com.example.lab.application.MyApplication
 import com.example.lab.data.requestDto.LabRequestDto
-import com.example.lab.data.requestDto.ReservRequestDto
 import com.example.lab.databinding.FragmentReservBinding
 import com.example.lab.databinding.SubSeatGridviewBinding
 import com.example.lab.utils.DateManager
@@ -36,7 +28,6 @@ import com.example.lab.utils.extension.markSeatInUser
 import com.example.lab.view.viewinitializer.ViewInitializerFactory
 import com.example.lab.viewmodel.LabViewModel
 import com.example.lab.viewmodel.ReservViewModel
-import com.google.android.datatransport.runtime.backends.BackendResponse.ok
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -253,20 +244,6 @@ class ReservFragment : Fragment() {
     }
 
 
-//    /**
-//     * 그리드뷰 확장 함수
-//     * 사용 중인 좌석을 표시하는 메소드
-//     */
-//    private fun GridView.markSeatInUser(seatlist:ArrayList<Int>, idx:Int){
-//        val seatNum = this.getItemAtPosition(idx) as SeatStatus
-//        // 그리드뷰가 초기화 되기 전에 옵저버가 호출될 수 있으므로 Empty 체크
-//        if(this.isNotEmpty() && this.size > idx){
-//            this[idx].findViewById<View>(R.id.seat).apply {
-//                background = if(seatlist.contains(seatNum.idx)) resources.getDrawable(R.drawable.shape_seat_selected)
-//                else resources.getDrawable(R.drawable.shape_seat)
-//            }
-//        }
-//    }
 
     /**
      * 그리드뷰 확장 함수
@@ -275,7 +252,6 @@ class ReservFragment : Fragment() {
     private fun GridView.addSeatClickEvent(seatList:ArrayList<SeatStatus>){
         this.onItemClickListener = AdapterView.OnItemClickListener{ adapterView, view, position, l ->
             val seat = view.findViewById(R.id.seat) as View // 클릭한 좌석의 뷰
-            if(seat.isSelected) return@OnItemClickListener
 
             // 이전에 선택했던 자리는 다시 회색으로 돌림
             if (::prevSelectSeat.isInitialized) {
