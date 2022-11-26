@@ -30,6 +30,9 @@ class SeatAdapter(var context: Context, var seatList: ArrayList<SeatStatus>): Ba
         seatList[position].status = true
     }
 
+    fun test(){
+
+    }
     @SuppressLint("InflateParams")
     override fun getView(position: Int, view: View?, viewGroup: ViewGroup?): View {
         var gridView:View? = view

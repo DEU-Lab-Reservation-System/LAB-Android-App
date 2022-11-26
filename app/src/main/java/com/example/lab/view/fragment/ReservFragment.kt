@@ -261,6 +261,13 @@ class ReservFragment : Fragment() {
         this.onItemClickListener = AdapterView.OnItemClickListener{ adapterView, view, position, l ->
             val seat = view.findViewById(R.id.seat) as View // 클릭한 좌석의 뷰
 
+            val isSelected = if(position < 16){
+                (bind.seatGridView.leftSeatGridView.adapter as SeatAdapter).isSelected(position)
+            } else (bind.seatGridView.rightSeatGridView.adapter as SeatAdapter).isSelected(position)
+
+            // 이미 선택된 자리면 클릭 금지
+            if(isSelected) return@OnItemClickListener
+            
             // 이전에 선택했던 자리는 다시 회색으로 돌림
             if (::prevSelectSeat.isInitialized) {
                 prevSelectSeat.background = resources.getDrawable(R.drawable.shape_seat)
