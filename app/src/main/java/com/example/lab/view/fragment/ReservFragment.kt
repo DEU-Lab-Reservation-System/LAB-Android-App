@@ -6,6 +6,8 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -104,8 +106,14 @@ class ReservFragment : Fragment() {
         // EditText에 TimePicker 등록
         bind.apply {
             todayTV.text = DateManager.getDateUntilDate(Calendar.getInstance().timeInMillis)
-            startTimeEditText.editText?.addTimePicker()
-            endTimeEditText.editText?.addTimePicker()
+            startTimeEditText.editText?.apply {
+                addTimePicker()
+                addTextChangedListener(timeChangedTextWatcher)
+            }
+            endTimeEditText.editText?.apply {
+                addTimePicker()
+                addTextChangedListener(timeChangedTextWatcher)
+            }
         }
     }
 
@@ -283,6 +291,25 @@ class ReservFragment : Fragment() {
         }
     }
 
+    /**
+     * 아이디 변경 체크 TextWatcher
+     */
+    private val timeChangedTextWatcher = object : TextWatcher {
+        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+        override fun afterTextChanged(p0: Editable?) {
+            // 시간 변경했을 때 예약 현황 갱신하기
+            val timeRange = bind.run {
+                val startTime = startTimeEditText.editText?.text.toString()
+                val endTime = endTimeEditText.editText?.text.toString()
+
+                if(startTime.isBlank() || endTime.isBlank()) null
+                else LabRequestDto.TimeRange(startTime, endTime)
+            }
+
+            labVM.getLabStatus((bind.labSelector.selectedItem as String).toInt(), timeRange) // 선택 된 실슬실의 상태를 조회
+        }
+    }
 
     companion object {
         /**
