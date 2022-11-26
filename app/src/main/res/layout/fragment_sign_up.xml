@@ -259,7 +259,6 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
                 <!-- LAYOUT END 회원가입 2 -->
 
-
                 <!-- LAYOUT 회원가입 3 -->
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -337,48 +336,48 @@
                     </com.google.android.material.textfield.TextInputLayout>
                     <!-- LAYOUT END 이름 입력 필드 -->
 
-                    <TextView
-                        android:id="@+id/signup3_text4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/noto_sans_kr_bold"
-                        android:includeFontPadding="false"
-                        android:text="학번(직번)"
-                        android:textColor="@color/natural_navy"
-                        android:textSize="14dp"
+                    <!--                    <TextView-->
+                    <!--                        android:id="@+id/signup3_text4"-->
+                    <!--                        android:layout_width="wrap_content"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:fontFamily="@font/noto_sans_kr_bold"-->
+                    <!--                        android:includeFontPadding="false"-->
+                    <!--                        android:text="학번(직번)"-->
+                    <!--                        android:textColor="@color/natural_navy"-->
+                    <!--                        android:textSize="14dp"-->
 
-                        app:layout_constraintBottom_toTopOf="@+id/numberEditText"
-                        app:layout_constraintLeft_toLeftOf="parent" />
+                    <!--                        app:layout_constraintBottom_toTopOf="@+id/numberEditText"-->
+                    <!--                        app:layout_constraintLeft_toLeftOf="parent" />-->
 
-                    <!-- LAYOUT 학번 입력 필드 -->
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/numberEditText"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="40dp"
+                    <!--                    &lt;!&ndash; LAYOUT 학번 입력 필드 &ndash;&gt;-->
+                    <!--                    <com.google.android.material.textfield.TextInputLayout-->
+                    <!--                        android:id="@+id/numberEditText"-->
+                    <!--                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
+                    <!--                        android:layout_width="match_parent"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:layout_marginTop="40dp"-->
 
-                        app:boxStrokeColor="@color/colorAccent"
-                        app:hintTextColor="@color/colorAccent"
+                    <!--                        app:boxStrokeColor="@color/colorAccent"-->
+                    <!--                        app:hintTextColor="@color/colorAccent"-->
 
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/nameEditText">
+                    <!--                        app:layout_constraintLeft_toLeftOf="parent"-->
+                    <!--                        app:layout_constraintRight_toRightOf="parent"-->
+                    <!--                        app:layout_constraintTop_toBottomOf="@+id/nameEditText">-->
 
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:layout_width="match_parent"
-                            android:layout_height="45dp"
+                    <!--                        <com.google.android.material.textfield.TextInputEditText-->
+                    <!--                            android:layout_width="match_parent"-->
+                    <!--                            android:layout_height="45dp"-->
 
-                            android:fontFamily="@font/poppins_regular"
-                            android:includeFontPadding="false"
-                            android:maxLines="1"
+                    <!--                            android:fontFamily="@font/poppins_regular"-->
+                    <!--                            android:includeFontPadding="false"-->
+                    <!--                            android:maxLines="1"-->
 
-                            android:padding="0dp"
-                            android:singleLine="true"
-                            android:textColor="@color/colorAccent"
-                            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
-                    </com.google.android.material.textfield.TextInputLayout>
-                    <!-- LAYOUT END 학번 입력 필드 -->
+                    <!--                            android:padding="0dp"-->
+                    <!--                            android:singleLine="true"-->
+                    <!--                            android:textColor="@color/colorAccent"-->
+                    <!--                            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />-->
+                    <!--                    </com.google.android.material.textfield.TextInputLayout>-->
+                    <!--                    &lt;!&ndash; LAYOUT END 학번 입력 필드 &ndash;&gt;-->
 
                     <TextView
                         android:id="@+id/signup3_text5"
@@ -406,7 +405,7 @@
 
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/numberEditText">
+                        app:layout_constraintTop_toBottomOf="@+id/nameEditText">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:layout_width="match_parent"
@@ -673,6 +672,8 @@
                     </HorizontalScrollView>
                 </androidx.constraintlayout.widget.ConstraintLayout>
                 <!-- LAYOUT END 회원가입 3 -->
+
+
 
                 <!-- LAYOUT 회원가입 4 -->
                 <androidx.constraintlayout.widget.ConstraintLayout

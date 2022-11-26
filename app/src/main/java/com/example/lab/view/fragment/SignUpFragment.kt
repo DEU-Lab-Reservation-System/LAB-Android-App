@@ -63,7 +63,6 @@ class SignUpFragment : Fragment() {
 
         editTextList = arrayListOf(
             bind.nameEditText,
-            bind.numberEditText,
             bind.majorEditText,
             bind.phoneEditText,
             bind.emailEditText
@@ -196,9 +195,10 @@ class SignUpFragment : Fragment() {
      * 회원가입 3. 회원 정보 체크
      */
     private fun checkStudentInfo(){
-        bind.numberEditText.editText?.addTextChangedListener(numberTextWatcher)
         bind.phoneEditText.editText?.addTextChangedListener(phoneTextWatcher)
         bind.emailEditText.editText?.addTextChangedListener(emailTextWatcher)
+        bind.nameEditText.editText?.addTextChangedListener(baseTextWatcher)
+        bind.majorEditText.editText?.addTextChangedListener(baseTextWatcher)
     }
 
     /**
@@ -249,27 +249,6 @@ class SignUpFragment : Fragment() {
         }
     }
 
-    /**
-     * 학번 형식 체크 TextWatcher
-     */
-    private val numberTextWatcher = object : TextWatcher{
-        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-
-        override fun afterTextChanged(p0: Editable?) {
-            if(!"$p0".matches(Regex("^[0-9]{8}$"))){
-                bind.numberEditText.error = "학번은 8자리 숫자여야합니다."
-                bind.numberEditText.isErrorEnabled = true
-            }
-            else{
-                bind.numberEditText.error = null
-                bind.numberEditText.isErrorEnabled = false
-            }
-
-            isAllInputComplete()
-        }
-    }
-
 
     /**
      * 전화번호 형식 체크 TextWatcher
@@ -317,6 +296,18 @@ class SignUpFragment : Fragment() {
                 bind.emailEditText.isErrorEnabled = false
             }
 
+            isAllInputComplete()
+        }
+    }
+
+    /**
+     * 기본 TextWatcher (타입 체크가 필요 없는 EditText에 적용)
+     */
+    private val baseTextWatcher = object : TextWatcher{
+        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+
+        override fun afterTextChanged(p0: Editable?) {
             isAllInputComplete()
         }
     }
