@@ -59,7 +59,7 @@ class SignUpFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         bind = DataBindingUtil.inflate(inflater, R.layout.fragment_sign_up, container, false)
-        memberVM = ViewModelProvider(requireActivity())[MemberViewModel::class.java]
+        memberVM = ViewModelProvider(this)[MemberViewModel::class.java]
 
         editTextList = arrayListOf(
             bind.nameEditText,
@@ -73,6 +73,7 @@ class SignUpFragment : Fragment() {
         addIdCheckBtnEvent()
         checkPassword()
         checkStudentInfo()
+        addObserver()
 
         return bind.root
     }
@@ -106,6 +107,29 @@ class SignUpFragment : Fragment() {
         }
     }
 
+    private fun addObserver(){
+
+        /** 회원가입 성공시 */
+        memberVM.signUpFlag.observe(viewLifecycleOwner){
+            // 회원 정보 입력 화면일때만 넘어가도록
+            if(bind.viewFlipper.displayedChild == 2) {
+                bind.viewFlipper.showNext()
+                bind.nextBtn.text = "로그인으로 이동"
+                setNextBtnEnabled(true)
+            }
+        }
+
+        /** 회원가입 실패시 */
+        memberVM.signUpError.observe(viewLifecycleOwner){
+            AlertDialog.Builder(requireContext()).apply {
+                setTitle("회원가입 실패")
+                setMessage("회원가입에 실패 했습니다. 다시 시도해주세요.")
+                setPositiveButton("OK"){ dialog, _ -> dialog.dismiss()}
+                create()
+                show()
+            }
+        }
+    }
     /**
      * 회원가입 요청 메소드
      */
@@ -120,27 +144,6 @@ class SignUpFragment : Fragment() {
                 userRole(bind.roleRadioGroup.checkedRadioButtonId)
             )
         )
-
-        /** 회원가입 성공시 */
-        memberVM.signUpFlag.observe(requireActivity()){
-            // 회원 정보 입력 화면일때만 넘어가도록
-            if(bind.viewFlipper.displayedChild == 2) {
-                bind.viewFlipper.showNext()
-                bind.nextBtn.text = "로그인으로 이동"
-                setNextBtnEnabled(true)
-            }
-        }
-
-        /** 회원가입 실패시 */
-        memberVM.signUpError.observe(requireActivity()){
-            AlertDialog.Builder(requireContext()).apply {
-                setTitle("회원가입 실패")
-                setMessage("회원가입에 실패 했습니다. 다시 시도해주세요.")
-                setPositiveButton("OK"){ dialog, _ -> dialog.dismiss()}
-                create()
-                show()
-            }
-        }
     }
 
     /**
