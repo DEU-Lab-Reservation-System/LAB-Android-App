@@ -1,10 +1,14 @@
 package com.example.lab.view.fragment
 
+import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
+import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,11 +27,8 @@ import com.example.lab.utils.extension.hideNavBar
 import com.example.lab.utils.extension.hideTitleBar
 import com.example.lab.utils.extension.showNavBar
 import com.example.lab.utils.extension.showTitleBar
-import com.example.lab.view.activity.MainActivity
-import com.example.lab.viewmodel.LabViewModel
 import com.example.lab.viewmodel.MemberViewModel
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import org.json.JSONObject
+import com.google.android.material.textfield.TextInputLayout
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -48,6 +49,7 @@ class EditProfileFragment : Fragment() {
     // VARIABLE
     private lateinit var bind: FragmentEditProfileBinding
     private lateinit var memberVM: MemberViewModel
+    private lateinit var editTextList:ArrayList<TextInputLayout>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,19 +59,43 @@ class EditProfileFragment : Fragment() {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        this.hideTitleBar()
+        this.hideNavBar()
+        /**
+         * 뒤로가기 버튼 콜백
+         */
+        requireActivity().onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                requireActivity().supportFragmentManager.beginTransaction().remove(this@EditProfileFragment).commit();
+                requireActivity().supportFragmentManager.popBackStack();
+            }
+        })
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
 
         bind = DataBindingUtil.inflate(inflater, R.layout.fragment_edit_profile, container, false)
         memberVM = ViewModelProvider(this)[MemberViewModel::class.java]
 
-        this.hideTitleBar()
-        this.hideNavBar()
+        editTextList = arrayListOf(
+            bind.phoneEditText,
+            bind.emailEditText
+        )
 
         setProfileData()
         addCompleteBtnEvent()
+        addTextWatcher()
 
         return bind.root
+    }
+
+    private fun addTextWatcher(){
+        bind.phoneEditText.editText?.addTextChangedListener(phoneTextWatcher)
+        bind.emailEditText.editText?.addTextChangedListener(emailTextWatcher)
     }
 
     private fun addCompleteBtnEvent(){
@@ -178,18 +204,86 @@ class EditProfileFragment : Fragment() {
         }
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
 
-        /**
-         * 뒤로가기 버튼 콜백
-         */
-        requireActivity().onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true){
-            override fun handleOnBackPressed() {
-                requireActivity().supportFragmentManager.beginTransaction().remove(this@EditProfileFragment).commit();
-                requireActivity().supportFragmentManager.popBackStack();
+
+    /**
+     * 모든 입력이 올바르게 됐는지 체크하는 메소드
+     */
+    private fun isAllInputComplete(){
+        editTextList.forEach {
+            // 입력되지 않은 칸이거나, 형식이 잘못된 칸이 있는 경우
+            if(it.editText?.text.isNullOrEmpty() || it.isErrorEnabled){
+                setCompleteBtnEnabled(false)
+                return
             }
-        })
+        }
+        // 모든 EditText가 입력이 되었고, 형식 체크도 완료된 경우 다음 버튼 활성화
+        setCompleteBtnEnabled(true)
+    }
+
+    /**
+     * 다음 버튼 상태 설정 메소드
+     */
+    private fun setCompleteBtnEnabled(status:Boolean){
+        if(status){
+            bind.completeBtn.isEnabled = true
+            bind.completeBtn.setBackgroundColor(resources.getColor(R.color.colorAccent))
+        } else {
+            bind.completeBtn.isEnabled = false
+            bind.completeBtn.setBackgroundColor(resources.getColor(R.color.gray))
+        }
+    }
+
+    /**
+     * 전화번호 형식 체크 TextWatcher
+     */
+    private val phoneTextWatcher = object : TextWatcher {
+        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+
+        override fun afterTextChanged(p0: Editable?) {
+            val input = "$p0"
+
+            bind.apply {
+                if(input.matches(Regex("^\\d{3}-\\d{4}-\\d{4}\$"))){
+                    phoneEditText.error = "- 없이 입력해주세요"
+                    phoneEditText.isErrorEnabled = true
+                }
+                else if(!input.matches(Regex("^[0-9]{11}$"))) {
+                    phoneEditText.error = "올바르지 않은 형식입니다."
+                    phoneEditText.isErrorEnabled = true
+                }
+                else{
+                    phoneEditText.error = null
+                    phoneEditText.isErrorEnabled = false
+                }
+                isAllInputComplete()
+            }
+        }
+    }
+
+    /**
+     * 이메일 형식 체크 TextWatcher
+     */
+    private val emailTextWatcher = object : TextWatcher{
+        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+
+        override fun afterTextChanged(p0: Editable?) {
+            val pattern = Patterns.EMAIL_ADDRESS
+
+            bind.apply {
+                if(!pattern.matcher("$p0").matches()){
+                    emailEditText.error = "올바르지 않은 이메일 형식입니다."
+                    emailEditText.isErrorEnabled = true
+                }
+                else{
+                    emailEditText.error = null
+                    emailEditText.isErrorEnabled = false
+                }
+                isAllInputComplete()
+            }
+        }
     }
 
     /**
