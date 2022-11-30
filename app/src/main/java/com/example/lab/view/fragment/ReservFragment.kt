@@ -184,7 +184,9 @@ class ReservFragment : Fragment() {
                 }
                 return@observe
             }
-
+            // 선택 좌석 초기화
+            bind.selectedSeatTv.text = "-"
+            
             val seatlist:ArrayList<Int> = (it.seatList?:arrayListOf()).map {seat -> seat.toInt() } as ArrayList<Int>
             bind.seatGridView.apply {
                 blurFrameLayout.visibility = View.GONE
