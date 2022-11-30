@@ -3,6 +3,7 @@ import android.app.AlertDialog
 
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,7 +32,7 @@ class EditClassFragment : BottomSheetDialogFragment() {
     @Nullable
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         bind = DataBindingUtil.inflate(inflater, R.layout.bottomsheet_manage_class, container, false)
-        lectureVM = ViewModelProvider(requireActivity())[LectureViewModel::class.java]
+        lectureVM = ViewModelProvider(this)[LectureViewModel::class.java]
 
         classManager = ClassBottomSheetManager(bind, inflater, requireContext())
         classManager.addDatePicker()
@@ -75,33 +76,25 @@ class EditClassFragment : BottomSheetDialogFragment() {
             val lectureList = classManager.getInputClassData(schedules[0].code!!)
 
             lectureVM.editLecture(lectureList)
+        }
 
-            lectureVM.editLectureFlag.observe(this){
-                AlertDialog.Builder(requireContext()).apply {
-                    if(it){
-                        setTitle("수업 수정 완료")
-                        setMessage("수정이 완료 되었습니다.")
-                        setPositiveButton("OK"){ dialog, _ ->
-                            dialog.dismiss()
-                            this@EditClassFragment.dismiss()
-                        }
-                    } else {
-                        setTitle("수업 수정 실패")
-                        setMessage("수정 중 오류가 발생했습니다.. 입력 값을 확인해주세요.")
-                        setPositiveButton("OK"){ dialog, _ -> dialog.dismiss() }
+        lectureVM.editLectureFlag.observe(viewLifecycleOwner){
+            AlertDialog.Builder(requireContext()).apply {
+                if(it){
+                    setTitle("수업 수정 완료")
+                    setMessage("수정이 완료 되었습니다.")
+                    setPositiveButton("OK"){ dialog, _ ->
+                        dialog.dismiss()
+                        this@EditClassFragment.dismiss()
                     }
-                    create()
-                    show()
+                } else {
+                    setTitle("수업 수정 실패")
+                    setMessage("수정 중 오류가 발생했습니다. 입력 값을 확인해주세요.")
+                    setPositiveButton("OK"){ dialog, _ -> dialog.dismiss() }
                 }
-                /**
-                 * AlertDialog가 두번 뜨는 것을 방지하기 위해 다이얼로그 띄우고 바로 옵저버 제거
-                 * 버튼 누를 때마다 옵저버를 등록 시킴
-                 */
-                lectureVM.editLectureFlag.removeObservers(this@EditClassFragment)
+                create()
+                show()
             }
-
-//            Log.i("수정 전 수업 정보", schedules.toString())
-//            Log.i("수정 된 수업 정보", lectureList.toString())
         }
     }
 

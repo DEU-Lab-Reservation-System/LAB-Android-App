@@ -58,6 +58,12 @@ class LectureViewModel : ViewModel() {
 
     @RequiresApi(Build.VERSION_CODES.N)
     fun editLecture(lectureList:ArrayList<Lecture>){
+        // lectureList가 빈 경우 (수업 시간, 장소 정보 없이 입력한 경우)
+        if(lectureList.isEmpty()){
+            editLectureFlag.value = false
+            return
+        }
+
         // dto 리스트로 변환
         val lectureDtoList = lectureList.stream().map { lecture ->
             LectureRequestDto.Edit.createDto(lecture)

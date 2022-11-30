@@ -53,7 +53,10 @@ class ClassBottomSheetManager(
             endDate = bind.endDateEditText.text.toString(),
         )
 
-        /** 수업 정보 추가 필드 Iterator */
+        /** 
+         * 수업 정보 추가 필드 Iterator
+         * 수업 시간, 장소 정보가 하나도 없는 경우 lectureList 자체가 비어서 전달 됨
+         */
         val iter: Iterator<View> = bind.classInfoLayout.children.iterator()
 
         iter.forEach { view ->
