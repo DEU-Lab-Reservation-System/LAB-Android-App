@@ -127,6 +127,8 @@ class NotificationFragment : Fragment() {
             bind.notifyRecyclerView.apply {
                 layoutManager = LinearLayoutManager(requireContext())
                 adapter = UnAuthReservAdapter(it)
+                // 선택된 실습실의 신청 목록으로 초기화
+                (adapter as UnAuthReservAdapter).groupingDataList(it, bind.labSelector.selectedItem as String)
             }
         }
         // 승인 버튼 클릭 이벤트
@@ -135,6 +137,14 @@ class NotificationFragment : Fragment() {
 
             reservVM.authReservs(list, true)
         }
+
+        // 거절 버튼 클릭 이벤트
+        bind.rejectBtn.setOnClickListener {
+            val list = (bind.notifyRecyclerView.adapter as UnAuthReservAdapter).getSelectedItem()
+
+            reservVM.authReservs(list, false)
+        }
+
         // 승인 결과 옵저버
         reservVM.authResult.observe(viewLifecycleOwner){ result ->
             val alertDialog: AlertDialog? = activity?.let {
@@ -147,13 +157,6 @@ class NotificationFragment : Fragment() {
                 builder.create()
             }
             alertDialog?.show()
-        }
-
-        // 거절 버튼 클릭 이벤트
-        bind.rejectBtn.setOnClickListener {
-            val list = (bind.notifyRecyclerView.adapter as UnAuthReservAdapter).getSelectedItem()
-
-            reservVM.authReservs(list, false)
         }
     }
 
