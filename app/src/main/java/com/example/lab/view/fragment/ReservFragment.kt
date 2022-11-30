@@ -94,8 +94,6 @@ class ReservFragment : Fragment() {
         initGridView()
         initTeamSpinner()
         initLabSpinner()
-//        addEventreservationBtn()
-
         setLabStatus()          // 실습실 상태 표시
 
         return bind.root
@@ -299,7 +297,7 @@ class ReservFragment : Fragment() {
     }
 
     /**
-     * 아이디 변경 체크 TextWatcher
+     * 시간 변경 TextWatcher
      */
     private val timeChangedTextWatcher = object : TextWatcher {
         override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}

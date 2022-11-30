@@ -63,6 +63,20 @@ class StuReservViewInitializer : ViewInitializer {
 
                     // 모든 선택 값이 다 선택된 경우에만 예약 신청 가능
                     reservInfo.apply {
+                        // 예약 시작 시간이 종료 시간보다 늦는 경우
+                        if(startTime >= endTime){
+                            val alertDialog: AlertDialog? = activity?.let {
+                                val builder = AlertDialog.Builder(it)
+                                builder.apply {
+                                    setTitle("시스템 알림")
+                                    setMessage("예약 시작 시간은 종료 시간보다 늦을 수 없습니다.")
+                                    setPositiveButton("확인") { dialog, _ -> dialog.dismiss()}
+                                }.create()
+                            }
+                            alertDialog?.show()
+                            return@OnClickListener
+                        }
+
                         if (startTime.isEmpty() || endTime.isEmpty() ||
                             team == -1 || seatNum == "-"
                         ) {
