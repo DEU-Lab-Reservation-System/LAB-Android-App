@@ -95,6 +95,7 @@
 
         <!-- LAYOUT 실습실 추가 정보 레이아웃 -->
         <LinearLayout
+            android:id="@+id/infoLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"

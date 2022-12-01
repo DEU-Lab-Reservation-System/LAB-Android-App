@@ -176,7 +176,7 @@ class MemberManageFragment : Fragment() {
                 }
                 alertDialog?.show()
             }
-            
+
             // 회원 경고 초기화 실패시
             resetError.observe(viewLifecycleOwner){ result ->
                 val alertDialog: AlertDialog? = activity?.let {

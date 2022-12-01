@@ -123,7 +123,8 @@ class ReservResultFragment : Fragment() {
                         timeTv.text = "${DateManager.dateParse(it.startTime)}-${DateManager.dateParse(it.endTime)}"
                         seatTv.text = "${it.seatNum}번 좌석"
                         extendableTv.text = DateManager.dateParse(it.extendableTime)
-                        
+                        seatGridView.infoLayout.visibility = View.GONE
+
                         permissionTv.apply { 
                             text = if(it.permission){
                                 setTextColor(resources.getColor(R.color.blue))
