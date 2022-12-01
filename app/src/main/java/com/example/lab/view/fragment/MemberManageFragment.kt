@@ -14,14 +14,12 @@ import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.example.lab.R
-import com.example.lab.data.entity.Member
 import com.example.lab.data.enum.Role
 import com.example.lab.data.requestDto.MemberRequestDto
 import com.example.lab.data.responseDto.MemberResponseDto
 import com.example.lab.databinding.FragmentMemberManageBinding
 import com.example.lab.utils.extension.hideNavBar
 import com.example.lab.utils.extension.showNavBar
-import com.example.lab.view.activity.MainActivity
 import com.example.lab.viewmodel.MemberViewModel
 import org.json.JSONObject
 
@@ -61,13 +59,14 @@ class MemberManageFragment : Fragment() {
         this.hideNavBar()
 
         setProfileData()
-        addCompleteBtnEvent()
+        addBtnClickEvent()
 
         return bind.root
     }
 
-    private fun addCompleteBtnEvent(){
+    private fun addBtnClickEvent(){
         bind.apply {
+            // 정보 수정 완료 버튼
             completeBtn.setOnClickListener {
                 member?.let {
                     val updateMember = MemberRequestDto.Update.createDto(it)
@@ -84,43 +83,112 @@ class MemberManageFragment : Fragment() {
                     memberVM.updateMemberOfAdmin(updateMember)
                 }
             }
+            // 경고 부여 버튼
+            warningBtn.setOnClickListener {
+                memberVM.warning("${numberEditText.editText?.text}")
+            }
+            
+            // 초기화 버튼
+            resetBtn.setOnClickListener {
+                memberVM.resetWarning("${numberEditText.editText?.text}")
+            }
         }
 
         addObserver()
     }
 
     private fun addObserver(){
-        // 회원 정보 수정 성공시
-        memberVM.updateUser.observe(viewLifecycleOwner) { result ->
-            val alertDialog: AlertDialog? = activity?.let {
-                val builder = AlertDialog.Builder(it)
-                builder.apply {
-                    setTitle("회원 정보 수정 완료")
-                    setMessage("회원 정보 수정이 완료 되었습니다.")
-                    setPositiveButton("확인") { dialog, _ ->
-                        dialog.dismiss()
-                        member = result
-                        setProfileData() // 수정된 정보로 변경
-                    }
+        // 회원 정보 수정 옵저버
+        memberVM.apply {
+            // 회원 정보 수정 성공시
+            updateUser.observe(viewLifecycleOwner) { result ->
+                val alertDialog: AlertDialog? = activity?.let {
+                    val builder = AlertDialog.Builder(it)
+                    builder.apply {
+                        setTitle("회원 정보 수정 완료")
+                        setMessage("회원 정보 수정이 완료 되었습니다.")
+                        setPositiveButton("확인") { dialog, _ ->
+                            dialog.dismiss()
+                            member = result
+                            setProfileData() // 수정된 정보로 변경
+                        }
+                    }.create()
                 }
-                builder.create()
+                alertDialog?.show()
             }
-            alertDialog?.show()
+
+            // 회원 정보 수정 실패시
+            updateFlag.observe(viewLifecycleOwner){ flag->
+                val alertDialog: AlertDialog? = activity?.let {
+                    val builder = AlertDialog.Builder(it)
+                    builder.apply {
+                        if(flag.contentIfNotHandled() == false){
+                            setTitle("회원 정보 수정 실패")
+                            setMessage(memberVM.updateError?:"오류가 발생했습니다.")
+                            setPositiveButton("확인") { dialog, _ -> dialog.dismiss()}
+                        }
+                    }.create()
+                }
+                alertDialog?.show()
+            }
+        }
+        
+
+        // 경고 부여 옵저버
+        memberVM.apply {
+            // 경고 부여 성공시
+            warningResult.observe(viewLifecycleOwner){ result ->
+                val alertDialog: AlertDialog? = activity?.let {
+                    val builder = AlertDialog.Builder(it)
+                    builder.apply {
+                        setTitle("경고 부여 완료")
+                        setMessage(result.message)
+                        setPositiveButton("확인") { dialog, _ -> dialog.dismiss()}
+                    }.create()
+                }
+                alertDialog?.show()
+            }
+            // 경고 부여 실패시
+            warningError.observe(viewLifecycleOwner){ result ->
+                val alertDialog: AlertDialog? = activity?.let {
+                    val builder = AlertDialog.Builder(it)
+                    builder.apply {
+                        setTitle("경고 부여 실패")
+                        setMessage(result?:"오류가 발생했습니다.")
+                        setPositiveButton("확인") { dialog, _ -> dialog.dismiss()}
+                    }.create()
+                }
+                alertDialog?.show()
+            }
         }
 
-        memberVM.updateFlag.observe(viewLifecycleOwner){ flag->
-            val alertDialog: AlertDialog? = activity?.let {
-                val builder = AlertDialog.Builder(it)
-                builder.apply {
-                    if(flag.contentIfNotHandled() == false){
-                        setTitle("회원 정보 수정 실패")
-                        setMessage(memberVM.updateError?:"오류가 발생했습니다.")
+        // 회원 경고 초기화 옵저버
+        memberVM.apply {
+            // 회원 경고 초기화 성공시
+            resetResult.observe(viewLifecycleOwner){ result ->
+                val alertDialog: AlertDialog? = activity?.let {
+                    val builder = AlertDialog.Builder(it)
+                    builder.apply {
+                        setTitle("경고 초기화 완료")
+                        setMessage(result.message)
                         setPositiveButton("확인") { dialog, _ -> dialog.dismiss()}
-                    }
+                    }.create()
                 }
-                builder.create()
+                alertDialog?.show()
             }
-            alertDialog?.show()
+            
+            // 회원 경고 초기화 실패시
+            resetError.observe(viewLifecycleOwner){ result ->
+                val alertDialog: AlertDialog? = activity?.let {
+                    val builder = AlertDialog.Builder(it)
+                    builder.apply {
+                        setTitle("경고 초기화 실패")
+                        setMessage(result?:"오류가 발생했습니다.")
+                        setPositiveButton("확인") { dialog, _ -> dialog.dismiss()}
+                    }.create()
+                }
+                alertDialog?.show()
+            }
         }
     }
 

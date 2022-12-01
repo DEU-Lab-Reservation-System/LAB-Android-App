@@ -24,6 +24,8 @@ class MemberViewModel: ViewModel() {
     val memberList = MutableLiveData<MemberResponseDto.Members>()
     val withdrawResult = MutableLiveData<MessageDto>()
     val updateUser = MutableLiveData<MemberResponseDto.Member>()
+    val warningResult = MutableLiveData<MessageDto>()
+    val resetResult = MutableLiveData<MessageDto>()
 
     val loginError = MutableLiveData<Event<String>>()
     val signUpError = MutableLiveData<Event<String>>()
@@ -31,6 +33,8 @@ class MemberViewModel: ViewModel() {
     var updateError:String?=null
     val membersError = MutableLiveData<String>()
     val withdrawError = MutableLiveData<String>()
+    val warningError = MutableLiveData<String>()
+    val resetError = MutableLiveData<String>()
 
     /**
      * 로그인 메소드
@@ -185,6 +189,42 @@ class MemberViewModel: ViewModel() {
                     withdrawError.postValue(errorMessage?.getString("message")?:"")
 
                     Log.i("회원 탈퇴 실패", "${it.code()}, ${errorMessage?.getString("message")?:""}")
+                }
+            }
+        }
+    }
+
+    /**
+     * 회원 경고
+     */
+    fun warning(userId:String){
+        GlobalScope.launch(Dispatchers.IO){
+            val response = MemberRepository.warning(userId)
+
+            response?.let {
+                if(it.isSuccessful){
+                    warningResult.postValue(it.body())
+                } else {
+                    val errorMessage = it.errorBody()?.string()?.let { res -> JSONObject(res) }
+                    warningError.postValue(errorMessage?.getString("message")?:"")
+                }
+            }
+        }
+    }
+
+    /**
+     * 회원 경고 초기화
+     */
+    fun resetWarning(userId:String){
+        GlobalScope.launch(Dispatchers.IO){
+            val response = MemberRepository.resetWarning(userId)
+
+            response?.let {
+                if(it.isSuccessful){
+                    resetResult.postValue(it.body())
+                } else {
+                    val errorMessage = it.errorBody()?.string()?.let { res -> JSONObject(res) }
+                    resetError.postValue(errorMessage?.getString("message")?:"")
                 }
             }
         }

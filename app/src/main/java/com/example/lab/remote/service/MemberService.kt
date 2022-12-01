@@ -32,4 +32,16 @@ interface MemberService {
      */
     @DELETE("api/member/{userId}")
     fun withdrawal(@Path("userId") userId:String):Call<MessageDto>
+
+    /**
+     * 회원 경고
+     */
+    @PUT("api/member/{userId}/warning")
+    fun warning(@Path("userId") userId:String): Call<MessageDto>
+
+    /**
+     * 회원 경고 횟수 초기화
+     */
+    @PUT("api/member/{userId}/warning/reset")
+    fun resetWarning(@Path("userId") userId:String): Call<MessageDto>
 }

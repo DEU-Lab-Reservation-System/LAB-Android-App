@@ -98,4 +98,32 @@ object MemberRepository {
             null
         }
     }
+
+    /**
+     * 회원 경고
+     */
+    fun warning(userId:String): Response<MessageDto>?{
+        val memberCall: Call<MessageDto> = memberService.warning(userId)
+
+        return try{
+            memberCall.execute()
+        } catch (e: IOException){
+            e.printStackTrace()
+            null
+        }
+    }
+
+    /**
+     * 회원 경고 초기화
+     */
+    fun resetWarning(userId:String): Response<MessageDto>?{
+        val memberCall: Call<MessageDto> = memberService.resetWarning(userId)
+
+        return try {
+            memberCall.execute()
+        } catch (e: IOException){
+            e.printStackTrace()
+            null
+        }
+    }
 }
