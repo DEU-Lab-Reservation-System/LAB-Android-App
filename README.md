@@ -65,9 +65,9 @@ It provides a classroom status inquiry function in real time for the convenience
 > **회원가입 & 토큰 인증**
 
 <div align="center">
-   <img src="https://raw.githubusercontent.com/Donghyeon0915/DataRepository/master/LAB_data/screenshot/회원가입 (1).png"  width="20%"/> &nbsp;&nbsp;
    <img src="https://raw.githubusercontent.com/Donghyeon0915/DataRepository/master/LAB_data/screenshot/회원가입 (2).png"  width="20%"/> &nbsp;&nbsp;
    <img src="https://raw.githubusercontent.com/Donghyeon0915/DataRepository/master/LAB_data/screenshot/회원가입 (3).png"  width="20%"/> &nbsp;&nbsp;
+   <img src="https://raw.githubusercontent.com/Donghyeon0915/DataRepository/master/LAB_data/screenshot/회원가입 (1).png"  width="20%"/> &nbsp;&nbsp;
    <img src="https://raw.githubusercontent.com/Donghyeon0915/DataRepository/master/LAB_data/screenshot/토큰 입력.png"  width="20%"/> &nbsp;&nbsp;
 </div>
 
